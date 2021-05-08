@@ -1,0 +1,34 @@
+//- if add store route, there will be no store object passed in. Therefore set store = {} as a default
+mixin storeForm(store = {})
+    //- if there is no store id (a new entry) then it will add a new entry, else it will edit existing store
+    form(action=`/add/${store._id || ''}` method="POST" class="card" enctype="multipart/form-data")
+        //- pre= h.dump(store)
+        label(for="name") Name
+        input(type="text" name="name" value=store.name)
+        label(for="description")
+        textarea(name="description")= store.description  
+
+        //- Img upload 
+        label(for="photo") Photo 
+            input(type="file" name="photo" id="photo" accept="image/gif, image/png, image/jpeg")
+            if store.photo 
+                img(src=`/uploads/${store.photo}`, alt=store.name width=200)
+
+        //- address, long and lat
+        label(for="address") Address
+        input(type="text" id="address" name="location[address]" value=(store.location && store.location.address))
+        label(for="lng") Address Lng
+        input(type="text" id="lng" name="location[coordinates][0]" value=(store.location && store.location.coordinates[0]) required)
+        label(for="lat") Address Lat
+        input(type="text" id="lat" name="location[coordinates][1]" value=(store.location && store.location.coordinates[1]) required )
+        //- pre= h.dump(store)
+
+        - const choices = ['Wi-Fi', 'Open Late', 'Family Friendly', 'Vegetarian', 'Licensed']
+        //- if their are no tags, includes method will cause an error
+        - const tags = store.tags || []
+        ul.tags
+            each choice in choices
+                .tag.tag__choice
+                    input(type="checkbox" id=choice value=choice name="tags" checked=(tags.includes(choice)))
+                    label(for=choice) #{choice}
+        input(type="submit" value="Save ➡" class="button")
