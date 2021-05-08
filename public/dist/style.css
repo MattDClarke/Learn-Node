@@ -1096,6 +1096,12 @@ label {
   .popup img {
     width: 100%; }
 
+.custom-map-control-button {
+  font-size: 1.5rem;
+  opacity: 0.8; }
+  .custom-map-control-button:hover {
+    cursor: pointer; }
+
 .hide {
   text-indent: -999999px;
   font-size: 0; }

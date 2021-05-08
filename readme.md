@@ -5,6 +5,7 @@ This is a full stack restaurant application which users can search, geolocate, r
 ## My modifications to the application
 - added debounce function to search input to limit the frequency of API calls. 
 - added server side sanitation of user input using DOM purify
+- added get current location button to stores map
 
 ## Sample Data
 

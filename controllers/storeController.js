@@ -191,8 +191,9 @@ exports.mapStores = async (req, res) => {
   };
   // good to select what fields you need - keep ajax req small
   const stores = await Store.find(q)
-    .select('slug name description location')
-    // can also pass in as url query
+    // fields to return
+    .select('slug name description location photo')
+    // can also pass limit in as url query
     .limit(10);
   res.json(stores);
 };

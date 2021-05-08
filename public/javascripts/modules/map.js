@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { $ } from './bling';
 
-// const currentLoc = $('.currentLoc');
-
 const mapOptions = {
   center: { lat: -33.982841506404405, lng: 25.656983134179786 },
   zoom: 13
@@ -11,16 +9,18 @@ const mapOptions = {
 function loadPlaces(map, lat = -33.982841506404405, lng = 25.656983134179786) {
   axios.get(`/api/stores/near?lat=${lat}&lng=${lng}`).then(res => {
     const places = res.data;
-    console.log(places);
+    // console.log(places);
     if (!places.length) {
-      alert('No places found!');
+      alert('No places found nearby!');
     }
 
     // create a bounds - for each marker - extend bounds to fit all on map nicely
     const bounds = new google.maps.LatLngBounds();
     const infoWindow = new google.maps.InfoWindow();
 
+    // create a map marker for each place
     const markers = places.map(place => {
+      // coords in different order in MongoDB
       const [placeLng, placeLat] = place.location.coordinates;
       //   console.log(placeLng, placeLat);
       const position = { lat: placeLat, lng: placeLng };
@@ -50,6 +50,7 @@ function loadPlaces(map, lat = -33.982841506404405, lng = 25.656983134179786) {
         </div>
         `;
         infoWindow.setContent(html);
+        // this is the marker for a store
         infoWindow.open(map, this);
       })
     );
@@ -60,15 +61,15 @@ function loadPlaces(map, lat = -33.982841506404405, lng = 25.656983134179786) {
   });
 }
 
-// function getCurrentCoords() {
-//   navigator.geolocation.getCurrentPosition(
-//     position => {
-//       loadPlaces(map, position.coords.latitude, position.coords.longitude);
-//     },
-//     // if there is an error - show default coords
-//     err => loadPlaces(map, -26.159270707494013, 28.33199931541304)
-//   );
-// }
+function handleLocationError(browserHasGeolocation, infoWindow, pos, map) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(
+    browserHasGeolocation
+      ? '<p>Error: The Geolocation service failed.</p>'
+      : "<p>Error: Your browser doesn't support geolocation.</p>"
+  );
+  infoWindow.open(map);
+}
 
 function makeMap(mapDiv) {
   // will only run on map page
@@ -79,8 +80,43 @@ function makeMap(mapDiv) {
   loadPlaces(map);
   const input = $('[name="geolocate"]');
   const autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.addListener('place_changed', () => {
+    const place = autocomplete.getPlace();
+    loadPlaces(
+      map,
+      place.geometry.location.lat(),
+      place.geometry.location.lng()
+    );
+  });
+  // to get current location
+  const infoWindow = new google.maps.InfoWindow();
+  const locationButton = document.createElement('button');
+  locationButton.textContent = 'Get my Location';
+  locationButton.classList.add('button', 'custom-map-control-button');
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+  locationButton.addEventListener('click', () => {
+    // HTML5 geolocation
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          infoWindow.setPosition(pos);
+          infoWindow.setContent('<p>You are here.</p>');
+          infoWindow.open(map);
+          map.setCenter(pos);
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter(), map);
+        }
+      );
+    } else {
+      // Browser does not support geolocation
+      handleLocationError(false, infoWindow, map.getCenter(), map);
+    }
+  });
 }
-
-// currentLoc.addEventListener('click', getCurrentCoords);
 
 export default makeMap;
