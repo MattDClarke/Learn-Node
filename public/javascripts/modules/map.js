@@ -6,14 +6,15 @@ const mapOptions = {
   zoom: 13
 };
 
-function loadPlaces(map, lat = -33.982841506404405, lng = 25.656983134179786) {
+function loadPlaces(
+  map,
+  currentLoc = false,
+  lat = -33.982841506404405,
+  lng = 25.656983134179786
+) {
   axios.get(`/api/stores/near?lat=${lat}&lng=${lng}`).then(res => {
     const places = res.data;
     // console.log(places);
-    if (!places.length) {
-      alert('No places found nearby!');
-    }
-
     // create a bounds - for each marker - extend bounds to fit all on map nicely
     const bounds = new google.maps.LatLngBounds();
     const infoWindow = new google.maps.InfoWindow();
@@ -54,10 +55,49 @@ function loadPlaces(map, lat = -33.982841506404405, lng = 25.656983134179786) {
         infoWindow.open(map, this);
       })
     );
+
+    // position (current location or lat and long from map search input)
+    const pos = { lat, lng };
+
+    // if loadPlaces() called using current location coords, then add a marker for the current location
+    if (currentLoc === true) {
+      bounds.extend(pos);
+      const marker = new google.maps.Marker({
+        pos,
+        map
+      });
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(
+        `${
+          markers.length
+            ? '<p>You are here.</p>'
+            : '<p>You are here.</p><p>There are no stores nearby.</p>'
+        }`
+      );
+      infoWindow.open(map, marker);
+    }
+
     // console.log(markers);
+
+    // no stores found nearby, not current location
+    if (!places.length && currentLoc === false) {
+      map.setCenter(pos);
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('<p>No stores found.</p>');
+      infoWindow.open(map);
+      return;
+    }
+
     // zoom map to fit all markers perfectly
+    // stores found nearby, current location
     map.setCenter(bounds.getCenter());
     map.fitBounds(bounds);
+
+    // zoom map out if no stores found nearby
+    if (markers.length === 0) {
+      map.zoom = 14;
+      map.setCenter(pos);
+    }
   });
 }
 
@@ -84,6 +124,7 @@ function makeMap(mapDiv) {
     const place = autocomplete.getPlace();
     loadPlaces(
       map,
+      false,
       place.geometry.location.lat(),
       place.geometry.location.lng()
     );
@@ -103,10 +144,7 @@ function makeMap(mapDiv) {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
-          infoWindow.setPosition(pos);
-          infoWindow.setContent('<p>You are here.</p>');
-          infoWindow.open(map);
-          map.setCenter(pos);
+          loadPlaces(map, true, pos.lat, pos.lng);
         },
         () => {
           handleLocationError(true, infoWindow, map.getCenter(), map);
