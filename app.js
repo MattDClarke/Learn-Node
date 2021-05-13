@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // all data passed in is stored in the request variable
 // when a user submits data via form tag - you will get data submitted on request.body
 app.use(bodyParser.json());
-// easliy get access to nested data ... location.address ...
+// easily get access to nested data ... location.address ...
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Exposes a bunch of methods for validating data. Used heavily on userController.validateRegister

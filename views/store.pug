@@ -1,7 +1,11 @@
 extends layout 
 
+include mixins/_reviewForm 
+include mixins/_review 
+
 block content 
     //- pre= h.dump(store)
+    //- pre= h.dump(reviews)
     .single     
         .single__hero
             //- display uploaded image or default img 
@@ -20,6 +24,43 @@ block content
                 each tag in store.tags 
                     li.tag 
                         a.tag__link(href=`/tags/${tag}`)
-                            span.tag__text #{tag}
-     
+                            span.tag__text #{tag} 
+        if user     
+            +reviewForm(store)
+
+        if store.reviews 
+            .reviews 
+                each review in store.reviews 
+                    .review
+                        +review(review)
+    //- .inner
+    //-     //- check if user has already submitted a review (only allow 1 review per user)
+    //-     - const authorIdStrings = reviews.map(obj => obj.author._id.toString())
+    //-     if user 
+    //-         - const hasReviewed = authorIdStrings.includes(user._id.toString())
+    //-         if (!hasReviewed)
+    //-             +reviewForm()
+    //-         if (hasReviewed)
+    //-             p You have already made a review. Only 1 review allowed per user
+    //-     else
+    //-         p
+    //-             != h.icon("heart")
+    //-             span Love this place? 
+    //-             a(href='/login') Login 
+    //-             span to leave a review
+    //- .inner
+    //- if (reviews.length) 
+    //-     each review in reviews
+    //-         - const whenCreated = h.moment(review.created).fromNow()
+    //-         .review
+    //-             .review__header
+    //-                 .review__author= review.author.name
+    //-                 .review__stars= review.rating
+    //-                 .review__time= whenCreated
+    //-             .review__body
+    //-                 p= review.review
+
+    //- else 
+    //-     div No reviews yet.
+        
 

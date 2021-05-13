@@ -21,8 +21,8 @@
           content: '★';
           font-size: 2rem;
         }
-        /* These are in the opposite DOM order
-           re-order them to be visually in normal order
+        /* These are in the opposite DOM order - so that ~ can be used  to style adj siblings ahead and style lower stars. Click 3 -> 2 and 1 styled yellow
+           re-order them with Flex Box to be visually in normal order
            This is fine for accessibility because our labels have for()
          */
         &[for="star5"] { order: 5; }

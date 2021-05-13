@@ -22,7 +22,9 @@ const userSchema = new Schema({
     trim: true
   },
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  // an array of ids that are related to a store. Link each heart to a store
+  hearts: [{ type: mongoose.Schema.ObjectId, ref: 'Store' }]
 });
 
 // Globally Recognisable avatar

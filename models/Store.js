@@ -13,47 +13,53 @@ const slug = require('slugs');
 const { window } = new JSDOM('');
 const DOMPurify = createDOMPurify(window);
 
-const storeSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    trim: true,
-    required: 'Please enter a store name'
-  },
-  slug: String,
-  description: {
-    type: String,
-    trim: true
-  },
-  tags: [String],
-  created: {
-    type: Date,
-    default: Date.now
-  },
-  location: {
-    type: {
+const storeSchema = new mongoose.Schema(
+  {
+    name: {
       type: String,
-      default: 'Point'
+      trim: true,
+      required: 'Please enter a store name'
     },
-    coordinates: [
-      {
-        type: Number,
-        required: 'You must supply coordinates!'
-      }
-    ],
-    address: {
+    slug: String,
+    description: {
       type: String,
-      required: 'You must supply an address!'
+      trim: true
+    },
+    tags: [String],
+    created: {
+      type: Date,
+      default: Date.now
+    },
+    location: {
+      type: {
+        type: String,
+        default: 'Point'
+      },
+      coordinates: [
+        {
+          type: Number,
+          required: 'You must supply coordinates!'
+        }
+      ],
+      address: {
+        type: String,
+        required: 'You must supply an address!'
+      }
+    },
+    photo: String,
+    author: {
+      // custom type (Object) - can see in MongoDB Compass
+      type: mongoose.Schema.ObjectId,
+      // tell MongoDB that author will reference User. Point to user
+      ref: 'User',
+      required: 'You must supply an author'
     }
   },
-  photo: String,
-  author: {
-    // custom type (Object) - can see in MongoDB Compass
-    type: mongoose.Schema.ObjectId,
-    // tell MongoDB that author will reference User. Point to user
-    ref: 'User',
-    required: 'You must supply an author'
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   }
-});
+);
 
 // define index - stored as compound index in MongoDB
 // will allow us to search for both of these fields at once - efficiently
@@ -125,5 +131,65 @@ storeSchema.statics.getTagsList = function() {
     { $sort: { count: -1 } }
   ]);
 };
+
+storeSchema.statics.getTopStores = function() {
+  // returns a promise that you can await for (in storeController)
+  return this.aggregate([
+    // Look up Stores and populate their reviews (where ids match)
+    // * cant use virtual reviews (Mongoose specific). aggregate is not Mongoose specific, it is a MongoDB operation. Cant always use Mongoose methods...
+    {
+      $lookup: {
+        // MongoDB takes model name, lowercases it and adds an s
+        from: 'reviews',
+        // look for reviews for a particular store
+        localField: '_id',
+        foreignField: 'store',
+        // new field name
+        as: 'reviews'
+      }
+    },
+    // filter for only items that have 2 or more reviews
+    // reviews.1 -> get 2nd review ... get index based things - not in JavaScript
+    { $match: { 'reviews.1': { $exists: true } } },
+    // Add the average reviews field - project means add field
+    // problem with project - og fields not automatically added. There is an addField operator... only available to higher tier Atlas users
+    {
+      $project: {
+        // $$root variable = original document
+        photo: '$$ROOT.photo',
+        name: '$$ROOT.name',
+        slug: '$$ROOT.slug',
+        reviews: '$$ROOT.reviews',
+        // $reviews means it is a field from the data being piped in (from match)
+        averageRating: { $avg: '$reviews.rating' }
+      }
+    },
+    // sort it by our new field, highest reviews first
+    { $sort: { averageRating: -1 } },
+    // limit to max of 10
+    { $limit: 10 }
+  ]);
+};
+
+// virtual populate - not saving relationship
+// like a SQL join
+// find reviews where stores._id === reviews.store
+storeSchema.virtual('reviews', {
+  // go to review model and do a query to get reviews for the given store
+  ref: 'Review', // what model to link?
+  // which field on the store?
+  localField: '_id',
+  // which field on the review?
+  foreignField: 'store'
+});
+
+function autopopulate(next) {
+  this.populate('reviews');
+  next();
+}
+
+// autopopulate the reivews field whenever find or findOne query performed
+storeSchema.pre('find', autopopulate);
+storeSchema.pre('findOne', autopopulate);
 
 module.exports = mongoose.model('Store', storeSchema);

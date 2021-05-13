@@ -12,93 +12,96 @@ function loadPlaces(
   lat = -33.982841506404405,
   lng = 25.656983134179786
 ) {
-  axios.get(`/api/stores/near?lat=${lat}&lng=${lng}`).then(res => {
-    const places = res.data;
-    // console.log(places);
-    // create a bounds - for each marker - extend bounds to fit all on map nicely
-    const bounds = new google.maps.LatLngBounds();
-    const infoWindow = new google.maps.InfoWindow();
+  axios
+    .get(`/api/stores/near?lat=${lat}&lng=${lng}`)
+    .then(res => {
+      const places = res.data;
+      // console.log(places);
+      // create a bounds - for each marker - extend bounds to fit all on map nicely
+      const bounds = new google.maps.LatLngBounds();
+      const infoWindow = new google.maps.InfoWindow();
 
-    // create a map marker for each place
-    const markers = places.map(place => {
-      // coords in different order in MongoDB
-      const [placeLng, placeLat] = place.location.coordinates;
-      //   console.log(placeLng, placeLat);
-      const position = { lat: placeLat, lng: placeLng };
-      bounds.extend(position);
-      const marker = new google.maps.Marker({
-        map,
-        position
+      // create a map marker for each place
+      const markers = places.map(place => {
+        // coords in different order in MongoDB
+        const [placeLng, placeLat] = place.location.coordinates;
+        //   console.log(placeLng, placeLat);
+        const position = { lat: placeLat, lng: placeLng };
+        bounds.extend(position);
+        const marker = new google.maps.Marker({
+          map,
+          position
+        });
+        // store place info on the marker
+        marker.place = place;
+        return marker;
       });
-      // store place info on the marker
-      marker.place = place;
-      return marker;
-    });
 
-    // when someone clicks on a marker show dets of that place
-    // addListener - Google Maps equiv of addEventListener
-    markers.forEach(marker =>
-      marker.addListener('click', function() {
-        // console.log(this);
-        const html = `
+      // when someone clicks on a marker show dets of that place
+      // addListener - Google Maps equiv of addEventListener
+      markers.forEach(marker =>
+        marker.addListener('click', function() {
+          // console.log(this);
+          const html = `
         <div class="popup">
             <a href="/store/${this.place.slug}">
                 <img src="/uploads/${this.place.photo || 'store.png'}" alt="${
-          this.place.name
-        }" />
+            this.place.name
+          }" />
                 <p>${this.place.name} - ${this.place.location.address}</p>
             </a>
         </div>
         `;
-        infoWindow.setContent(html);
-        // this is the marker for a store
-        infoWindow.open(map, this);
-      })
-    );
-
-    // position (current location or lat and long from map search input)
-    const pos = { lat, lng };
-
-    // if loadPlaces() called using current location coords, then add a marker for the current location
-    if (currentLoc === true) {
-      bounds.extend(pos);
-      const marker = new google.maps.Marker({
-        pos,
-        map
-      });
-      infoWindow.setPosition(pos);
-      infoWindow.setContent(
-        `${
-          markers.length
-            ? '<p>You are here.</p>'
-            : '<p>You are here.</p><p>There are no stores nearby.</p>'
-        }`
+          infoWindow.setContent(html);
+          // this is the marker for a store
+          infoWindow.open(map, this);
+        })
       );
-      infoWindow.open(map, marker);
-    }
 
-    // console.log(markers);
+      // position (current location or lat and long from map search input)
+      const pos = { lat, lng };
 
-    // no stores found nearby, not current location
-    if (!places.length && currentLoc === false) {
-      map.setCenter(pos);
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('<p>No stores found.</p>');
-      infoWindow.open(map);
-      return;
-    }
+      // if loadPlaces() called using current location coords, then add a marker for the current location
+      if (currentLoc === true) {
+        bounds.extend(pos);
+        const marker = new google.maps.Marker({
+          pos,
+          map
+        });
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(
+          `${
+            markers.length
+              ? '<p>You are here.</p>'
+              : '<p>You are here.</p><p>There are no stores nearby.</p>'
+          }`
+        );
+        infoWindow.open(map, marker);
+      }
 
-    // zoom map to fit all markers perfectly
-    // stores found nearby, current location
-    map.setCenter(bounds.getCenter());
-    map.fitBounds(bounds);
+      // console.log(markers);
 
-    // zoom map out if no stores found nearby
-    if (markers.length === 0) {
-      map.zoom = 14;
-      map.setCenter(pos);
-    }
-  });
+      // no stores found nearby, not current location
+      if (!places.length && currentLoc === false) {
+        map.setCenter(pos);
+        infoWindow.setPosition(pos);
+        infoWindow.setContent('<p>No stores found.</p>');
+        infoWindow.open(map);
+        return;
+      }
+
+      // zoom map to fit all markers perfectly
+      // stores found nearby, current location
+      map.setCenter(bounds.getCenter());
+      map.fitBounds(bounds);
+
+      // zoom map out if no stores found nearby
+      if (markers.length === 0) {
+        map.zoom = 14;
+        map.setCenter(pos);
+      }
+    })
+    .catch(console.error);
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos, map) {

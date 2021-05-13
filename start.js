@@ -25,6 +25,7 @@ mongoose.connection.on('error', err => {
 // done once - a singleton (Node). Model understood throughout by Mongo DB, dnt need to import model at the top of each file
 require('./models/Store');
 require('./models/User');
+require('./models/Review');
 
 // Start our app!
 const app = require('./app');

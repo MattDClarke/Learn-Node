@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 // model added in start.js, model defined in Store.js
 const Store = mongoose.model('Store');
+const User = mongoose.model('User');
 // middleware to handle multiparted form data (with img uploads, text, ...) - adds photo to memory so that it can be resized
 // handles upload request
 const multer = require('multer');
@@ -9,6 +10,7 @@ const multer = require('multer');
 const jimp = require('jimp');
 // make sure file names are unique
 const uuid = require('uuid');
+// const User = require('../models/User');
 
 const multerOptions = {
   // reads photo into memory
@@ -76,11 +78,34 @@ exports.createStore = async (req, res) => {
 };
 
 exports.getStores = async (req, res) => {
+  const page = req.params.page || 1;
+  const limit = 4;
+  const skip = page * limit - limit;
   // 1. query the database for a list of all stores - mongoose method
-  const stores = await Store.find();
+  const storesPromise = Store.find()
+    .skip(skip)
+    .limit(limit)
+    .sort({ created: 'desc' });
+
+  const countPromise = Store.count();
+
+  const [stores, count] = await Promise.all([storesPromise, countPromise]);
+  // round up
+  const pages = Math.ceil(count / limit);
+  // if user looks for page that does not exist - edit url or old bookmark
+  if (!stores.length && skip) {
+    req.flash(
+      'info',
+      `You asked for page ${page}. But that does not exist. So I put you on page ${pages}.`
+    );
+    res.redirect(`/stores/page/${pages}`);
+    return;
+  }
+
+  // const pages =
   // console.log(stores);
   // render stores pug template, pass data from MongoDB to pug template
-  res.render('stores', { title: 'Stores', stores });
+  res.render('stores', { title: 'Stores', stores, page, pages, count });
 };
 
 // make sure only author can edit store
@@ -125,13 +150,15 @@ exports.getStoreBySlug = async (req, res, next) => {
   // 1. find the store given the slug (url param)
   // does not return data... it returns a promise (an IOU) -> need to await for promise to resolve (get the money or not)
   // populate - for author field. Show all info for a user instead of just id. Finds associated document for that user. CAREFUL ABOUT WHAT U EXPOSE WITH POPULATE (for example email). password, hash and salt by default not included
-  const store = await (await Store.findOne({ slug: req.params.slug })).populate(
-    'author'
-  );
+  // reviews is a virtual field created in Store.js using the Reviews model
+  const store = await Store.findOne({
+    slug: req.params.slug
+  }).populate('author reviews');
   // res.json(store);
   // handle case where store does not exist
   // moves to next middleware in app.js: app.use(Handlers.notFound);
   if (!store) return next();
+
   // console.log(req.body);
   res.render('store', { title: store.name, store });
 };
@@ -142,7 +169,7 @@ exports.getStoresByTag = async (req, res) => {
   // if no tag req params (when tab link clicked in nav), then give me any store that has a tag property on it (at least 1 tag) - find using Mongoose .find method below
   const tagQuery = tag || { $exists: true };
   // getTagsList is a custom static method
-  // dnt await because we want to get both promises asyncronously
+  // dnt await because we want to get both promises asynchronously
   const tagsPromise = Store.getTagsList();
   const storesPromise = Store.find({ tags: tagQuery });
   // res.json(tags);
@@ -200,4 +227,43 @@ exports.mapStores = async (req, res) => {
 
 exports.mapPage = (req, res) => {
   res.render('map', { title: 'Map' });
+};
+
+// add or remove heart - toggle
+exports.heartStore = async (req, res) => {
+  // objects are compared by ref not value -> convert obj to string
+  // in app.js -> req.user made available by passport.js -> pass to locals
+  const hearts = req.user.hearts.map(obj => obj.toString());
+  // MongoDB: $pull - remove, addToSet - push (makes sure that it is unique)
+  // toggle
+  const operator = hearts.includes(req.params.id) ? '$pull' : '$addToSet';
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      // computed property name
+      // update hearts property of user
+      [operator]: { hearts: req.params.id }
+    },
+    // returns updated user - rather than previous
+    { new: true }
+  );
+  // res handled in front-end JavaScript - heart.js
+  res.json(user);
+};
+
+exports.getHeartedStores = async (req, res) => {
+  // get hearted stores from DB
+  const stores = await Store.find({
+    _id: { $in: req.user.hearts }
+  });
+  // res.json(stores);
+  // display them
+  res.render('stores', { title: 'Hearted Stores', stores });
+};
+
+exports.getTopStores = async (req, res) => {
+  // custom aggregation method defined in Store.js
+  const stores = await Store.getTopStores();
+  // res.json(stores);
+  res.render('topStores', { stores, title: '★ Top Stores' });
 };
