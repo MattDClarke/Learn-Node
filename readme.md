@@ -6,6 +6,7 @@ This is a full stack restaurant application which users can search, geolocate, r
 - added debounce function to search input to limit the frequency of API calls. 
 - added server side sanitation of user input using DOM purify
 - added get current location button to stores map
+- limited reviews to 1 per store per user. If user not logged in, message displayed: 'Login to leave a review'.
 
 ## Sample Data
 

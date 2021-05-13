@@ -55,6 +55,7 @@
 }
 
 
+
 .store__hero {
   position: relative;
   padding: 0 10px 0 10px;
@@ -85,5 +86,13 @@
     left: 0;
     object-fit: cover;
     clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+  }
+}
+
+.heart-sml {
+  font-size: 10px;
+  svg {
+    width: 25px;
+    fill: red
   }
 }

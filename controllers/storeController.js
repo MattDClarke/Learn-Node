@@ -79,7 +79,7 @@ exports.createStore = async (req, res) => {
 
 exports.getStores = async (req, res) => {
   const page = req.params.page || 1;
-  const limit = 4;
+  const limit = 10;
   const skip = page * limit - limit;
   // 1. query the database for a list of all stores - mongoose method
   const storesPromise = Store.find()
@@ -90,9 +90,9 @@ exports.getStores = async (req, res) => {
   const countPromise = Store.count();
 
   const [stores, count] = await Promise.all([storesPromise, countPromise]);
-  // round up
+  // round up - so that pages is always an integer that can fit all stores
   const pages = Math.ceil(count / limit);
-  // if user looks for page that does not exist - edit url or old bookmark
+  // if user looks for page that does not exist, for example - edit url or old bookmark
   if (!stores.length && skip) {
     req.flash(
       'info',
@@ -102,8 +102,6 @@ exports.getStores = async (req, res) => {
     return;
   }
 
-  // const pages =
-  // console.log(stores);
   // render stores pug template, pass data from MongoDB to pug template
   res.render('stores', { title: 'Stores', stores, page, pages, count });
 };

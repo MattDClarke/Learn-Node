@@ -789,6 +789,12 @@ label {
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
             clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%); }
 
+.heart-sml {
+  font-size: 10px; }
+  .heart-sml svg {
+    width: 25px;
+    fill: red; }
+
 .tags {
   margin: 0;
   padding: 0;
