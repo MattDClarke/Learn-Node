@@ -3,12 +3,22 @@
   font-size: 0;
 }
 
-.button {
+%button-shared {
   border: 0;
-  background: $yellow;
-  color: $black;
   font-family: 'Panama';
   font-weight: 600;
+}
+
+.button {
+  @extend %button-shared;
+  background: $yellow;
+  color: $black;
+}
+
+.delete-button {
+  @extend %button-shared;
+  background: $red;
+  color: $white;
 }
 
 .avatar {

@@ -32,3 +32,9 @@ mixin storeForm(store = {})
                     input(type="checkbox" id=choice value=choice name="tags" checked=(tags.includes(choice)))
                     label(for=choice) #{choice}
         input(type="submit" value="Save ➡" class="button")
+
+    //- if user editing a store that they created - add delete button
+    - const isUser = Object.keys(store).length !== 0
+    if isUser
+        form(action=`/delete/${store._id}` method="POST" class="card")
+            input(type="submit" value="Delete Store" class="delete-button")

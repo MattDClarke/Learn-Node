@@ -65,7 +65,7 @@ exports.updateAccount = async (req, res) => {
     email: req.body.email
   };
 
-  const user = await User.findOneAndUpdate(
+  await User.findOneAndUpdate(
     { _id: req.user._id },
     { $set: updates },
     // context option lets you set the value of 'this' in update validators to the underlying query ...?

@@ -28,6 +28,8 @@ router.post(
   catchErrors(storeController.updateStore)
 );
 
+router.post('/delete/:id', catchErrors(storeController.deleteStore));
+
 router.get('/stores/:id/edit', catchErrors(storeController.editStore));
 router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
 

@@ -150,7 +150,7 @@ storeSchema.statics.getTopStores = function() {
     },
     // filter for only items that have 2 or more reviews
     // reviews.1 -> get 2nd review ... get index based things - not in JavaScript
-    { $match: { 'reviews.1': { $exists: true } } },
+    { $match: { 'reviews.2': { $exists: true } } },
     // Add the average reviews field - project means add field
     // problem with project - og fields not automatically added. There is an addField operator... only available to higher tier Atlas users
     {

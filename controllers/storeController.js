@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 // model added in start.js, model defined in Store.js
 const Store = mongoose.model('Store');
 const User = mongoose.model('User');
+const Review = mongoose.model('Review');
 // middleware to handle multiparted form data (with img uploads, text, ...) - adds photo to memory so that it can be resized
 // handles upload request
 const multer = require('multer');
@@ -77,6 +78,20 @@ exports.createStore = async (req, res) => {
   res.redirect(`/store/${store.slug}`);
 };
 
+exports.deleteStore = async (req, res) => {
+  // delete store - make sure user is the author
+  const store = await Store.findOneAndDelete({
+    _id: req.params.id,
+    author: req.user._id
+  });
+  // delete reviews if store deleted
+  if (store) {
+    await Review.deleteMany({ store: req.params.id });
+    req.flash('info', `Successfully deleted ${store.name}.`);
+    res.redirect('/stores');
+  }
+};
+
 exports.getStores = async (req, res) => {
   const page = req.params.page || 1;
   const limit = 10;
@@ -87,7 +102,7 @@ exports.getStores = async (req, res) => {
     .limit(limit)
     .sort({ created: 'desc' });
 
-  const countPromise = Store.count();
+  const countPromise = Store.countDocuments();
 
   const [stores, count] = await Promise.all([storesPromise, countPromise]);
   // round up - so that pages is always an integer that can fit all stores

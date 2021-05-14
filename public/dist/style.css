@@ -1114,12 +1114,18 @@ label {
   text-indent: -999999px;
   font-size: 0; }
 
-.button {
+.button, .delete-button {
   border: 0;
-  background: #FFC40E;
-  color: #303030;
   font-family: 'Panama';
   font-weight: 600; }
+
+.button {
+  background: #FFC40E;
+  color: #303030; }
+
+.delete-button {
+  background: #E50714;
+  color: #fafafa; }
 
 .avatar {
   min-width: 50px;
