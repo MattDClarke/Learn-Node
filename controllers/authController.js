@@ -1,7 +1,8 @@
 const passport = require('passport');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
-const promisify = require('es6-promisify');
+// const promisify = require('es6-promisify');
+const { promisify } = require('util');
 
 const User = mongoose.model('User');
 const mail = require('../handlers/mail');
@@ -108,7 +109,8 @@ exports.update = async (req, res) => {
   }
 
   // method made available via passport plugin in User.js
-  const setPassword = promisify(user.setPassword, user);
+  const setPassword = promisify(user.setPassword.bind(user));
+
   // passport will deal with hashing and salting, ...
   await setPassword(req.body.password);
   // 'queues' changes'

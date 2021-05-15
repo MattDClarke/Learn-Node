@@ -4,11 +4,13 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const passport = require('passport');
-const promisify = require('es6-promisify');
+// const promisify = require('es6-promisify');
+const { promisify } = require('util');
 const flash = require('connect-flash');
-const expressValidator = require('express-validator');
+// const expressValidator = require('express-validator');
+
 const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
@@ -29,12 +31,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // middleware that checks the url for data BEFORE route hit (routes defined below). Puts all the data in the request so it can be easily accessed
 // all data passed in is stored in the request variable
 // when a user submits data via form tag - you will get data submitted on request.body
-app.use(bodyParser.json());
+app.use(express.json());
+// app.use(bodyParser.json());
 // easily get access to nested data ... location.address ...
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Exposes a bunch of methods for validating data. Used heavily on userController.validateRegister
-app.use(expressValidator());
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+// app.use(bodyCheck);
+// app.use(validationResult);
 
 // populates req.cookies with any cookies that came along with the request
 app.use(cookieParser());
@@ -68,12 +71,13 @@ app.use((req, res, next) => {
   // req.user made available by passport.js -> pass to locals
   res.locals.user = req.user || null;
   res.locals.currentPath = req.path;
+
   next();
 });
 
 // promisify some callback based APIs
 app.use((req, res, next) => {
-  req.login = promisify(req.login, req);
+  req.login = promisify(req.login.bind(req));
   next();
 });
 

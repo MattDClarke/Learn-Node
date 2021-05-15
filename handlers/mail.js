@@ -4,7 +4,8 @@ const pug = require('pug');
 const juice = require('juice');
 // for people who view emails in a terminal for example...
 const { htmlToText } = require('html-to-text');
-const promisify = require('es6-promisify');
+// const promisify = require('es6-promisify');
+const { promisify } = require('util');
 
 // create a transport - SMTP most common transport = nodemailer sends email using the protocol
 const transport = nodemailer.createTransport({
@@ -43,6 +44,6 @@ exports.send = async options => {
     text
   };
   // bind to transport
-  const sendMail = promisify(transport.sendMail, transport);
+  const sendMail = promisify(transport.sendMail.bind(transport));
   return sendMail(mailOptions);
 };
