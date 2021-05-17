@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime.js';
 import '../sass/style.scss';
 
 import { $, $$ } from './modules/bling';
@@ -5,6 +6,7 @@ import autocomplete from './modules/autocomplete';
 import typeAhead from './modules/typeAhead';
 import makeMap from './modules/map';
 import ajaxHeart from './modules/heart';
+import deletePrompt from './modules/deletePrompt';
 
 autocomplete($('#address'), $('#lat'), $('#lng'));
 
@@ -14,3 +16,7 @@ makeMap($('#map'));
 
 const heartForms = $$('form.heart');
 heartForms.on('submit', ajaxHeart);
+const deleteStoreBtn = $('.delete-button');
+if (deleteStoreBtn) {
+  deleteStoreBtn.on('click', e => deletePrompt(e));
+}

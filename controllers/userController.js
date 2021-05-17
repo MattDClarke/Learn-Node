@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
-// const promisify = require('es6-promisify');
 const { promisify } = require('util');
 const { body, validationResult } = require('express-validator');
 
