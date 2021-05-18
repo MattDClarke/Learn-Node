@@ -11,23 +11,30 @@ async function destroyPopup(popup) {
 }
 
 function deletePrompt(e) {
-  // console.log(e.target.dataset);
   const deleteButton = e.target;
   return new Promise(async function(resolve) {
     const popup = document.createElement('form');
     popup.classList.add('popup');
-    // add action and method attributes
     popup.setAttribute('method', 'POST');
-    const { storeid, storename } = deleteButton.dataset;
-    console.log(storeid, storename);
-    popup.setAttribute('action', `/delete/${storeid}`);
-    // action=`/delete/${store._id}` method="POST" class="card"
+    // check if store delete button or account delete button
+    let urlParam;
+    let item;
+    if ('userid' in deleteButton.dataset) {
+      urlParam = 'account/delete';
+      item = 'your account';
+    }
+    if ('storeid' in deleteButton.dataset) {
+      urlParam = `delete/${deleteButton.dataset.storeid}`;
+      item = deleteButton.dataset.storename;
+    }
+
+    popup.setAttribute('action', `/${urlParam}`);
     popup.insertAdjacentHTML(
       'afterbegin',
       `
-        <fieldset>
-          <p class="popup--inner">
-            Are you sure that you want to delete ${storename}?
+        <fieldset class="popup--inner">
+          <p>
+            Are you sure that you want to delete ${item}?
           </p>
           <button type="submit" class="button">Yes</button>
         </fieldset>
@@ -60,22 +67,17 @@ function deletePrompt(e) {
       { once: true }
     );
 
-    popup.addEventListener(
-      'click',
-      function(event) {
-        const isOutside = !event.target.closest('.popup-inner');
-        if (isOutside) {
-          resolve(null);
-          destroyPopup(popup);
-        }
-      },
-      { once: true }
-    );
+    popup.addEventListener('click', function(event) {
+      const isOutside = !event.target.closest('.popup--inner');
+      if (isOutside) {
+        resolve(null);
+        destroyPopup(popup);
+      }
+    });
 
     window.addEventListener(
       'keydown',
       event => {
-        console.log(event);
         if (event.key === 'Escape') {
           resolve(null);
           destroyPopup(popup);

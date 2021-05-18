@@ -62,6 +62,11 @@ router.post(
   authController.confirmedPasswords,
   catchErrors(authController.update)
 );
+router.post(
+  '/account/delete',
+  catchErrors(userController.deleteAccount),
+  authController.logout
+);
 
 router.get('/map', storeController.mapPage);
 router.get(

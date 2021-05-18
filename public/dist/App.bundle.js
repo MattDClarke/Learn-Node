@@ -1770,12 +1770,10 @@ var _util = __webpack_require__(39);
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 function deletePrompt(e) {
-  // console.log(e.target.dataset);
   var deleteButton = e.target;
   return new Promise(function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(resolve) {
-      var popup, _deleteButton$dataset, storeid, storename, cancelButton;
-
+      var popup, urlParam, item, cancelButton;
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -1783,14 +1781,22 @@ function deletePrompt(e) {
               popup = document.createElement('form');
 
               popup.classList.add('popup');
-              // add action and method attributes
               popup.setAttribute('method', 'POST');
-              _deleteButton$dataset = deleteButton.dataset, storeid = _deleteButton$dataset.storeid, storename = _deleteButton$dataset.storename;
+              // check if store delete button or account delete button
+              urlParam = void 0;
+              item = void 0;
 
-              console.log(storeid, storename);
-              popup.setAttribute('action', '/delete/' + storeid);
-              // action=`/delete/${store._id}` method="POST" class="card"
-              popup.insertAdjacentHTML('afterbegin', '\n        <fieldset>\n          <p class="popup--inner">\n            Are you sure that you want to delete ' + storename + '?\n          </p>\n          <button type="submit" class="button">Yes</button>\n        </fieldset>\n        ');
+              if ('userid' in deleteButton.dataset) {
+                urlParam = 'account/delete';
+                item = 'your account';
+              }
+              if ('storeid' in deleteButton.dataset) {
+                urlParam = 'delete/' + deleteButton.dataset.storeid;
+                item = deleteButton.dataset.storename;
+              }
+
+              popup.setAttribute('action', '/' + urlParam);
+              popup.insertAdjacentHTML('afterbegin', '\n        <fieldset class="popup--inner">\n          <p>\n            Are you sure that you want to delete ' + item + '?\n          </p>\n          <button type="submit" class="button">Yes</button>\n        </fieldset>\n        ');
 
               cancelButton = document.createElement('button');
               // make sure it does not trigger submit
@@ -1812,15 +1818,14 @@ function deletePrompt(e) {
               }, { once: true });
 
               popup.addEventListener('click', function (event) {
-                var isOutside = !event.target.closest('.popup-inner');
+                var isOutside = !event.target.closest('.popup--inner');
                 if (isOutside) {
                   resolve(null);
                   destroyPopup(popup);
                 }
-              }, { once: true });
+              });
 
               window.addEventListener('keydown', function (event) {
-                console.log(event);
                 if (event.key === 'Escape') {
                   resolve(null);
                   destroyPopup(popup);
@@ -1830,13 +1835,13 @@ function deletePrompt(e) {
               // insert popup into DOM
               document.body.appendChild(popup);
               // wait for CSS animation
-              _context2.next = 20;
+              _context2.next = 22;
               return (0, _util.wait)(50);
 
-            case 20:
+            case 22:
               popup.classList.add('open');
 
-            case 21:
+            case 23:
             case 'end':
               return _context2.stop();
           }
@@ -4635,9 +4640,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var heartForms = (0, _bling.$$)('form.heart');
 heartForms.on('submit', _heart2.default);
-var deleteStoreBtn = (0, _bling.$)('.delete-button');
-if (deleteStoreBtn) {
-  deleteStoreBtn.on('click', function (e) {
+var deleteBtn = (0, _bling.$)('.delete-button');
+if (deleteBtn) {
+  deleteBtn.on('click', function (e) {
     return (0, _deletePrompt2.default)(e);
   });
 }

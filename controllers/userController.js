@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
+const Store = mongoose.model('Store');
+const Review = mongoose.model('Review');
 const { promisify } = require('util');
 const { body, validationResult } = require('express-validator');
 
@@ -89,9 +91,37 @@ exports.updateAccount = async (req, res) => {
     { _id: req.user._id },
     { $set: updates },
     // context option lets you set the value of 'this' in update validators to the underlying query ...?
-    { new: true, runValidators: true, context: 'query' }
+    {
+      new: true,
+      runValidators: true,
+      context: 'query',
+      useFindAndModify: false
+    }
   );
   req.flash('success', 'Updated the profile');
   // res.json(user);
   res.redirect('back');
+};
+
+exports.deleteAccount = async (req, res, next) => {
+  // delete user
+
+  // delete stores created by user
+  // delete comments by user
+  // delete store - make sure user is the author
+  // logout user
+  const user = await User.findOneAndDelete(
+    {
+      _id: req.user._id
+    },
+    { useFindAndModify: false }
+  );
+  // delete associated stores and reviews if user deleted
+  if (user) {
+    const storesDeletePromise = Store.deleteMany({ author: req.user._id });
+    const reviewsDeletePromise = Review.deleteMany({ author: req.user._id });
+    await Promise.all([storesDeletePromise, reviewsDeletePromise]);
+    req.flash('info', `Successfully deleted your account.`);
+    next();
+  }
 };

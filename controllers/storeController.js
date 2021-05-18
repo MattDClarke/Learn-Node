@@ -80,13 +80,20 @@ exports.createStore = async (req, res) => {
 
 exports.deleteStore = async (req, res) => {
   // delete store - make sure user is the author
-  const store = await Store.findOneAndDelete({
-    _id: req.params.id,
-    author: req.user._id
-  });
-  // delete reviews if store deleted
+  const store = await Store.findOneAndDelete(
+    {
+      _id: req.params.id,
+      author: req.user._id
+    },
+    { useFindAndModify: false }
+  );
+  // delete all reviews and hearts from all users for the store if store deleted
   if (store) {
-    await Review.deleteMany({ store: req.params.id });
+    const reviewsDeletePromise = Review.deleteMany({ store: req.params.id });
+    const heartsDeletePromise = User.updateMany({
+      $pull: { hearts: req.params.id }
+    });
+    await Promise.all([reviewsDeletePromise, heartsDeletePromise]);
     req.flash('info', `Successfully deleted ${store.name}.`);
     res.redirect('/stores');
   }
@@ -147,7 +154,8 @@ exports.updateStore = async (req, res) => {
   // find and update store
   const store = await Store.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // return new store instead of old one
-    runValidators: true // force model to run required validators (in Store.js)  - serverside input check
+    runValidators: true, // force model to run required validators (in Store.js)  - serverside input check
+    useFindAndModify: false
   }).exec(); // run the query - some by default do not run so add exec
   req.flash(
     'success',

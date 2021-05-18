@@ -36,4 +36,4 @@ mixin storeForm(store = {})
     //- if user editing a store that they created - add delete button
     - const isUser = Object.keys(store).length !== 0
     if isUser
-        button(class="delete-button" data-storeid=`${store._id}` data-storename=`${store.name}` name="deleteButton") Delete Store
+        button(class="delete-button" data-storeid=`${store._id}` data-storename=`${store.name}`) Delete Store

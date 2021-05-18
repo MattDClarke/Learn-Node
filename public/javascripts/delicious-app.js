@@ -16,7 +16,7 @@ makeMap($('#map'));
 
 const heartForms = $$('form.heart');
 heartForms.on('submit', ajaxHeart);
-const deleteStoreBtn = $('.delete-button');
-if (deleteStoreBtn) {
-  deleteStoreBtn.on('click', e => deletePrompt(e));
+const deleteBtn = $('.delete-button');
+if (deleteBtn) {
+  deleteBtn.on('click', e => deletePrompt(e));
 }
