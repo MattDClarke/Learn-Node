@@ -2114,7 +2114,7 @@ function typeAhead(search) {
       }
       // tell user - no search results
       // console.log(res.data.length);
-      searchResults.innerHTML = _dompurify2.default.sanitize('<div class="search__result">No results for ' + searchInput.value + ' found!</div>');
+      searchResults.innerHTML = _dompurify2.default.sanitize('<div class="search__result">No results for ' + _dompurify2.default.sanitize(searchInput.value, { ALLOWED_TAGS: [] }) + '\n             found!</div>');
     }).catch(function (err) {
       console.error(err);
     });

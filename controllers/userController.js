@@ -7,6 +7,7 @@ const { promisify } = require('util');
 const { body, validationResult } = require('express-validator');
 
 exports.loginForm = (req, res) => {
+  console.log(req.ip);
   res.render('login', { title: 'Login' });
 };
 
@@ -54,7 +55,7 @@ exports.validate = (req, res, next) => {
   if (errors.isEmpty()) {
     return next();
   }
-  console.log(req.body);
+  // console.log(req.body);
   if (errors) {
     req.flash('error', errors.array().map(err => err.msg));
     // pre-populate the registration form with the data they put in, so that they dnt have to re-enter everything

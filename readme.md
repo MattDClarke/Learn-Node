@@ -9,6 +9,8 @@ This is a full stack restaurant application which users can search, geolocate, r
 - added get current location button to stores map
 - limited reviews to 1 per store per user. If user not logged in, message displayed: 'Login to leave a review'.
 - added delete store button
+- added delete user button
+- added rate limiter to login route
 
 
 ## Sample Data

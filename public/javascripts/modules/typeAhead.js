@@ -46,9 +46,11 @@ function typeAhead(search) {
           // tell user - no search results
           // console.log(res.data.length);
           searchResults.innerHTML = dompurify.sanitize(
-            `<div class="search__result">No results for ${
-              searchInput.value
-            } found!</div>`
+            `<div class="search__result">No results for ${dompurify.sanitize(
+              searchInput.value,
+              { ALLOWED_TAGS: [] }
+            )}
+             found!</div>`
           );
         })
         .catch(err => {

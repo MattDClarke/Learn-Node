@@ -6,6 +6,7 @@ const storeController = require('../controllers/storeController');
 const userController = require('../controllers/userController');
 const reviewController = require('../controllers/reviewController');
 const authController = require('../controllers/authController');
+const rateLimitController = require('../controllers/rateLimitController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 // Add catch errors to async controllers
@@ -30,14 +31,19 @@ router.post(
 
 router.post('/delete/:id', catchErrors(storeController.deleteStore));
 
-router.get('/stores/:id/edit', catchErrors(storeController.editStore));
+router.get(
+  '/stores/:id/edit',
+  authController.isLoggedIn,
+  catchErrors(storeController.editStore)
+);
 router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
 
 router.get('/tags', catchErrors(storeController.getStoresByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 
 router.get('/login', userController.loginForm);
-router.post('/login', authController.login);
+// router.post('/login', authController.login);
+router.post('/login', catchErrors(rateLimitController.loginRouteRateLimit));
 router.get('/register', userController.registerForm);
 
 // 1. validate registration data
