@@ -1,5 +1,5 @@
 //- if add store route, there will be no store object passed in. Therefore set store = {} as a default
-mixin storeForm(store = {})
+mixin storeForm(store = {}, isEditing = false)
     //- if there is no store id (a new entry) then it will add a new entry, else it will edit existing store
     form(action=`/add/${store._id || ''}` method="POST" class="card" enctype="multipart/form-data")
         //- pre= h.dump(store)
@@ -20,7 +20,7 @@ mixin storeForm(store = {})
         label(for="lng") Address Lng
         input(type="text" id="lng" name="location[coordinates][0]" value=(store.location && store.location.coordinates[0]) required)
         label(for="lat") Address Lat
-        input(type="text" id="lat" name="location[coordinates][1]" value=(store.location && store.location.coordinates[1]) required )
+        input(type="text" id="lat" name="location[coordinates][1]" value=(store.location && store.location.coordinates[1]) required)
         //- pre= h.dump(store)
 
         - const choices = ['Wi-Fi', 'Open Late', 'Family Friendly', 'Vegetarian', 'Licensed']
@@ -34,6 +34,5 @@ mixin storeForm(store = {})
         input(type="submit" value="Save ➡" class="button")
 
     //- if user editing a store that they created - add delete button
-    - const isUser = Object.keys(store).length !== 0
-    if isUser
+    if isEditing
         button(class="delete-button" data-storeid=`${store._id}` data-storename=`${store.name}`) Delete Store

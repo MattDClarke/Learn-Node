@@ -23,18 +23,25 @@ exports.notFound = (req, res, next) => {
 };
 
 /*
-  MongoDB Validation Error Handler
+  MongoDB Validation Error Handler and Redis connection error
 
   Detect if there are mongodb validation errors that we can nicely show via flash messages
 */
 
 exports.flashValidationErrors = (err, req, res, next) => {
-  // if there are no errors to show for flashes then skip it
-  if (!err.errors) return next(err);
-  // validation errors look like
-  const errorKeys = Object.keys(err.errors);
-  errorKeys.forEach(key => req.flash('error', err.errors[key].message));
-  res.redirect('back');
+  if (!err.errors)
+    // if there are no errors to show for flashes then skip it
+    return next(err);
+  // Node Redis returns a NR_CLOSED error code if the clients connection dropped
+  if (err.code === 'NR_CLOSED' || err.code === 'ECONNRESET') {
+    req.flash('error', 'There was a connection error');
+    res.redirect('back');
+  } else {
+    // validation errors look like
+    const errorKeys = Object.keys(err.errors);
+    errorKeys.forEach(key => req.flash('error', err.errors[key].message));
+    res.redirect('back');
+  }
 };
 
 /*

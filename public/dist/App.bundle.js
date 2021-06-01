@@ -1965,9 +1965,11 @@ function loadPlaces(map) {
     // addListener - Google Maps equiv of addEventListener
     markers.forEach(function (marker) {
       return marker.addListener('click', function () {
-        // console.log(this);
+        console.log(this.place);
+        // TODO - nested divs and <a> not displaying
         var html = '\n        <div class="popup">\n            <a href="/store/' + this.place.slug + '">\n                <img src="/uploads/' + (this.place.photo || 'store.png') + '" alt="' + this.place.name + '" />\n                <p>' + this.place.name + ' - ' + this.place.location.address + '</p>\n            </a>\n        </div>\n        ';
-        infoWindow.setContent(html);
+        var html2 = '\n            <img src="/uploads/' + (this.place.photo || 'store.png') + '" alt="' + this.place.name + '" />\n            <p>' + this.place.name + ' - ' + this.place.location.address + '</p>     \n          ';
+        infoWindow.setContent(html2);
         // this is the marker for a store
         infoWindow.open(map, this);
       });

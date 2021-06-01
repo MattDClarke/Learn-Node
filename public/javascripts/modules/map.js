@@ -41,7 +41,8 @@ function loadPlaces(
       // addListener - Google Maps equiv of addEventListener
       markers.forEach(marker =>
         marker.addListener('click', function() {
-          // console.log(this);
+          console.log(this.place);
+          // TODO - nested divs and <a> not displaying
           const html = `
         <div class="popup">
             <a href="/store/${this.place.slug}">
@@ -52,7 +53,13 @@ function loadPlaces(
             </a>
         </div>
         `;
-          infoWindow.setContent(html);
+          const html2 = `
+            <img src="/uploads/${this.place.photo || 'store.png'}" alt="${
+            this.place.name
+          }" />
+            <p>${this.place.name} - ${this.place.location.address}</p>     
+          `;
+          infoWindow.setContent(html2);
           // this is the marker for a store
           infoWindow.open(map, this);
         })

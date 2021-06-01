@@ -7,6 +7,8 @@ const userController = require('../controllers/userController');
 const reviewController = require('../controllers/reviewController');
 const authController = require('../controllers/authController');
 const rateLimitController = require('../controllers/rateLimitController');
+const userValidator = require('../validators/userValidator');
+const storeValidator = require('../validators/storeValidator');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 // Add catch errors to async controllers
@@ -19,6 +21,8 @@ router.post(
   '/add',
   storeController.upload,
   catchErrors(storeController.resize),
+  storeValidator.storeValidationRules(),
+  storeValidator.validate,
   catchErrors(storeController.createStore)
 );
 
@@ -51,8 +55,8 @@ router.get('/register', userController.registerForm);
 // 3. log them in
 router.post(
   '/register',
-  userController.userValidationRules(),
-  userController.validate,
+  userValidator.userValidationRules(),
+  userValidator.validate,
   userController.register,
   authController.login
 );
