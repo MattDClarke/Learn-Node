@@ -59,7 +59,7 @@ function loadPlaces(
           }" />
             <p>${this.place.name} - ${this.place.location.address}</p>     
           `;
-          infoWindow.setContent(html2);
+          infoWindow.setContent(html);
           // this is the marker for a store
           infoWindow.open(map, this);
         })

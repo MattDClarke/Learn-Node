@@ -1969,7 +1969,7 @@ function loadPlaces(map) {
         // TODO - nested divs and <a> not displaying
         var html = '\n        <div class="popup">\n            <a href="/store/' + this.place.slug + '">\n                <img src="/uploads/' + (this.place.photo || 'store.png') + '" alt="' + this.place.name + '" />\n                <p>' + this.place.name + ' - ' + this.place.location.address + '</p>\n            </a>\n        </div>\n        ';
         var html2 = '\n            <img src="/uploads/' + (this.place.photo || 'store.png') + '" alt="' + this.place.name + '" />\n            <p>' + this.place.name + ' - ' + this.place.location.address + '</p>     \n          ';
-        infoWindow.setContent(html2);
+        infoWindow.setContent(html);
         // this is the marker for a store
         infoWindow.open(map, this);
       });

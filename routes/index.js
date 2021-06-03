@@ -9,6 +9,7 @@ const authController = require('../controllers/authController');
 const rateLimitController = require('../controllers/rateLimitController');
 const userValidator = require('../validators/userValidator');
 const storeValidator = require('../validators/storeValidator');
+const reviewValidator = require('../validators/reviewValidator');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 // Add catch errors to async controllers
@@ -87,6 +88,8 @@ router.get(
 router.post(
   '/reviews/:id',
   authController.isLoggedIn,
+  reviewValidator.reviewValidationRules(),
+  reviewValidator.validate,
   catchErrors(reviewController.addReview)
 );
 

@@ -6,7 +6,7 @@ mixin reviewForm(store)
             .reviewer__stars      
                 each num in [5,4,3,2,1]   
                     //- input hidden using css. stars styled with label
-                    input(type="radio" required id=`star${num}` name="rating" value=num)
+                    input(type="radio" id=`star${num}` name="rating" value=num)
                     label(for=`star${num}`) #{num} Stars
             input.button(type="submit" value="Submit Review ➡")
             
