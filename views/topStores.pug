@@ -3,22 +3,26 @@ extend layout
 block content 
     //- pre= h.dump(stores)
     .inner 
-        h2 Top #{stores.length} Stores 
-        table.table 
-            thead 
-                td photo 
-                td ranking 
-                td name 
-                td reviews 
-                td Average Rating
-            each store, i in stores 
-                tr 
-                    td
-                        a(href=`/store/${store.slug}`)
-                            img(width=200 src=`/uploads/${store.photo || 'store.png'}` alt=store.name)
-                    td= i + 1
-                    //- : allows child on same line
-                    td: a(href=`/store/${store.slug}`)= store.name 
-                    td= store.reviews.length
-                    td #{Math.round(store.averageRating * 10) / 10} / 5
-                
+        if (stores.length)
+            h2 Top #{stores.length} Stores 
+
+                table.table 
+                    thead 
+                        td photo 
+                        td ranking 
+                        td name 
+                        td reviews 
+                        td Average Rating
+                    each store, i in stores 
+                        tr 
+                            td
+                                a(href=`/store/${store.slug}`)
+                                    img(width=200 src=`/uploads/${store.photo || 'store.png'}` alt=store.name)
+                            td= i + 1
+                            //- : allows child on same line
+                            td: a(href=`/store/${store.slug}`)= store.name 
+                            td= store.reviews.length
+                            td #{Math.round(store.averageRating * 10) / 10} / 5
+        else 
+            h2 Top Stores
+                p There are no top stores.

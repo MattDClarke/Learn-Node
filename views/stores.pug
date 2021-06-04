@@ -7,7 +7,10 @@ block content
     //- pre= h.dump(stores)
     .inner 
         h2= title
-        .stores
-            each store in stores
-                +storeCard(store)
-        +pagination(page, pages, count)
+        if (stores.length)
+            .stores
+                each store in stores
+                    +storeCard(store)
+            +pagination(page, pages, count)
+        else 
+            p There are no stores.

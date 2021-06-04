@@ -53,3 +53,13 @@
     }
   }
 }
+
+.reviewFormCharCountContainer {
+  white-space: nowrap;
+}
+
+.reviewFormCharCount {
+  display: inline-block;
+  width: 40px;
+  text-align: right;
+}

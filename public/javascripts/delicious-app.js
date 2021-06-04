@@ -7,6 +7,7 @@ import typeAhead from './modules/typeAhead';
 import makeMap from './modules/map';
 import ajaxHeart from './modules/heart';
 import deletePrompt from './modules/deletePrompt';
+import countChars from './modules/countChars';
 
 autocomplete($('#address'), $('#lat'), $('#lng'));
 
@@ -20,3 +21,5 @@ const deleteBtn = $('.delete-button');
 if (deleteBtn) {
   deleteBtn.on('click', e => deletePrompt(e));
 }
+
+countChars($('form.reviewer textarea'));

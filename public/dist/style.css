@@ -1065,6 +1065,14 @@ label {
       -ms-flex: 1;
           flex: 1; }
 
+.reviewFormCharCountContainer {
+  white-space: nowrap; }
+
+.reviewFormCharCount {
+  display: inline-block;
+  width: 40px;
+  text-align: right; }
+
 .pagination {
   display: -ms-flexbox;
   display: flex;

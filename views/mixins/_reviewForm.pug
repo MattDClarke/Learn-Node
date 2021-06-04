@@ -9,5 +9,11 @@ mixin reviewForm(store)
                     input(type="radio" id=`star${num}` name="rating" value=num)
                     label(for=`star${num}`) #{num} Stars
             input.button(type="submit" value="Submit Review ➡")
+    
+    //- Character count
+    span Min 3 characters, Max: 1000 characters 
+    span.reviewFormCharCountContainer
+        span.reviewFormCharCount 0
+        span.reviewFormCharCountMax  / 1000
             
         

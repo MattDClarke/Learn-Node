@@ -16,6 +16,8 @@ block content
                             span.tag__text #{t._id}
                             span.tag__count= t.count
             //- pre=h.dump(stores)
+        if !tags.length 
+            p There are no stores with tags.
         .stores
             each store in stores 
                 +storeCard(store)
