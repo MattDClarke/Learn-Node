@@ -85,7 +85,8 @@ exports.reset = async (req, res) => {
 
 exports.confirmedPasswords = (req, res, next) => {
   // use [] to access property with '-' in it.
-  if (req.body.password === req.body['password-confirm']) {
+  // if (req.body.password === req.body['password-confirm']) {
+  if (req.body.password === req.body.passwordConfirm) {
     next(); // keep going
     return;
   }

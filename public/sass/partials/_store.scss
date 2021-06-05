@@ -17,6 +17,8 @@
     p {
       line-height: 1.2;
       margin-bottom: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   @media all and (max-width: 850px) {
@@ -76,6 +78,7 @@
     opacity: 0.6;
     z-index: 1;
     clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+    
   }
   img {
     height: 100%;

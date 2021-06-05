@@ -52,6 +52,7 @@ exports.validate = (req, res, next) => {
   }
   // console.log(req.body);
   if (errors) {
+    console.log(errors);
     req.flash('error', errors.array().map(err => err.msg));
     // pre-populate the registration form with the data they put in, so that they dnt have to re-enter everything
     res.render('register', {

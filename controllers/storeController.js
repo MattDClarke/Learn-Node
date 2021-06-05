@@ -161,12 +161,7 @@ exports.updateStore = async (req, res) => {
     runValidators: true, // force model to run required validators (in Store.js)  - serverside input check
     useFindAndModify: false
   }).exec(); // run the query - some by default do not run so add exec
-  req.flash(
-    'success',
-    `Successfully updated <strong>${store.name}</strong>. <a href="/stores/${
-      store.slug
-    }">View Store</a>`
-  );
+  req.flash('success', `Successfully updated <strong>${store.name}</strong>.`);
   // redirect to the screen that they were on and tell them it worked (done using flash message already)
   res.redirect(`/stores/${store.id}/edit`);
 };
@@ -283,7 +278,11 @@ exports.getHeartedStores = async (req, res) => {
   });
   // res.json(stores);
   // display them
-  res.render('stores', { title: 'Hearted Stores', stores });
+  res.render('stores', {
+    title: 'Hearted Stores',
+    stores,
+    heartedStores: true
+  });
 };
 
 exports.getTopStores = async (req, res) => {

@@ -18,8 +18,8 @@ exports.storeValidationRules = () => [
   body('name', 'The maximum number of characters is 50.').isLength({ max: 50 }),
   body(
     'description',
-    'You must supply a description that is at least 4 characters long.'
-  ).isLength({ min: 4 }),
+    'You must supply a description that is at least 3 characters long.'
+  ).isLength({ min: 3 }),
   body('description', 'The maximum number of characters is 1000.').isLength({
     max: 1000
   }),

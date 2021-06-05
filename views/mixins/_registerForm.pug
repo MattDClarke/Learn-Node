@@ -1,13 +1,21 @@
 //- register route, there will be no body object passed in unless there is a registration error detected on the server side. Therefore set store = {} as a default
 mixin registerForm(body = {})
-    form.form(action="/register" method="POST")
+    form.form.formRegister(action="/register" method="POST" novalidate)
         h2 register
-        label(for="name") Name
-        input(type="text" name="name" value=body.name)
-        label(for="email") Email
-        input(type="email" name="email" value=body.email)
-        label(for="password") Password
-        input(type="password" name="password" value=body.password)
-        label(for="password-confirm") Confirm Password 
-        input(type="password" name="passwordConfirm" value=body.passwordConfirm)
-        input.button(type="submit" value="Register ➡")
+        div.form-group
+            label(for="name") Name
+            input(type="text" name="name" autofocus value=body.name)
+            small Error message
+        div.form-group
+            label(for="email") Email
+            input(type="email" name="email" value=body.email)
+            small Error message
+        div.form-group
+            label(for="password") Password
+            input(type="password" name="password" value=body.password)
+            small Error message 
+        div.form-group
+            label(for="password-confirm") Confirm Password 
+            input(type="password" name="passwordConfirm" value=body.passwordConfirm)
+            small Error message
+        input.button(type="submit" value="Register ➡") 

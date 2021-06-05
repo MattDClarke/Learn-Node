@@ -1,8 +1,12 @@
 mixin loginForm()
-    form.form(action="/login" method="POST")
+    form.form.formLogin(action="/login" method="POST" novalidate)
         h2 login
-        label(for="email") Email Address
-        input(type="email" name="email")
-        label(for="password") Password
-        input(type="password" name="password")
+        div.form-group
+            label(for="email") Email Address
+            input(type="email" name="email")
+            small Error message
+        div.form-group
+            label(for="password") Password
+            input(type="password" name="password")
+            small Error message
         input.button(type="submit" value="Log In ➡")  

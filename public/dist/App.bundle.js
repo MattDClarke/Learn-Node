@@ -1737,18 +1737,18 @@ Object.defineProperty(exports, "__esModule", {
 
 var _bling = __webpack_require__(1);
 
-var reviewFormCharCount = (0, _bling.$)('.reviewFormCharCount');
+var textAreaCharCount = (0, _bling.$)('.textAreaCharCount');
 
 function countChars(textArea) {
   if (!textArea) return;
-  console.log(textArea);
-
+  // set initial length
+  textAreaCharCount.innerText = textArea.value.length;
   textArea.on('input', function () {
     var textLength = textArea.value.length;
-    reviewFormCharCount.innerText = textLength;
-    reviewFormCharCount.style.color = 'black';
+    textAreaCharCount.innerText = textLength;
+    textAreaCharCount.style.color = 'black';
     if (textLength > 1000) {
-      reviewFormCharCount.style.color = 'red';
+      textAreaCharCount.style.color = 'red';
     }
   });
 }
@@ -4667,6 +4667,34 @@ var _countChars = __webpack_require__(13);
 
 var _countChars2 = _interopRequireDefault(_countChars);
 
+var _registerValidator = __webpack_require__(43);
+
+var _registerValidator2 = _interopRequireDefault(_registerValidator);
+
+var _accountValidator = __webpack_require__(45);
+
+var _accountValidator2 = _interopRequireDefault(_accountValidator);
+
+var _loginValidator = __webpack_require__(46);
+
+var _loginValidator2 = _interopRequireDefault(_loginValidator);
+
+var _forgotValidator = __webpack_require__(47);
+
+var _forgotValidator2 = _interopRequireDefault(_forgotValidator);
+
+var _resetValidator = __webpack_require__(48);
+
+var _resetValidator2 = _interopRequireDefault(_resetValidator);
+
+var _storeValidator = __webpack_require__(49);
+
+var _storeValidator2 = _interopRequireDefault(_storeValidator);
+
+var _reviewValidator = __webpack_require__(50);
+
+var _reviewValidator2 = _interopRequireDefault(_reviewValidator);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _autocomplete2.default)((0, _bling.$)('#address'), (0, _bling.$)('#lat'), (0, _bling.$)('#lng'));
@@ -4684,7 +4712,482 @@ if (deleteBtn) {
   });
 }
 
-(0, _countChars2.default)((0, _bling.$)('form.reviewer textarea'));
+(0, _countChars2.default)((0, _bling.$)('form.formReview textarea'));
+(0, _countChars2.default)((0, _bling.$)('form.formStore textarea'));
+
+(0, _registerValidator2.default)((0, _bling.$)('form.formRegister'));
+(0, _accountValidator2.default)((0, _bling.$)('form.formAccount'));
+(0, _loginValidator2.default)((0, _bling.$)('form.formLogin'));
+(0, _forgotValidator2.default)((0, _bling.$)('form.formForgot'));
+(0, _resetValidator2.default)((0, _bling.$)('form.formReset'));
+(0, _storeValidator2.default)((0, _bling.$)('form.formStore'));
+(0, _reviewValidator2.default)((0, _bling.$)('form.formReview'));
+
+/***/ }),
+/* 42 */,
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(44);
+
+function checkInputs(formRegister, name, email, password, passwordConfirm) {
+  var nameValue = name.value.trim();
+  var emailValue = email.value.trim();
+  var passwordValue = password.value.trim();
+  var passwordConfirmValue = passwordConfirm.value.trim();
+
+  if (nameValue === '') {
+    (0, _validatorUtil.setErrorFor)(name, 'Please add your name');
+  } else if (nameValue.length < 3) {
+    (0, _validatorUtil.setErrorFor)(name, 'Name must be at least 3 characters long');
+  } else if (nameValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(name, 'Name must be less than 51 characters long');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(name);
+  }
+
+  if (emailValue === '') {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
+  } else if (emailValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(email, 'Email must be less than 51 characters long');
+  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(email);
+  }
+
+  if (passwordValue === '') {
+    (0, _validatorUtil.setErrorFor)(password, 'Please add a password');
+  } else if (passwordValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password must be less than 51 characters long');
+  } else if (!(0, _validatorUtil.isStrongPassword)(passwordValue)) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password should be at least 8 characters long and contain at least 1 lowercase word, 1 uppercase word, 1 number and 1 symbol.');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(password);
+  }
+
+  if (passwordConfirmValue === '') {
+    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Please confirm your password');
+  } else if (passwordValue !== passwordConfirmValue) {
+    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Passwords do not match.');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(passwordConfirm);
+  }
+
+  // submit form if no errors
+  if (!(nameValue === '') && !(nameValue.length < 3) && !(nameValue.length > 50) && !(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue) && !(passwordValue.length > 50) && (0, _validatorUtil.isStrongPassword)(passwordValue) && !(passwordConfirmValue === '') && passwordValue === passwordConfirmValue) {
+    formRegister.submit();
+  }
+}
+
+function registerValidator(formRegister) {
+  if (!formRegister) return;
+
+  var name = formRegister.name,
+      email = formRegister.email,
+      password = formRegister.password,
+      passwordConfirm = formRegister.passwordConfirm;
+
+
+  formRegister.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formRegister, name, email, password, passwordConfirm);
+  });
+}
+
+exports.default = registerValidator;
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setErrorFor = setErrorFor;
+exports.setSuccessFor = setSuccessFor;
+exports.isEmail = isEmail;
+exports.isStrongPassword = isStrongPassword;
+function setErrorFor(input, message) {
+  var formGroup = input.parentElement;
+  var small = formGroup.querySelector('small');
+
+  // add error message inside small
+  small.innerText = message;
+
+  // add error class
+  formGroup.className = 'form-group error';
+}
+
+function setSuccessFor(input) {
+  var formGroup = input.parentElement;
+  formGroup.className = 'form-group success';
+}
+
+function isEmail(email) {
+  return (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
+  );
+}
+
+function isStrongPassword(password) {
+  return (/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*()_+=\-\{\}\[\]'":;<>./\\|]).{8,}$/.test(password)
+  );
+}
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(44);
+
+function checkInputs(formAccount, name, email) {
+  var nameValue = name.value.trim();
+  var emailValue = email.value.trim();
+
+  if (nameValue === '') {
+    (0, _validatorUtil.setErrorFor)(name, 'Please add your name');
+  } else if (nameValue.length < 3) {
+    (0, _validatorUtil.setErrorFor)(name, 'Name must be at least 3 characters long');
+  } else if (nameValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(name, 'Name must be less than 51 characters long');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(name);
+  }
+
+  if (emailValue === '') {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
+  } else if (emailValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(email, 'Email must be less than 51 characters long');
+  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(email);
+  }
+
+  // submit form if no errors
+  if (!(nameValue === '') && !(nameValue.length < 3) && !(nameValue.length > 50) && !(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue)) {
+    formAccount.submit();
+  }
+}
+
+function accountValidator(formAccount) {
+  if (!formAccount) return;
+
+  var name = formAccount.name,
+      email = formAccount.email;
+
+
+  formAccount.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formAccount, name, email);
+  });
+}
+
+exports.default = accountValidator;
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(44);
+
+function checkInputs(formLogin, email, password) {
+  var emailValue = email.value.trim();
+  var passwordValue = password.value.trim();
+
+  if (emailValue === '') {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
+  } else if (emailValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(email, 'Email is less than 51 characters long');
+  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(email);
+  }
+
+  if (passwordValue === '') {
+    (0, _validatorUtil.setErrorFor)(password, 'Please add your password');
+  } else if (passwordValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password is less than 51 characters long');
+  } else if (!(0, _validatorUtil.isStrongPassword)(passwordValue)) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password is at least 8 characters long and contain at least 1 lowercase word, 1 uppercase word, 1 number and 1 symbol.');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(password);
+  }
+
+  // submit form if no errors
+  if (!(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue) && !(passwordValue.length > 50) && (0, _validatorUtil.isStrongPassword)(passwordValue)) {
+    formLogin.submit();
+  }
+}
+
+function loginValidator(formLogin) {
+  if (!formLogin) return;
+
+  var email = formLogin.email,
+      password = formLogin.password;
+
+
+  formLogin.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formLogin, email, password);
+  });
+}
+
+exports.default = loginValidator;
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(44);
+
+function checkInputs(formForgot, email) {
+  var emailValue = email.value.trim();
+
+  if (emailValue === '') {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
+  } else if (emailValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(email, 'Email is less than 51 characters long');
+  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(email);
+  }
+
+  // submit form if no errors
+  if (!(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue)) {
+    formForgot.submit();
+  }
+}
+
+function forgotValidator(formForgot) {
+  if (!formForgot) return;
+
+  var email = formForgot.email;
+
+
+  formForgot.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formForgot, email);
+  });
+}
+
+exports.default = forgotValidator;
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(44);
+
+function checkInputs(formReset, password, passwordConfirm) {
+  var passwordValue = password.value.trim();
+  var passwordConfirmValue = passwordConfirm.value.trim();
+
+  if (passwordValue === '') {
+    (0, _validatorUtil.setErrorFor)(password, 'Please add a password');
+  } else if (passwordValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password must be less than 50 characters long');
+  } else if (!(0, _validatorUtil.isStrongPassword)(passwordValue)) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password should be at least 8 characters long and contain at least 1 lowercase word, 1 uppercase word, 1 number and 1 symbol.');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(password);
+  }
+
+  if (passwordConfirmValue === '') {
+    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Please confirm your password');
+  } else if (passwordValue !== passwordConfirmValue) {
+    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Passwords do not match.');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(passwordConfirm);
+  }
+
+  // submit form if no errors
+  if (!(passwordValue.length > 50) && (0, _validatorUtil.isStrongPassword)(passwordValue) && !(passwordConfirmValue === '') && passwordValue === passwordConfirmValue) {
+    formReset.submit();
+  }
+}
+
+function resetValidator(formReset) {
+  if (!formReset) return;
+
+  var password = formReset.password,
+      passwordConfirm = formReset.passwordConfirm;
+
+
+  formReset.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formReset, password, passwordConfirm);
+  });
+}
+
+exports.default = resetValidator;
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _validatorUtil = __webpack_require__(44);
+
+function checkInputs(formStore, name, description, lng, lat) {
+  var nameValue = name.value.trim();
+  var descriptionValue = description.value.trim();
+  var lngValue = lng.value.trim();
+  var latValue = lat.value.trim();
+
+  if (nameValue === '') {
+    (0, _validatorUtil.setErrorFor)(name, 'Please add a store name');
+  } else if (nameValue.length < 3) {
+    (0, _validatorUtil.setErrorFor)(name, 'Store name must be at least 3 characters long');
+  } else if (nameValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(name, 'Store name must be less than 50 characters long');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(name);
+  }
+
+  if (descriptionValue === '') {
+    (0, _validatorUtil.setErrorFor)(description, 'Please add a description');
+  } else if (descriptionValue.length < 3) {
+    (0, _validatorUtil.setErrorFor)(description, 'Description must be at least 3 characters long');
+  } else if (descriptionValue.length > 1000) {
+    (0, _validatorUtil.setErrorFor)(description, 'Description max: 1000 characters');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(description);
+  }
+
+  if (lngValue === '') {
+    (0, _validatorUtil.setErrorFor)(lng, 'Please add longitude.');
+  } else if (lngValue < -180 || lngValue > 180) {
+    console.log(typeof lngValue === 'undefined' ? 'undefined' : _typeof(lngValue));
+    (0, _validatorUtil.setErrorFor)(lng, 'Invalid logitude');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(lng);
+  }
+
+  if (latValue === '') {
+    (0, _validatorUtil.setErrorFor)(lat, 'Please add latitude.');
+  } else if (latValue < -90 || latValue > 90) {
+    (0, _validatorUtil.setErrorFor)(lat, 'Invalid latitude');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(lat);
+  }
+
+  // submit form if no errors
+  if (!(nameValue === '') && !(nameValue.length < 3) && !(nameValue.length > 50) && !(descriptionValue === '') && !(descriptionValue.length < 3) && !(descriptionValue.length > 1000) && !(lngValue === '') && !(lngValue < -180 || lngValue > 180) && !(latValue === '') && !(latValue < -90 || latValue > 90)) {
+    formStore.submit();
+  }
+}
+
+function storeValidator(formStore) {
+  if (!formStore) return;
+
+  var name = formStore.name,
+      description = formStore.description;
+
+  var lng = formStore.querySelector('#lng');
+  var lat = formStore.querySelector('#lat');
+
+  formStore.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formStore, name, description, lng, lat);
+  });
+}
+
+exports.default = storeValidator;
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(44);
+
+function checkInputs(formReview, text) {
+  var textValue = text.value.trim();
+
+  if (textValue === '') {
+    (0, _validatorUtil.setErrorFor)(text, 'Please add a review');
+  } else if (textValue.length < 3) {
+    (0, _validatorUtil.setErrorFor)(text, 'Review must be at least 3 characters long');
+  } else if (textValue.length > 1000) {
+    (0, _validatorUtil.setErrorFor)(text, 'Review max: 1000 characters');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(text);
+  }
+
+  // submit form if no errors
+  if (!(textValue === '') && !(textValue.length < 3) && !(textValue.length > 1000)) {
+    formReview.submit();
+  }
+}
+
+function reviewValidator(formReview) {
+  if (!formReview) return;
+
+  var text = formReview.text;
+
+
+  formReview.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formReview, text);
+  });
+}
+
+exports.default = reviewValidator;
 
 /***/ })
 /******/ ]);

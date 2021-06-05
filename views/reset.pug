@@ -2,10 +2,14 @@ extends layout
 
 block content
     .inner
-        form.form(method="POST")
+        form.form.formReset(method="POST" novalidate)
             h2 Reset Your Password
-            label(for="password") Password
-            input(type="password" name="password")
-            label(for="password-confirm") Password
-            input(type="password" name="password-confirm")
-            input(type="submit" value="Reset Password ➡")  
+            div.form-group
+                label(for="password") Password
+                input(type="password" name="password")
+                small Error message
+            div.form-group
+                label(for="password-confirm") Confirm Password
+                input(type="password" name="passwordConfirm")
+                small Error message
+            input.button(type="submit" value="Reset Password ➡")  

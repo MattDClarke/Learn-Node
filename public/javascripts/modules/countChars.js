@@ -1,17 +1,17 @@
 import { $ } from './bling';
 
-const reviewFormCharCount = $('.reviewFormCharCount');
+const textAreaCharCount = $('.textAreaCharCount');
 
 function countChars(textArea) {
   if (!textArea) return;
-  console.log(textArea);
-
+  // set initial length
+  textAreaCharCount.innerText = textArea.value.length;
   textArea.on('input', () => {
     const textLength = textArea.value.length;
-    reviewFormCharCount.innerText = textLength;
-    reviewFormCharCount.style.color = 'black';
+    textAreaCharCount.innerText = textLength;
+    textAreaCharCount.style.color = 'black';
     if (textLength > 1000) {
-      reviewFormCharCount.style.color = 'red';
+      textAreaCharCount.style.color = 'red';
     }
   });
 }

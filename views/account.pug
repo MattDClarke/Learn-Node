@@ -4,11 +4,15 @@ block content
     .inner
         h2 Edit Your Account
         //- pre= h.dump(user)
-        form(action="/account" method="POST")
-            label(for="name") Name
-            input(type="text" name="name" value=user.name)
-            label(for="email") Email Address
-            input(type="email" name="email" value=user.email)
+        form.form.formAccount(action="/account" method="POST" novalidate)
+            div.form-group
+                label(for="name") Name
+                input(type="text" name="name" value=user.name)
+                small Error message
+            div.form-group
+                label(for="email") Email Address
+                input(type="email" name="email" value=user.email)
+                small Error message
             input.button(type="submit" value="Update My Account")
         
         button(class="delete-button" data-userid="true") Delete Account

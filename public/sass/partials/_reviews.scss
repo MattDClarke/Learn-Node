@@ -53,5 +53,9 @@
   }
   p {
     white-space:pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
+
+

@@ -4,13 +4,14 @@ include mixins/_storeCard
 include mixins/_pagination
 
 block content 
-    //- pre= h.dump(stores)
+    //- pre= h.dump(page)
     .inner 
         h2= title
         if (stores.length)
             .stores
                 each store in stores
                     +storeCard(store)
-            +pagination(page, pages, count)
+            if !(heartedStores)
+                +pagination(page, pages, count)
         else 
             p There are no stores.

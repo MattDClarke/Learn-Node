@@ -1,12 +1,20 @@
 input, textarea {
   width:100%;
-  padding:10px;
+  padding: 10px;
+  margin-bottom: 1.5rem;
   border: 1px solid $grey;
   &.input {
     &--error {
       border-color: red;
     }
   }
+}
+
+textarea {
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 100px;
+  max-height: 300px;
 }
 
 label {
@@ -29,4 +37,24 @@ label {
     margin-bottom: 2rem;
     border-bottom: 1px solid $grey;
   }
+}
+
+
+.form-group small {
+    display: block;
+    visibility: hidden;
+    margin-bottom: 10px;
+}
+
+.form-group.success input {
+    border-color: $greenSuccess;
+}
+
+.form-group.error input {
+    border-color: $red;
+}
+
+.form-group.error small {
+    visibility: visible;
+    color: $red;
 }

@@ -19,6 +19,9 @@ body {
     .inner {
       padding: 2rem; } }
 
+.content {
+  margin-bottom: 50px; }
+
 button:hover {
   cursor: pointer; }
 
@@ -496,15 +499,22 @@ p {
 .title--single {
   max-width: 600px;
   margin-top: -9rem;
-  font-size: 10rem;
+  font-size: 7rem;
   text-align: center; }
 
 input, textarea {
   width: 100%;
   padding: 10px;
+  margin-bottom: 1.5rem;
   border: 1px solid #e6e6e6; }
   input.input--error, textarea.input--error {
     border-color: red; }
+
+textarea {
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 100px;
+  max-height: 300px; }
 
 label {
   padding: 10px 0;
@@ -522,6 +532,21 @@ label {
     padding-bottom: 2rem;
     margin-bottom: 2rem;
     border-bottom: 1px solid #e6e6e6; }
+
+.form-group small {
+  display: block;
+  visibility: hidden;
+  margin-bottom: 10px; }
+
+.form-group.success input {
+  border-color: #2ecc71; }
+
+.form-group.error input {
+  border-color: #E50714; }
+
+.form-group.error small {
+  visibility: visible;
+  color: #E50714; }
 
 .search {
   position: relative;
@@ -732,7 +757,9 @@ label {
     padding: 2rem; }
     .store__details p {
       line-height: 1.2;
-      margin-bottom: 0; }
+      margin-bottom: 0;
+      overflow: hidden;
+      text-overflow: ellipsis; }
   @media all and (max-width: 850px) {
     .store {
       width: calc(50% - 1.25em); } }
@@ -891,7 +918,9 @@ label {
   position: relative;
   padding: 3rem;
   margin-top: -10rem;
-  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15); }
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  text-overflow: ellipsis; }
 
 .single__map {
   width: calc(100% + 6rem);
@@ -1003,7 +1032,9 @@ label {
   .review__body {
     padding: 2rem; }
   .review p {
-    white-space: pre-wrap; }
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
 
 /*
   Reviewer Form
@@ -1065,10 +1096,10 @@ label {
       -ms-flex: 1;
           flex: 1; }
 
-.reviewFormCharCountContainer {
+.textAreaCharCountContainer {
   white-space: nowrap; }
 
-.reviewFormCharCount {
+.textAreaCharCount {
   display: inline-block;
   width: 40px;
   text-align: right; }
@@ -1135,11 +1166,13 @@ label {
 
 .button {
   background: #FFC40E;
-  color: #303030; }
+  color: #303030;
+  margin-top: 2rem; }
 
 .delete-button {
   background: #E50714;
-  color: #fafafa; }
+  color: #fafafa;
+  width: 100%; }
 
 .avatar {
   min-width: 50px;

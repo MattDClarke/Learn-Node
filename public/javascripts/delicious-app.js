@@ -8,6 +8,13 @@ import makeMap from './modules/map';
 import ajaxHeart from './modules/heart';
 import deletePrompt from './modules/deletePrompt';
 import countChars from './modules/countChars';
+import registerValidator from './modules/registerValidator';
+import accountValidator from './modules/accountValidator';
+import loginValidator from './modules/loginValidator';
+import forgotValidator from './modules/forgotValidator';
+import resetValidator from './modules/resetValidator';
+import storeValidator from './modules/storeValidator';
+import reviewValidator from './modules/reviewValidator';
 
 autocomplete($('#address'), $('#lat'), $('#lng'));
 
@@ -22,4 +29,13 @@ if (deleteBtn) {
   deleteBtn.on('click', e => deletePrompt(e));
 }
 
-countChars($('form.reviewer textarea'));
+countChars($('form.formReview textarea'));
+countChars($('form.formStore textarea'));
+
+registerValidator($('form.formRegister'));
+accountValidator($('form.formAccount'));
+loginValidator($('form.formLogin'));
+forgotValidator($('form.formForgot'));
+resetValidator($('form.formReset'));
+storeValidator($('form.formStore'));
+reviewValidator($('form.formReview'));
