@@ -10,6 +10,7 @@
 .tag {
   display: block;
   margin-right: 1rem;
+
   &__choice {
     display: flex;
     justify-content: center;
@@ -38,7 +39,12 @@
     &--active {
       background: lighten($purple, 40%);
       .tag__text {
-        color: white;
+        color: $white;
+      }
+    }
+    &:focus {
+      .tag__text {
+        text-decoration: underline;
       }
     }
   }
@@ -48,7 +54,7 @@
   }
   &__count {
     padding: 1rem 1rem;
-    background: white;
+    background: $white;
     border-left: 3px solid rgba(0,0,0,0.1);
     margin-right: -1px; /* ugh */
     background-clip: padding-box;

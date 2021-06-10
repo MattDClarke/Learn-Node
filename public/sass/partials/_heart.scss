@@ -2,23 +2,23 @@
   &__button {
     background: none;
     border: 0;
-    outline: 0;
     position: relative;
     &:after {
       content: '♥️';
-      color: red;
+      color: $red;
       font-size: 25px;
       position: absolute;
       opacity: 0;
-      top: 0;
+      top: 0;      
     }
+
     svg {
       width: 25px;
-      fill: white;
+      fill: $white;
     }
     &--hearted {
       svg {
-        fill: red;
+        fill:$red;
       }
     }
     &--float {

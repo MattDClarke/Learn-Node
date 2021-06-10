@@ -1,5 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html {
   font-size: 10px;
+}
+
+body::-webkit-scrollbar {
+    width: auto;
 }
 
 body {
@@ -12,18 +22,25 @@ body {
     height: 10px;
     width: 100%;
   }
+  scrollbar-color: $black $yellow;
 }
+
+body::-webkit-scrollbar-track {
+    background: $black;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: $yellow;
+    border-radius: 6px;
+}
+
 
 .inner {
   max-width:900px;
-  margin: 0 auto;
+  margin: 50px auto;
   @media all and (max-width: 900px) {
     padding: 2rem;
   }
-}
-
-.content {
-   margin-bottom: 50px;
 }
 
 button:hover {

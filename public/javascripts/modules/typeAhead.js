@@ -23,20 +23,17 @@ function typeAhead(search) {
   searchInput.on(
     'input',
     debounce(function() {
-      // console.log('search input');
       // if there is no value, quit
       if (!searchInput.value) {
         searchResults.style.display = 'none';
         return;
       }
-      // console.log(this.value);
       // show search results
       searchResults.style.display = 'block';
 
       axios
         .get(`/api/search?q=${searchInput.value}`)
         .then(res => {
-          // console.log(res.data);
           if (res.data.length) {
             searchResults.innerHTML = dompurify.sanitize(
               searchResultsHTML(res.data)
@@ -44,7 +41,6 @@ function typeAhead(search) {
             return;
           }
           // tell user - no search results
-          // console.log(res.data.length);
           searchResults.innerHTML = dompurify.sanitize(
             `<div class="search__result">No results for ${dompurify.sanitize(
               searchInput.value,
@@ -65,7 +61,6 @@ function typeAhead(search) {
     if (![38, 40, 13].includes(e.keyCode)) {
       return;
     }
-    console.log(e.keyCode);
     // move to next <a> on up or down
     const activeClass = 'search__result--active';
     const current = search.querySelector(`.${activeClass}`);

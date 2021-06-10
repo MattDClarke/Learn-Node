@@ -1,10 +1,19 @@
 @charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
 html {
   font-size: 10px; }
 
+body::-webkit-scrollbar {
+  width: auto; }
+
 body {
   background: #262161;
-  background: #efefef; }
+  background: #efefef;
+  scrollbar-color: #303030 #FFC40E; }
   body:before {
     content: '';
     display: block;
@@ -12,15 +21,19 @@ body {
     height: 10px;
     width: 100%; }
 
+body::-webkit-scrollbar-track {
+  background: #303030; }
+
+body::-webkit-scrollbar-thumb {
+  background-color: #FFC40E;
+  border-radius: 6px; }
+
 .inner {
   max-width: 900px;
-  margin: 0 auto; }
+  margin: 50px auto; }
   @media all and (max-width: 900px) {
     .inner {
       padding: 2rem; } }
-
-.content {
-  margin-bottom: 50px; }
 
 button:hover {
   cursor: pointer; }
@@ -457,6 +470,9 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -1px; }
 
+h2 {
+  padding-bottom: 1rem; }
+
 a {
   text-decoration: none;
   color: #303030; }
@@ -548,6 +564,9 @@ label {
   visibility: visible;
   color: #E50714; }
 
+#photo {
+  background-color: #FFC40E; }
+
 .search {
   position: relative;
   width: 100%;
@@ -566,7 +585,8 @@ label {
     background: none;
     color: white;
     outline: 0;
-    border: 0; }
+    border: 0;
+    margin-bottom: 0; }
   .search__result {
     padding: 10px;
     display: block;
@@ -716,7 +736,8 @@ label {
       .nav__section--user svg {
         display: none; }
   .nav__item {
-    width: 33.333333%; }
+    width: 33.333333%;
+    font-size: 1rem; }
   .nav__link {
     width: 100%; }
     .nav__link svg {
@@ -867,13 +888,15 @@ label {
     .tag__link--active {
       background: #827cd2; }
       .tag__link--active .tag__text {
-        color: white; }
+        color: #fafafa; }
+    .tag__link:focus .tag__text {
+      text-decoration: underline; }
   .tag__text {
     padding: 1rem 1rem;
     display: block; }
   .tag__count {
     padding: 1rem 1rem;
-    background: white;
+    background: #fafafa;
     border-left: 3px solid rgba(0, 0, 0, 0.1);
     margin-right: -1px;
     /* ugh */
@@ -945,20 +968,19 @@ label {
 .heart__button {
   background: none;
   border: 0;
-  outline: 0;
   position: relative; }
   .heart__button:after {
     content: '\2665\FE0F';
-    color: red;
+    color: #E50714;
     font-size: 25px;
     position: absolute;
     opacity: 0;
     top: 0; }
   .heart__button svg {
     width: 25px;
-    fill: white; }
+    fill: #fafafa; }
   .heart__button--hearted svg {
-    fill: red; }
+    fill: #E50714; }
   .heart__button--float:after {
     animation: fly 2.5s 1 ease-out; }
 
@@ -1138,13 +1160,11 @@ label {
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05); }
 
-#map {
+.map-container {
   height: 500px; }
 
-.popup {
-  width: 300px; }
-  .popup img {
-    width: 100%; }
+#map {
+  height: 100%; }
 
 .custom-map-control-button {
   font-size: 1.5rem;
@@ -1152,16 +1172,26 @@ label {
   .custom-map-control-button:hover {
     cursor: pointer; }
 
+.custom-map-control-button {
+  margin-top: 4rem;
+  background: #FFC40E;
+  color: #303030;
+  margin-top: 2rem; }
+
+@media all and (max-width: 650px) {
+  .custom-map-control-button {
+    margin-top: 6rem; } }
+
 .hide {
   text-indent: -999999px;
   font-size: 0; }
 
-.button, .delete-button {
+.custom-map-control-button, .button, .delete-button {
   border: 0;
   font-family: 'Panama';
   font-weight: 600;
   padding: 0.5rem 1rem; }
-  .button:hover, .delete-button:hover {
+  .custom-map-control-button:hover, .button:hover, .delete-button:hover {
     cursor: pointer; }
 
 .button {
@@ -1208,9 +1238,10 @@ pre.error {
       align-items: center;
   pointer-events: none;
   --opacity: 0;
-  opacity: var(--opacity); }
+  opacity: var(--opacity);
+  z-index: 2; }
 
-.popup fieldset {
+.popup fieldset, .popup div {
   background: #e6e6e6;
   padding: 2rem;
   border: 3px solid #FFC40E;
@@ -1219,13 +1250,14 @@ pre.error {
   transition: all 0.2s;
   --scale: 0.3;
   -ms-transform: scale(var(--scale));
-      transform: scale(var(--scale)); }
+      transform: scale(var(--scale));
+  width: 300px; }
 
 .popup.open {
   --opacity: 1;
   pointer-events: all; }
 
-.popup.open fieldset {
+.popup.open fieldset, .popup.open div {
   --scale: 1; }
 
 /*# sourceMappingURL=style.css.map*/

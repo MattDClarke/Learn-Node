@@ -10,58 +10,46 @@ async function destroyPopup(popup) {
   /* eslint-enable no-param-reassign */
 }
 
-function deletePrompt(e) {
-  const deleteButton = e.target;
+function storePrompt(data, store = true) {
+  // const deleteButton = e.target;
   return new Promise(async function(resolve) {
-    const popup = document.createElement('form');
+    const popup = document.createElement('div');
     popup.classList.add('popup');
-    popup.setAttribute('method', 'POST');
-    // check if store delete button or account delete button
-    let urlParam;
-    let item;
-    if ('userid' in deleteButton.dataset) {
-      urlParam = 'account/delete';
-      item = 'your account';
-    }
-    if ('storeid' in deleteButton.dataset) {
-      urlParam = `delete/${deleteButton.dataset.storeid}`;
-      item = deleteButton.dataset.storename;
-    }
 
-    popup.setAttribute('action', `/${urlParam}`);
     popup.insertAdjacentHTML(
       'afterbegin',
       `
-        <fieldset class="popup--inner">
-          <p>
-            Are you sure that you want to delete ${item}?
-          </p>
-          <button type="submit" class="button">Yes</button>
-        </fieldset>
+      <div class="popup--inner">
+      ${
+        store
+          ? `
+         <a href="/store/${data.place.slug}">
+              <img src="/uploads/${data.place.photo || 'store.png'}" alt="${
+              data.place.name
+            }" />
+              <p>${data.place.name} - ${data.place.location.address}</p>
+          </a>
         `
+          : `
+        ${data}
+        `
+      }
+         
+      </div>
+      `
     );
 
     const cancelButton = document.createElement('button');
-    // make sure it does not trigger submit
     cancelButton.type = 'button';
-    cancelButton.textContent = 'no';
+    cancelButton.textContent = 'Exit';
     cancelButton.type = 'button';
-    cancelButton.classList.add('button', 'cancelBtn');
+    cancelButton.classList.add('button');
     popup.firstElementChild.appendChild(cancelButton);
 
     cancelButton.addEventListener(
       'click',
       function() {
         resolve(null);
-        destroyPopup(popup);
-      },
-      { once: true }
-    );
-
-    popup.addEventListener(
-      'submit',
-      function() {
-        resolve();
         destroyPopup(popup);
       },
       { once: true }
@@ -94,4 +82,4 @@ function deletePrompt(e) {
   });
 }
 
-export default deletePrompt;
+export default storePrompt;

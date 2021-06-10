@@ -47,7 +47,6 @@ exports.validate = (req, res, next) => {
   if (errors.isEmpty()) {
     return next();
   }
-  // console.log(req.body);
   if (errors) {
     req.flash('error', errors.array().map(err => err.msg));
     res.render('editStore', {

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 41);
+/******/ 	return __webpack_require__(__webpack_require__.s = 50);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -75,7 +75,7 @@
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var bind = __webpack_require__(9);
+var bind = __webpack_require__(10);
 
 /*global toString:true*/
 
@@ -429,6 +429,46 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.setErrorFor = setErrorFor;
+exports.setSuccessFor = setSuccessFor;
+exports.isEmail = isEmail;
+exports.isStrongPassword = isStrongPassword;
+function setErrorFor(input, message) {
+  var formGroup = input.parentElement;
+  var small = formGroup.querySelector('small');
+
+  // add error message inside small
+  small.innerText = message;
+
+  // add error class
+  formGroup.className = 'form-group error';
+}
+
+function setSuccessFor(input) {
+  var formGroup = input.parentElement;
+  formGroup.className = 'form-group success';
+}
+
+function isEmail(email) {
+  return (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
+  );
+}
+
+function isStrongPassword(password) {
+  return (/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*()_+=\-\{\}\[\]'":;<>./\\|]).{8,}$/.test(password)
+  );
+}
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 // based on https://gist.github.com/paulirish/12fb951a8b893a454b32
 
 // short hand for document.querySelector and ...SelectorAll
@@ -452,29 +492,29 @@ exports.$ = $;
 exports.$$ = $$;
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(19);
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+module.exports = __webpack_require__(28);
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(26);
-var cookies = __webpack_require__(29);
-var buildURL = __webpack_require__(10);
-var buildFullPath = __webpack_require__(23);
-var parseHeaders = __webpack_require__(34);
-var isURLSameOrigin = __webpack_require__(32);
-var createError = __webpack_require__(6);
+var settle = __webpack_require__(35);
+var cookies = __webpack_require__(38);
+var buildURL = __webpack_require__(11);
+var buildFullPath = __webpack_require__(32);
+var parseHeaders = __webpack_require__(43);
+var isURLSameOrigin = __webpack_require__(41);
+var createError = __webpack_require__(7);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -643,7 +683,7 @@ module.exports = function xhrAdapter(config) {
 };
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -669,7 +709,7 @@ Cancel.prototype.__CANCEL__ = true;
 module.exports = Cancel;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -680,13 +720,13 @@ module.exports = function isCancel(value) {
 };
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(25);
+var enhanceError = __webpack_require__(34);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -704,7 +744,7 @@ module.exports = function createError(message, config, code, request, response) 
 };
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -785,14 +825,14 @@ module.exports = function mergeConfig(config1, config2) {
 };
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(33);
+var normalizeHeaderName = __webpack_require__(42);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -808,10 +848,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(3);
+    adapter = __webpack_require__(4);
   } else if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(3);
+    adapter = __webpack_require__(4);
   }
   return adapter;
 }
@@ -881,10 +921,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = defaults;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -901,7 +941,7 @@ module.exports = function bind(fn, thisArg) {
 };
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -971,7 +1011,26 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 };
 
 /***/ }),
-/* 11 */
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.wait = wait;
+function wait() {
+  var ms = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+  return new Promise(function (resolve) {
+    setTimeout(resolve, ms);
+  });
+}
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1690,10 +1749,68 @@ try {
   // problems, please detail your unique predicament in a GitHub issue.
   Function("r", "regeneratorRuntime = r")(runtime);
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)(module)))
 
 /***/ }),
-/* 12 */
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(1);
+
+function checkInputs(formAccount, name, email) {
+  var nameValue = name.value.trim();
+  var emailValue = email.value.trim();
+
+  if (nameValue === '') {
+    (0, _validatorUtil.setErrorFor)(name, 'Please add your name');
+  } else if (nameValue.length < 3) {
+    (0, _validatorUtil.setErrorFor)(name, 'Name must be at least 3 characters long');
+  } else if (nameValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(name, 'Name must be less than 51 characters long');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(name);
+  }
+
+  if (emailValue === '') {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
+  } else if (emailValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(email, 'Email must be less than 51 characters long');
+  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(email);
+  }
+
+  // submit form if no errors
+  if (!(nameValue === '') && !(nameValue.length < 3) && !(nameValue.length > 50) && !(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue)) {
+    formAccount.submit();
+  }
+}
+
+function accountValidator(formAccount) {
+  if (!formAccount) return;
+
+  var name = formAccount.name,
+      email = formAccount.email;
+
+
+  formAccount.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formAccount, name, email);
+  });
+}
+
+exports.default = accountValidator;
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1710,7 +1827,6 @@ function autocomplete(input, latInput, lngInput) {
   // google maps method - addListener
   dropdown.addListener('place_changed', function () {
     var place = dropdown.getPlace();
-    // console.log(place);
     latInput.value = place.geometry.location.lat();
     lngInput.value = place.geometry.location.lng();
   });
@@ -1725,7 +1841,7 @@ function autocomplete(input, latInput, lngInput) {
 exports.default = autocomplete;
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1735,7 +1851,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _bling = __webpack_require__(1);
+var _bling = __webpack_require__(2);
 
 var textAreaCharCount = (0, _bling.$)('.textAreaCharCount');
 
@@ -1756,7 +1872,7 @@ function countChars(textArea) {
 exports.default = countChars;
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1796,7 +1912,7 @@ var destroyPopup = function () {
   };
 }();
 
-var _util = __webpack_require__(40);
+var _util = __webpack_require__(12);
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
@@ -1835,7 +1951,7 @@ function deletePrompt(e) {
               cancelButton.type = 'button';
               cancelButton.textContent = 'no';
               cancelButton.type = 'button';
-              cancelButton.classList.add('button');
+              cancelButton.classList.add('button', 'cancelBtn');
               popup.firstElementChild.appendChild(cancelButton);
 
               cancelButton.addEventListener('click', function () {
@@ -1889,7 +2005,7 @@ function deletePrompt(e) {
 exports.default = deletePrompt;
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1899,27 +2015,69 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _axios = __webpack_require__(2);
+var _validatorUtil = __webpack_require__(1);
+
+function checkInputs(formForgot, email) {
+  var emailValue = email.value.trim();
+
+  if (emailValue === '') {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
+  } else if (emailValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(email, 'Email is less than 51 characters long');
+  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(email);
+  }
+
+  // submit form if no errors
+  if (!(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue)) {
+    formForgot.submit();
+  }
+}
+
+function forgotValidator(formForgot) {
+  if (!formForgot) return;
+
+  var email = formForgot.email;
+
+
+  formForgot.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formForgot, email);
+  });
+}
+
+exports.default = forgotValidator;
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _axios = __webpack_require__(3);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _bling = __webpack_require__(1);
+var _bling = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ajaxHeart(e) {
   var _this = this;
 
-  console.log('click');
   e.preventDefault();
-  //   console.log('hearted');
   _axios2.default
   // this = the form (_storeCard.pug)
   .post(this.action).then(function (res) {
-    // console.log(res.data);
     // this = form tag. In form, button has name of 'heart'. Can be accessed with . notation like a property on an object - the heart button
     var isHearted = _this.heart.classList.toggle('heart__button--hearted');
-    //   console.log(isHearted);
     // heart count in nav
     (0, _bling.$)('.heart-count').textContent = res.data.hearts.length;
     if (isHearted) {
@@ -1935,7 +2093,65 @@ function ajaxHeart(e) {
 exports.default = ajaxHeart;
 
 /***/ }),
-/* 16 */
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(1);
+
+function checkInputs(formLogin, email, password) {
+  var emailValue = email.value.trim();
+  var passwordValue = password.value.trim();
+
+  if (emailValue === '') {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
+  } else if (emailValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(email, 'Email is less than 51 characters long');
+  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(email);
+  }
+
+  if (passwordValue === '') {
+    (0, _validatorUtil.setErrorFor)(password, 'Please add your password');
+  } else if (passwordValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password is less than 51 characters long');
+  } else if (!(0, _validatorUtil.isStrongPassword)(passwordValue)) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password is at least 8 characters long and contain at least 1 lowercase word, 1 uppercase word, 1 number and 1 symbol.');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(password);
+  }
+
+  // submit form if no errors
+  if (!(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue) && !(passwordValue.length > 50) && (0, _validatorUtil.isStrongPassword)(passwordValue)) {
+    formLogin.submit();
+  }
+}
+
+function loginValidator(formLogin) {
+  if (!formLogin) return;
+
+  var email = formLogin.email,
+      password = formLogin.password;
+
+
+  formLogin.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formLogin, email, password);
+  });
+}
+
+exports.default = loginValidator;
+
+/***/ }),
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1947,30 +2163,31 @@ Object.defineProperty(exports, "__esModule", {
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _axios = __webpack_require__(2);
+var _axios = __webpack_require__(3);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _bling = __webpack_require__(1);
+var _storePrompt = __webpack_require__(49);
+
+var _storePrompt2 = _interopRequireDefault(_storePrompt);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapOptions = {
-  center: { lat: -33.982841506404405, lng: 25.656983134179786 },
+  center: { lat: 40.71593544140297, lng: -74.00001584342776 },
   zoom: 13
 };
 
 function loadPlaces(map) {
   var currentLoc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  var lat = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -33.982841506404405;
-  var lng = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 25.656983134179786;
+  var lat = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 40.71593544140297;
+  var lng = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : -74.00001584342776;
 
   _axios2.default.get('/api/stores/near?lat=' + lat + '&lng=' + lng).then(function (res) {
     var places = res.data;
-    // console.log(places);
     // create a bounds - for each marker - extend bounds to fit all on map nicely
     var bounds = new google.maps.LatLngBounds();
-    var infoWindow = new google.maps.InfoWindow();
+    var iconBase = 'http://maps.google.com/mapfiles/kml/paddle/';
 
     // create a map marker for each place
     var markers = places.map(function (place) {
@@ -1978,14 +2195,13 @@ function loadPlaces(map) {
       var _place$location$coord = _slicedToArray(place.location.coordinates, 2),
           placeLng = _place$location$coord[0],
           placeLat = _place$location$coord[1];
-      //   console.log(placeLng, placeLat);
-
 
       var position = { lat: placeLat, lng: placeLng };
       bounds.extend(position);
       var marker = new google.maps.Marker({
         map: map,
-        position: position
+        position: position,
+        optimized: false
       });
       // store place info on the marker
       marker.place = place;
@@ -1995,14 +2211,9 @@ function loadPlaces(map) {
     // when someone clicks on a marker show dets of that place
     // addListener - Google Maps equiv of addEventListener
     markers.forEach(function (marker) {
-      return marker.addListener('click', function () {
-        console.log(this.place);
-        // TODO - nested divs and <a> not displaying
-        var html = '\n        <div class="popup">\n            <a href="/store/' + this.place.slug + '">\n                <img src="/uploads/' + (this.place.photo || 'store.png') + '" alt="' + this.place.name + '" />\n                <p>' + this.place.name + ' - ' + this.place.location.address + '</p>\n            </a>\n        </div>\n        ';
-        var html2 = '\n            <img src="/uploads/' + (this.place.photo || 'store.png') + '" alt="' + this.place.name + '" />\n            <p>' + this.place.name + ' - ' + this.place.location.address + '</p>     \n          ';
-        infoWindow.setContent(html);
+      marker.addListener('click', function () {
         // this is the marker for a store
-        infoWindow.open(map, this);
+        (0, _storePrompt2.default)(marker);
       });
     });
 
@@ -2014,21 +2225,32 @@ function loadPlaces(map) {
       bounds.extend(pos);
       var marker = new google.maps.Marker({
         pos: pos,
-        map: map
+        map: map,
+        optimized: false
       });
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('' + (markers.length ? '<p>You are here.</p>' : '<p>You are here.</p><p>There are no stores nearby.</p>'));
-      infoWindow.open(map, marker);
+      marker.setIcon(iconBase + 'ylw-circle.png');
+      marker.setPosition(pos);
+      (0, _storePrompt2.default)('<p>You are here.</p>', false);
+      marker.addListener('click', function () {
+        // this is the marker for a store
+        (0, _storePrompt2.default)('<p>You are here.</p>', false);
+      });
     }
-
-    // console.log(markers);
-
     // no stores found nearby, not current location
-    if (!places.length && currentLoc === false) {
+    if (!markers.length && currentLoc === false) {
       map.setCenter(pos);
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('<p>No stores found.</p>');
-      infoWindow.open(map);
+      var _marker = new google.maps.Marker({
+        pos: pos,
+        map: map,
+        optimized: false
+      });
+      _marker.setIcon(iconBase + 'wht-blank.png');
+      _marker.setPosition(pos);
+      (0, _storePrompt2.default)('<p>No stores found.</p>', false);
+      _marker.addListener('click', function () {
+        // this is the marker for a store
+        (0, _storePrompt2.default)('<p>No stores found.</p>', false);
+      });
       return;
     }
 
@@ -2045,10 +2267,13 @@ function loadPlaces(map) {
   }).catch(console.error);
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos, map) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ? '<p>Error: The Geolocation service failed.</p>' : "<p>Error: Your browser doesn't support geolocation.</p>");
-  infoWindow.open(map);
+function handleLocationError(browserHasGeolocation) {
+  if (browserHasGeolocation) {
+    (0, _storePrompt2.default)('<p>Error: The Geolocation service failed.</p>', false);
+  }
+  if (!browserHasGeolocation) {
+    (0, _storePrompt2.default)("<p>Error: Your browser doesn't support geolocation.</p>", false);
+  }
 }
 
 function makeMap(mapDiv) {
@@ -2058,17 +2283,16 @@ function makeMap(mapDiv) {
   // make our map
   var map = new google.maps.Map(mapDiv, mapOptions);
   loadPlaces(map);
-  var input = (0, _bling.$)('[name="geolocate"]');
+  var input = document.querySelector('[name="geolocate"]');
   var autocomplete = new google.maps.places.Autocomplete(input);
   autocomplete.addListener('place_changed', function () {
     var place = autocomplete.getPlace();
     loadPlaces(map, false, place.geometry.location.lat(), place.geometry.location.lng());
   });
   // to get current location
-  var infoWindow = new google.maps.InfoWindow();
   var locationButton = document.createElement('button');
   locationButton.textContent = 'Get my Location';
-  locationButton.classList.add('button', 'custom-map-control-button');
+  locationButton.classList.add('custom-map-control-button');
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
   locationButton.addEventListener('click', function () {
     // HTML5 geolocation
@@ -2080,11 +2304,11 @@ function makeMap(mapDiv) {
         };
         loadPlaces(map, true, pos.lat, pos.lng);
       }, function () {
-        handleLocationError(true, infoWindow, map.getCenter(), map);
+        handleLocationError(true);
       });
     } else {
       // Browser does not support geolocation
-      handleLocationError(false, infoWindow, map.getCenter(), map);
+      handleLocationError(false);
     }
   });
 }
@@ -2092,7 +2316,7 @@ function makeMap(mapDiv) {
 exports.default = makeMap;
 
 /***/ }),
-/* 17 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2102,15 +2326,275 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _axios = __webpack_require__(2);
+var _validatorUtil = __webpack_require__(1);
+
+function checkInputs(formRegister, name, email, password, passwordConfirm) {
+  var nameValue = name.value.trim();
+  var emailValue = email.value.trim();
+  var passwordValue = password.value.trim();
+  var passwordConfirmValue = passwordConfirm.value.trim();
+
+  if (nameValue === '') {
+    (0, _validatorUtil.setErrorFor)(name, 'Please add your name');
+  } else if (nameValue.length < 3) {
+    (0, _validatorUtil.setErrorFor)(name, 'Name must be at least 3 characters long');
+  } else if (nameValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(name, 'Name must be less than 51 characters long');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(name);
+  }
+
+  if (emailValue === '') {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
+  } else if (emailValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(email, 'Email must be less than 51 characters long');
+  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
+    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(email);
+  }
+
+  if (passwordValue === '') {
+    (0, _validatorUtil.setErrorFor)(password, 'Please add a password');
+  } else if (passwordValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password must be less than 51 characters long');
+  } else if (!(0, _validatorUtil.isStrongPassword)(passwordValue)) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password should be at least 8 characters long and contain at least 1 lowercase word, 1 uppercase word, 1 number and 1 symbol.');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(password);
+  }
+
+  if (passwordConfirmValue === '') {
+    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Please confirm your password');
+  } else if (passwordValue !== passwordConfirmValue) {
+    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Passwords do not match.');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(passwordConfirm);
+  }
+
+  // submit form if no errors
+  if (!(nameValue === '') && !(nameValue.length < 3) && !(nameValue.length > 50) && !(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue) && !(passwordValue.length > 50) && (0, _validatorUtil.isStrongPassword)(passwordValue) && !(passwordConfirmValue === '') && passwordValue === passwordConfirmValue) {
+    formRegister.submit();
+  }
+}
+
+function registerValidator(formRegister) {
+  if (!formRegister) return;
+
+  var name = formRegister.name,
+      email = formRegister.email,
+      password = formRegister.password,
+      passwordConfirm = formRegister.passwordConfirm;
+
+
+  formRegister.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formRegister, name, email, password, passwordConfirm);
+  });
+}
+
+exports.default = registerValidator;
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(1);
+
+function checkInputs(formReset, password, passwordConfirm) {
+  var passwordValue = password.value.trim();
+  var passwordConfirmValue = passwordConfirm.value.trim();
+
+  if (passwordValue === '') {
+    (0, _validatorUtil.setErrorFor)(password, 'Please add a password');
+  } else if (passwordValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password must be less than 50 characters long');
+  } else if (!(0, _validatorUtil.isStrongPassword)(passwordValue)) {
+    (0, _validatorUtil.setErrorFor)(password, 'Password should be at least 8 characters long and contain at least 1 lowercase word, 1 uppercase word, 1 number and 1 symbol.');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(password);
+  }
+
+  if (passwordConfirmValue === '') {
+    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Please confirm your password');
+  } else if (passwordValue !== passwordConfirmValue) {
+    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Passwords do not match.');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(passwordConfirm);
+  }
+
+  // submit form if no errors
+  if (!(passwordValue.length > 50) && (0, _validatorUtil.isStrongPassword)(passwordValue) && !(passwordConfirmValue === '') && passwordValue === passwordConfirmValue) {
+    formReset.submit();
+  }
+}
+
+function resetValidator(formReset) {
+  if (!formReset) return;
+
+  var password = formReset.password,
+      passwordConfirm = formReset.passwordConfirm;
+
+
+  formReset.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formReset, password, passwordConfirm);
+  });
+}
+
+exports.default = resetValidator;
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(1);
+
+function checkInputs(formReview, text) {
+  var textValue = text.value.trim();
+
+  if (textValue === '') {
+    (0, _validatorUtil.setErrorFor)(text, 'Please add a review');
+  } else if (textValue.length < 3) {
+    (0, _validatorUtil.setErrorFor)(text, 'Review must be at least 3 characters long');
+  } else if (textValue.length > 1000) {
+    (0, _validatorUtil.setErrorFor)(text, 'Review max: 1000 characters');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(text);
+  }
+
+  // submit form if no errors
+  if (!(textValue === '') && !(textValue.length < 3) && !(textValue.length > 1000)) {
+    formReview.submit();
+  }
+}
+
+function reviewValidator(formReview) {
+  if (!formReview) return;
+
+  var text = formReview.text;
+
+
+  formReview.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formReview, text);
+  });
+}
+
+exports.default = reviewValidator;
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _validatorUtil = __webpack_require__(1);
+
+function checkInputs(formStore, name, description, lng, lat) {
+  var nameValue = name.value.trim();
+  var descriptionValue = description.value.trim();
+  var lngValue = lng.value.trim();
+  var latValue = lat.value.trim();
+
+  if (nameValue === '') {
+    (0, _validatorUtil.setErrorFor)(name, 'Please add a store name');
+  } else if (nameValue.length < 3) {
+    (0, _validatorUtil.setErrorFor)(name, 'Store name must be at least 3 characters long');
+  } else if (nameValue.length > 50) {
+    (0, _validatorUtil.setErrorFor)(name, 'Store name must be less than 50 characters long');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(name);
+  }
+
+  if (descriptionValue === '') {
+    (0, _validatorUtil.setErrorFor)(description, 'Please add a description');
+  } else if (descriptionValue.length < 3) {
+    (0, _validatorUtil.setErrorFor)(description, 'Description must be at least 3 characters long');
+  } else if (descriptionValue.length > 1000) {
+    (0, _validatorUtil.setErrorFor)(description, 'Description max: 1000 characters');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(description);
+  }
+
+  if (lngValue === '') {
+    (0, _validatorUtil.setErrorFor)(lng, 'Please add longitude.');
+  } else if (lngValue < -180 || lngValue > 180) {
+    (0, _validatorUtil.setErrorFor)(lng, 'Invalid logitude');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(lng);
+  }
+
+  if (latValue === '') {
+    (0, _validatorUtil.setErrorFor)(lat, 'Please add latitude.');
+  } else if (latValue < -90 || latValue > 90) {
+    (0, _validatorUtil.setErrorFor)(lat, 'Invalid latitude');
+  } else {
+    (0, _validatorUtil.setSuccessFor)(lat);
+  }
+
+  // submit form if no errors
+  if (!(nameValue === '') && !(nameValue.length < 3) && !(nameValue.length > 50) && !(descriptionValue === '') && !(descriptionValue.length < 3) && !(descriptionValue.length > 1000) && !(lngValue === '') && !(lngValue < -180 || lngValue > 180) && !(latValue === '') && !(latValue < -90 || latValue > 90)) {
+    formStore.submit();
+  }
+}
+
+function storeValidator(formStore) {
+  if (!formStore) return;
+
+  var name = formStore.name,
+      description = formStore.description;
+
+  var lng = formStore.querySelector('#lng');
+  var lat = formStore.querySelector('#lat');
+
+  formStore.on('submit', function (e) {
+    e.preventDefault();
+    checkInputs(formStore, name, description, lng, lat);
+  });
+}
+
+exports.default = storeValidator;
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _axios = __webpack_require__(3);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _dompurify = __webpack_require__(36);
+var _dompurify = __webpack_require__(45);
 
 var _dompurify2 = _interopRequireDefault(_dompurify);
 
-var _debounce = __webpack_require__(39);
+var _debounce = __webpack_require__(48);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -2129,24 +2613,20 @@ function typeAhead(search) {
 
   // on is short for add event listener - from Bling.js
   searchInput.on('input', (0, _debounce2.default)(function () {
-    // console.log('search input');
     // if there is no value, quit
     if (!searchInput.value) {
       searchResults.style.display = 'none';
       return;
     }
-    // console.log(this.value);
     // show search results
     searchResults.style.display = 'block';
 
     _axios2.default.get('/api/search?q=' + searchInput.value).then(function (res) {
-      // console.log(res.data);
       if (res.data.length) {
         searchResults.innerHTML = _dompurify2.default.sanitize(searchResultsHTML(res.data));
         return;
       }
       // tell user - no search results
-      // console.log(res.data.length);
       searchResults.innerHTML = _dompurify2.default.sanitize('<div class="search__result">No results for ' + _dompurify2.default.sanitize(searchInput.value, { ALLOWED_TAGS: [] }) + '\n             found!</div>');
     }).catch(function (err) {
       console.error(err);
@@ -2159,7 +2639,6 @@ function typeAhead(search) {
     if (![38, 40, 13].includes(e.keyCode)) {
       return;
     }
-    console.log(e.keyCode);
     // move to next <a> on up or down
     var activeClass = 'search__result--active';
     var current = search.querySelector('.' + activeClass);
@@ -2189,23 +2668,23 @@ function typeAhead(search) {
 exports.default = typeAhead;
 
 /***/ }),
-/* 18 */
+/* 27 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 19 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(9);
-var Axios = __webpack_require__(21);
-var mergeConfig = __webpack_require__(7);
-var defaults = __webpack_require__(8);
+var bind = __webpack_require__(10);
+var Axios = __webpack_require__(30);
+var mergeConfig = __webpack_require__(8);
+var defaults = __webpack_require__(9);
 
 /**
  * Create an instance of Axios
@@ -2238,18 +2717,18 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(4);
-axios.CancelToken = __webpack_require__(20);
-axios.isCancel = __webpack_require__(5);
+axios.Cancel = __webpack_require__(5);
+axios.CancelToken = __webpack_require__(29);
+axios.isCancel = __webpack_require__(6);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(35);
+axios.spread = __webpack_require__(44);
 
 // Expose isAxiosError
-axios.isAxiosError = __webpack_require__(31);
+axios.isAxiosError = __webpack_require__(40);
 
 module.exports = axios;
 
@@ -2257,13 +2736,13 @@ module.exports = axios;
 module.exports.default = axios;
 
 /***/ }),
-/* 20 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(4);
+var Cancel = __webpack_require__(5);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -2320,17 +2799,17 @@ CancelToken.source = function source() {
 module.exports = CancelToken;
 
 /***/ }),
-/* 21 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var buildURL = __webpack_require__(10);
-var InterceptorManager = __webpack_require__(22);
-var dispatchRequest = __webpack_require__(24);
-var mergeConfig = __webpack_require__(7);
+var buildURL = __webpack_require__(11);
+var InterceptorManager = __webpack_require__(31);
+var dispatchRequest = __webpack_require__(33);
+var mergeConfig = __webpack_require__(8);
 
 /**
  * Create a new instance of Axios
@@ -2421,7 +2900,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = Axios;
 
 /***/ }),
-/* 22 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2479,14 +2958,14 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 module.exports = InterceptorManager;
 
 /***/ }),
-/* 23 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isAbsoluteURL = __webpack_require__(30);
-var combineURLs = __webpack_require__(28);
+var isAbsoluteURL = __webpack_require__(39);
+var combineURLs = __webpack_require__(37);
 
 /**
  * Creates a new URL by combining the baseURL with the requestedURL,
@@ -2505,16 +2984,16 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
 };
 
 /***/ }),
-/* 24 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(27);
-var isCancel = __webpack_require__(5);
-var defaults = __webpack_require__(8);
+var transformData = __webpack_require__(36);
+var isCancel = __webpack_require__(6);
+var defaults = __webpack_require__(9);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -2571,7 +3050,7 @@ module.exports = function dispatchRequest(config) {
 };
 
 /***/ }),
-/* 25 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2620,13 +3099,13 @@ module.exports = function enhanceError(error, config, code, request, response) {
 };
 
 /***/ }),
-/* 26 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(6);
+var createError = __webpack_require__(7);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -2645,7 +3124,7 @@ module.exports = function settle(resolve, reject, response) {
 };
 
 /***/ }),
-/* 27 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2671,7 +3150,7 @@ module.exports = function transformData(data, headers, fns) {
 };
 
 /***/ }),
-/* 28 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2690,7 +3169,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 };
 
 /***/ }),
-/* 29 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2749,7 +3228,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 30 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2771,7 +3250,7 @@ module.exports = function isAbsoluteURL(url) {
 };
 
 /***/ }),
-/* 31 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2791,7 +3270,7 @@ module.exports = function isAxiosError(payload) {
 };
 
 /***/ }),
-/* 32 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2860,7 +3339,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 33 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2878,7 +3357,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 };
 
 /***/ }),
-/* 34 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2934,7 +3413,7 @@ module.exports = function parseHeaders(headers) {
 };
 
 /***/ }),
-/* 35 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2968,7 +3447,7 @@ module.exports = function spread(callback) {
 };
 
 /***/ }),
-/* 36 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4349,7 +4828,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
 //# sourceMappingURL=purify.js.map
 
 /***/ }),
-/* 37 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4542,7 +5021,7 @@ process.umask = function () {
 };
 
 /***/ }),
-/* 38 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4572,7 +5051,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 39 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4612,7 +5091,7 @@ var debounce = function debounce(callback) {
 exports.default = debounce;
 
 /***/ }),
-/* 40 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4621,79 +5100,179 @@ exports.default = debounce;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.wait = wait;
-function wait() {
-  var ms = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
-  return new Promise(function (resolve) {
-    setTimeout(resolve, ms);
-  });
+var destroyPopup = function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(popup) {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            popup.classList.remove('open');
+            // wait for css animation
+            _context.next = 3;
+            return (0, _util.wait)(1000);
+
+          case 3:
+            popup.remove();
+            /* eslint-disable no-param-reassign */
+            popup = null;
+            /* eslint-enable no-param-reassign */
+
+          case 5:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, this);
+  }));
+
+  return function destroyPopup(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+var _util = __webpack_require__(12);
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function storePrompt(data) {
+  var store = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+  // const deleteButton = e.target;
+  return new Promise(function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(resolve) {
+      var popup, cancelButton;
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              popup = document.createElement('div');
+
+              popup.classList.add('popup');
+
+              popup.insertAdjacentHTML('afterbegin', '\n      <div class="popup--inner">\n      ' + (store ? '\n         <a href="/store/' + data.place.slug + '">\n              <img src="/uploads/' + (data.place.photo || 'store.png') + '" alt="' + data.place.name + '" />\n              <p>' + data.place.name + ' - ' + data.place.location.address + '</p>\n          </a>\n        ' : '\n        ' + data + '\n        ') + '\n         \n      </div>\n      ');
+
+              cancelButton = document.createElement('button');
+
+              cancelButton.type = 'button';
+              cancelButton.textContent = 'Exit';
+              cancelButton.type = 'button';
+              cancelButton.classList.add('button');
+              popup.firstElementChild.appendChild(cancelButton);
+
+              cancelButton.addEventListener('click', function () {
+                resolve(null);
+                destroyPopup(popup);
+              }, { once: true });
+
+              popup.addEventListener('click', function (event) {
+                var isOutside = !event.target.closest('.popup--inner');
+                if (isOutside) {
+                  resolve(null);
+                  destroyPopup(popup);
+                }
+              });
+
+              window.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                  resolve(null);
+                  destroyPopup(popup);
+                }
+              }, { once: true });
+
+              // insert popup into DOM
+              document.body.appendChild(popup);
+              // wait for CSS animation
+              _context2.next = 15;
+              return (0, _util.wait)(50);
+
+            case 15:
+              popup.classList.add('open');
+
+            case 16:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    }));
+
+    return function (_x3) {
+      return _ref2.apply(this, arguments);
+    };
+  }());
 }
 
+exports.default = storePrompt;
+
 /***/ }),
-/* 41 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(11);
+__webpack_require__(13);
 
-__webpack_require__(18);
+__webpack_require__(27);
 
-var _bling = __webpack_require__(1);
+var _bling = __webpack_require__(2);
 
-var _autocomplete = __webpack_require__(12);
+var _autocomplete = __webpack_require__(15);
 
 var _autocomplete2 = _interopRequireDefault(_autocomplete);
 
-var _typeAhead = __webpack_require__(17);
+var _typeAhead = __webpack_require__(26);
 
 var _typeAhead2 = _interopRequireDefault(_typeAhead);
 
-var _map = __webpack_require__(16);
+var _map = __webpack_require__(21);
 
 var _map2 = _interopRequireDefault(_map);
 
-var _heart = __webpack_require__(15);
+var _heart = __webpack_require__(19);
 
 var _heart2 = _interopRequireDefault(_heart);
 
-var _deletePrompt = __webpack_require__(14);
+var _deletePrompt = __webpack_require__(17);
 
 var _deletePrompt2 = _interopRequireDefault(_deletePrompt);
 
-var _countChars = __webpack_require__(13);
+var _countChars = __webpack_require__(16);
 
 var _countChars2 = _interopRequireDefault(_countChars);
 
-var _registerValidator = __webpack_require__(43);
+var _registerValidator = __webpack_require__(22);
 
 var _registerValidator2 = _interopRequireDefault(_registerValidator);
 
-var _accountValidator = __webpack_require__(45);
+var _accountValidator = __webpack_require__(14);
 
 var _accountValidator2 = _interopRequireDefault(_accountValidator);
 
-var _loginValidator = __webpack_require__(46);
+var _loginValidator = __webpack_require__(20);
 
 var _loginValidator2 = _interopRequireDefault(_loginValidator);
 
-var _forgotValidator = __webpack_require__(47);
+var _forgotValidator = __webpack_require__(18);
 
 var _forgotValidator2 = _interopRequireDefault(_forgotValidator);
 
-var _resetValidator = __webpack_require__(48);
+var _resetValidator = __webpack_require__(23);
 
 var _resetValidator2 = _interopRequireDefault(_resetValidator);
 
-var _storeValidator = __webpack_require__(49);
+var _storeValidator = __webpack_require__(25);
 
 var _storeValidator2 = _interopRequireDefault(_storeValidator);
 
-var _reviewValidator = __webpack_require__(50);
+var _reviewValidator = __webpack_require__(24);
 
 var _reviewValidator2 = _interopRequireDefault(_reviewValidator);
+
+var _deleteFlash = __webpack_require__(52);
+
+var _deleteFlash2 = _interopRequireDefault(_deleteFlash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4723,9 +5302,11 @@ if (deleteBtn) {
 (0, _storeValidator2.default)((0, _bling.$)('form.formStore'));
 (0, _reviewValidator2.default)((0, _bling.$)('form.formReview'));
 
+(0, _deleteFlash2.default)((0, _bling.$)('.flash-messages'));
+
 /***/ }),
-/* 42 */,
-/* 43 */
+/* 51 */,
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4734,460 +5315,17 @@ if (deleteBtn) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _validatorUtil = __webpack_require__(44);
-
-function checkInputs(formRegister, name, email, password, passwordConfirm) {
-  var nameValue = name.value.trim();
-  var emailValue = email.value.trim();
-  var passwordValue = password.value.trim();
-  var passwordConfirmValue = passwordConfirm.value.trim();
-
-  if (nameValue === '') {
-    (0, _validatorUtil.setErrorFor)(name, 'Please add your name');
-  } else if (nameValue.length < 3) {
-    (0, _validatorUtil.setErrorFor)(name, 'Name must be at least 3 characters long');
-  } else if (nameValue.length > 50) {
-    (0, _validatorUtil.setErrorFor)(name, 'Name must be less than 51 characters long');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(name);
-  }
-
-  if (emailValue === '') {
-    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
-  } else if (emailValue.length > 50) {
-    (0, _validatorUtil.setErrorFor)(email, 'Email must be less than 51 characters long');
-  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
-    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(email);
-  }
-
-  if (passwordValue === '') {
-    (0, _validatorUtil.setErrorFor)(password, 'Please add a password');
-  } else if (passwordValue.length > 50) {
-    (0, _validatorUtil.setErrorFor)(password, 'Password must be less than 51 characters long');
-  } else if (!(0, _validatorUtil.isStrongPassword)(passwordValue)) {
-    (0, _validatorUtil.setErrorFor)(password, 'Password should be at least 8 characters long and contain at least 1 lowercase word, 1 uppercase word, 1 number and 1 symbol.');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(password);
-  }
-
-  if (passwordConfirmValue === '') {
-    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Please confirm your password');
-  } else if (passwordValue !== passwordConfirmValue) {
-    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Passwords do not match.');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(passwordConfirm);
-  }
-
-  // submit form if no errors
-  if (!(nameValue === '') && !(nameValue.length < 3) && !(nameValue.length > 50) && !(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue) && !(passwordValue.length > 50) && (0, _validatorUtil.isStrongPassword)(passwordValue) && !(passwordConfirmValue === '') && passwordValue === passwordConfirmValue) {
-    formRegister.submit();
-  }
-}
-
-function registerValidator(formRegister) {
-  if (!formRegister) return;
-
-  var name = formRegister.name,
-      email = formRegister.email,
-      password = formRegister.password,
-      passwordConfirm = formRegister.passwordConfirm;
-
-
-  formRegister.on('submit', function (e) {
-    e.preventDefault();
-    checkInputs(formRegister, name, email, password, passwordConfirm);
+function deleteFlash(flashDiv) {
+  // will only run on map page
+  if (flashDiv.innerText === '') return;
+  var closeBtn = flashDiv.querySelector('button');
+  closeBtn.removeAttribute('onclick');
+  closeBtn.addEventListener('click', function (e) {
+    this.parentElement.remove();
   });
 }
 
-exports.default = registerValidator;
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.setErrorFor = setErrorFor;
-exports.setSuccessFor = setSuccessFor;
-exports.isEmail = isEmail;
-exports.isStrongPassword = isStrongPassword;
-function setErrorFor(input, message) {
-  var formGroup = input.parentElement;
-  var small = formGroup.querySelector('small');
-
-  // add error message inside small
-  small.innerText = message;
-
-  // add error class
-  formGroup.className = 'form-group error';
-}
-
-function setSuccessFor(input) {
-  var formGroup = input.parentElement;
-  formGroup.className = 'form-group success';
-}
-
-function isEmail(email) {
-  return (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
-  );
-}
-
-function isStrongPassword(password) {
-  return (/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*()_+=\-\{\}\[\]'":;<>./\\|]).{8,}$/.test(password)
-  );
-}
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _validatorUtil = __webpack_require__(44);
-
-function checkInputs(formAccount, name, email) {
-  var nameValue = name.value.trim();
-  var emailValue = email.value.trim();
-
-  if (nameValue === '') {
-    (0, _validatorUtil.setErrorFor)(name, 'Please add your name');
-  } else if (nameValue.length < 3) {
-    (0, _validatorUtil.setErrorFor)(name, 'Name must be at least 3 characters long');
-  } else if (nameValue.length > 50) {
-    (0, _validatorUtil.setErrorFor)(name, 'Name must be less than 51 characters long');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(name);
-  }
-
-  if (emailValue === '') {
-    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
-  } else if (emailValue.length > 50) {
-    (0, _validatorUtil.setErrorFor)(email, 'Email must be less than 51 characters long');
-  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
-    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(email);
-  }
-
-  // submit form if no errors
-  if (!(nameValue === '') && !(nameValue.length < 3) && !(nameValue.length > 50) && !(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue)) {
-    formAccount.submit();
-  }
-}
-
-function accountValidator(formAccount) {
-  if (!formAccount) return;
-
-  var name = formAccount.name,
-      email = formAccount.email;
-
-
-  formAccount.on('submit', function (e) {
-    e.preventDefault();
-    checkInputs(formAccount, name, email);
-  });
-}
-
-exports.default = accountValidator;
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _validatorUtil = __webpack_require__(44);
-
-function checkInputs(formLogin, email, password) {
-  var emailValue = email.value.trim();
-  var passwordValue = password.value.trim();
-
-  if (emailValue === '') {
-    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
-  } else if (emailValue.length > 50) {
-    (0, _validatorUtil.setErrorFor)(email, 'Email is less than 51 characters long');
-  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
-    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(email);
-  }
-
-  if (passwordValue === '') {
-    (0, _validatorUtil.setErrorFor)(password, 'Please add your password');
-  } else if (passwordValue.length > 50) {
-    (0, _validatorUtil.setErrorFor)(password, 'Password is less than 51 characters long');
-  } else if (!(0, _validatorUtil.isStrongPassword)(passwordValue)) {
-    (0, _validatorUtil.setErrorFor)(password, 'Password is at least 8 characters long and contain at least 1 lowercase word, 1 uppercase word, 1 number and 1 symbol.');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(password);
-  }
-
-  // submit form if no errors
-  if (!(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue) && !(passwordValue.length > 50) && (0, _validatorUtil.isStrongPassword)(passwordValue)) {
-    formLogin.submit();
-  }
-}
-
-function loginValidator(formLogin) {
-  if (!formLogin) return;
-
-  var email = formLogin.email,
-      password = formLogin.password;
-
-
-  formLogin.on('submit', function (e) {
-    e.preventDefault();
-    checkInputs(formLogin, email, password);
-  });
-}
-
-exports.default = loginValidator;
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _validatorUtil = __webpack_require__(44);
-
-function checkInputs(formForgot, email) {
-  var emailValue = email.value.trim();
-
-  if (emailValue === '') {
-    (0, _validatorUtil.setErrorFor)(email, 'Please add your email');
-  } else if (emailValue.length > 50) {
-    (0, _validatorUtil.setErrorFor)(email, 'Email is less than 51 characters long');
-  } else if (!(0, _validatorUtil.isEmail)(emailValue)) {
-    (0, _validatorUtil.setErrorFor)(email, 'Please add a valid email address');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(email);
-  }
-
-  // submit form if no errors
-  if (!(emailValue === '') && !(emailValue.length > 50) && (0, _validatorUtil.isEmail)(emailValue)) {
-    formForgot.submit();
-  }
-}
-
-function forgotValidator(formForgot) {
-  if (!formForgot) return;
-
-  var email = formForgot.email;
-
-
-  formForgot.on('submit', function (e) {
-    e.preventDefault();
-    checkInputs(formForgot, email);
-  });
-}
-
-exports.default = forgotValidator;
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _validatorUtil = __webpack_require__(44);
-
-function checkInputs(formReset, password, passwordConfirm) {
-  var passwordValue = password.value.trim();
-  var passwordConfirmValue = passwordConfirm.value.trim();
-
-  if (passwordValue === '') {
-    (0, _validatorUtil.setErrorFor)(password, 'Please add a password');
-  } else if (passwordValue.length > 50) {
-    (0, _validatorUtil.setErrorFor)(password, 'Password must be less than 50 characters long');
-  } else if (!(0, _validatorUtil.isStrongPassword)(passwordValue)) {
-    (0, _validatorUtil.setErrorFor)(password, 'Password should be at least 8 characters long and contain at least 1 lowercase word, 1 uppercase word, 1 number and 1 symbol.');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(password);
-  }
-
-  if (passwordConfirmValue === '') {
-    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Please confirm your password');
-  } else if (passwordValue !== passwordConfirmValue) {
-    (0, _validatorUtil.setErrorFor)(passwordConfirm, 'Passwords do not match.');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(passwordConfirm);
-  }
-
-  // submit form if no errors
-  if (!(passwordValue.length > 50) && (0, _validatorUtil.isStrongPassword)(passwordValue) && !(passwordConfirmValue === '') && passwordValue === passwordConfirmValue) {
-    formReset.submit();
-  }
-}
-
-function resetValidator(formReset) {
-  if (!formReset) return;
-
-  var password = formReset.password,
-      passwordConfirm = formReset.passwordConfirm;
-
-
-  formReset.on('submit', function (e) {
-    e.preventDefault();
-    checkInputs(formReset, password, passwordConfirm);
-  });
-}
-
-exports.default = resetValidator;
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _validatorUtil = __webpack_require__(44);
-
-function checkInputs(formStore, name, description, lng, lat) {
-  var nameValue = name.value.trim();
-  var descriptionValue = description.value.trim();
-  var lngValue = lng.value.trim();
-  var latValue = lat.value.trim();
-
-  if (nameValue === '') {
-    (0, _validatorUtil.setErrorFor)(name, 'Please add a store name');
-  } else if (nameValue.length < 3) {
-    (0, _validatorUtil.setErrorFor)(name, 'Store name must be at least 3 characters long');
-  } else if (nameValue.length > 50) {
-    (0, _validatorUtil.setErrorFor)(name, 'Store name must be less than 50 characters long');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(name);
-  }
-
-  if (descriptionValue === '') {
-    (0, _validatorUtil.setErrorFor)(description, 'Please add a description');
-  } else if (descriptionValue.length < 3) {
-    (0, _validatorUtil.setErrorFor)(description, 'Description must be at least 3 characters long');
-  } else if (descriptionValue.length > 1000) {
-    (0, _validatorUtil.setErrorFor)(description, 'Description max: 1000 characters');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(description);
-  }
-
-  if (lngValue === '') {
-    (0, _validatorUtil.setErrorFor)(lng, 'Please add longitude.');
-  } else if (lngValue < -180 || lngValue > 180) {
-    console.log(typeof lngValue === 'undefined' ? 'undefined' : _typeof(lngValue));
-    (0, _validatorUtil.setErrorFor)(lng, 'Invalid logitude');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(lng);
-  }
-
-  if (latValue === '') {
-    (0, _validatorUtil.setErrorFor)(lat, 'Please add latitude.');
-  } else if (latValue < -90 || latValue > 90) {
-    (0, _validatorUtil.setErrorFor)(lat, 'Invalid latitude');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(lat);
-  }
-
-  // submit form if no errors
-  if (!(nameValue === '') && !(nameValue.length < 3) && !(nameValue.length > 50) && !(descriptionValue === '') && !(descriptionValue.length < 3) && !(descriptionValue.length > 1000) && !(lngValue === '') && !(lngValue < -180 || lngValue > 180) && !(latValue === '') && !(latValue < -90 || latValue > 90)) {
-    formStore.submit();
-  }
-}
-
-function storeValidator(formStore) {
-  if (!formStore) return;
-
-  var name = formStore.name,
-      description = formStore.description;
-
-  var lng = formStore.querySelector('#lng');
-  var lat = formStore.querySelector('#lat');
-
-  formStore.on('submit', function (e) {
-    e.preventDefault();
-    checkInputs(formStore, name, description, lng, lat);
-  });
-}
-
-exports.default = storeValidator;
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _validatorUtil = __webpack_require__(44);
-
-function checkInputs(formReview, text) {
-  var textValue = text.value.trim();
-
-  if (textValue === '') {
-    (0, _validatorUtil.setErrorFor)(text, 'Please add a review');
-  } else if (textValue.length < 3) {
-    (0, _validatorUtil.setErrorFor)(text, 'Review must be at least 3 characters long');
-  } else if (textValue.length > 1000) {
-    (0, _validatorUtil.setErrorFor)(text, 'Review max: 1000 characters');
-  } else {
-    (0, _validatorUtil.setSuccessFor)(text);
-  }
-
-  // submit form if no errors
-  if (!(textValue === '') && !(textValue.length < 3) && !(textValue.length > 1000)) {
-    formReview.submit();
-  }
-}
-
-function reviewValidator(formReview) {
-  if (!formReview) return;
-
-  var text = formReview.text;
-
-
-  formReview.on('submit', function (e) {
-    e.preventDefault();
-    checkInputs(formReview, text);
-  });
-}
-
-exports.default = reviewValidator;
+exports.default = deleteFlash;
 
 /***/ })
 /******/ ]);

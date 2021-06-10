@@ -11,9 +11,10 @@
   pointer-events: none;
   --opacity: 0;
   opacity: var(--opacity);
+  z-index: 2;
 }
 
-.popup fieldset {
+.popup fieldset, .popup div {
   background: $grey;
   padding: 2rem;
   border: 3px solid $yellow;
@@ -22,6 +23,7 @@
   transition: all 0.2s;
   --scale: 0.3;
   transform: scale(var(--scale));
+  width: 300px;
 }
 
 .popup.open {
@@ -29,6 +31,6 @@
   pointer-events: all;
 }
 
-.popup.open fieldset {
+.popup.open fieldset, .popup.open div {
   --scale: 1;
 }

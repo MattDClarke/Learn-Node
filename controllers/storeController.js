@@ -30,7 +30,6 @@ const multerOptions = {
 };
 
 exports.homePage = (req, res) => {
-  // console.log(req.name);
   res.render('index');
 };
 
@@ -51,7 +50,6 @@ exports.resize = async (req, res, next) => {
     return;
   }
   // see img in memory - buffer
-  // console.log(req.file);
   // get file type from mimetype - dnt rely on extension... user can change it
   const extension = req.file.mimetype.split('/')[1];
   // req.body will be saved to database in next middleware
@@ -179,7 +177,6 @@ exports.getStoreBySlug = async (req, res, next) => {
   // moves to next middleware in app.js: app.use(Handlers.notFound);
   if (!store) return next();
 
-  // console.log(req.body);
   res.render('store', { title: store.name, store });
 };
 

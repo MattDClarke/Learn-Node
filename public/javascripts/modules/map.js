@@ -1,36 +1,35 @@
 import axios from 'axios';
-import { $ } from './bling';
+import storePrompt from './storePrompt';
 
 const mapOptions = {
-  center: { lat: -33.982841506404405, lng: 25.656983134179786 },
+  center: { lat: 40.71593544140297, lng: -74.00001584342776 },
   zoom: 13
 };
 
 function loadPlaces(
   map,
   currentLoc = false,
-  lat = -33.982841506404405,
-  lng = 25.656983134179786
+  lat = 40.71593544140297,
+  lng = -74.00001584342776
 ) {
   axios
     .get(`/api/stores/near?lat=${lat}&lng=${lng}`)
     .then(res => {
       const places = res.data;
-      // console.log(places);
       // create a bounds - for each marker - extend bounds to fit all on map nicely
       const bounds = new google.maps.LatLngBounds();
-      const infoWindow = new google.maps.InfoWindow();
+      const iconBase = 'http://maps.google.com/mapfiles/kml/paddle/';
 
       // create a map marker for each place
       const markers = places.map(place => {
         // coords in different order in MongoDB
         const [placeLng, placeLat] = place.location.coordinates;
-        //   console.log(placeLng, placeLat);
         const position = { lat: placeLat, lng: placeLng };
         bounds.extend(position);
         const marker = new google.maps.Marker({
           map,
-          position
+          position,
+          optimized: false
         });
         // store place info on the marker
         marker.place = place;
@@ -39,31 +38,12 @@ function loadPlaces(
 
       // when someone clicks on a marker show dets of that place
       // addListener - Google Maps equiv of addEventListener
-      markers.forEach(marker =>
-        marker.addListener('click', function() {
-          console.log(this.place);
-          // TODO - nested divs and <a> not displaying
-          const html = `
-        <div class="popup">
-            <a href="/store/${this.place.slug}">
-                <img src="/uploads/${this.place.photo || 'store.png'}" alt="${
-            this.place.name
-          }" />
-                <p>${this.place.name} - ${this.place.location.address}</p>
-            </a>
-        </div>
-        `;
-          const html2 = `
-            <img src="/uploads/${this.place.photo || 'store.png'}" alt="${
-            this.place.name
-          }" />
-            <p>${this.place.name} - ${this.place.location.address}</p>     
-          `;
-          infoWindow.setContent(html);
+      markers.forEach(marker => {
+        marker.addListener('click', () => {
           // this is the marker for a store
-          infoWindow.open(map, this);
-        })
-      );
+          storePrompt(marker);
+        });
+      });
 
       // position (current location or lat and long from map search input)
       const pos = { lat, lng };
@@ -73,27 +53,32 @@ function loadPlaces(
         bounds.extend(pos);
         const marker = new google.maps.Marker({
           pos,
-          map
+          map,
+          optimized: false
         });
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(
-          `${
-            markers.length
-              ? '<p>You are here.</p>'
-              : '<p>You are here.</p><p>There are no stores nearby.</p>'
-          }`
-        );
-        infoWindow.open(map, marker);
+        marker.setIcon(`${iconBase}ylw-circle.png`);
+        marker.setPosition(pos);
+        storePrompt('<p>You are here.</p>', false);
+        marker.addListener('click', () => {
+          // this is the marker for a store
+          storePrompt('<p>You are here.</p>', false);
+        });
       }
-
-      // console.log(markers);
-
       // no stores found nearby, not current location
-      if (!places.length && currentLoc === false) {
+      if (!markers.length && currentLoc === false) {
         map.setCenter(pos);
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('<p>No stores found.</p>');
-        infoWindow.open(map);
+        const marker = new google.maps.Marker({
+          pos,
+          map,
+          optimized: false
+        });
+        marker.setIcon(`${iconBase}wht-blank.png`);
+        marker.setPosition(pos);
+        storePrompt('<p>No stores found.</p>', false);
+        marker.addListener('click', () => {
+          // this is the marker for a store
+          storePrompt('<p>No stores found.</p>', false);
+        });
         return;
       }
 
@@ -111,14 +96,16 @@ function loadPlaces(
     .catch(console.error);
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos, map) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(
-    browserHasGeolocation
-      ? '<p>Error: The Geolocation service failed.</p>'
-      : "<p>Error: Your browser doesn't support geolocation.</p>"
-  );
-  infoWindow.open(map);
+function handleLocationError(browserHasGeolocation) {
+  if (browserHasGeolocation) {
+    storePrompt('<p>Error: The Geolocation service failed.</p>', false);
+  }
+  if (!browserHasGeolocation) {
+    storePrompt(
+      "<p>Error: Your browser doesn't support geolocation.</p>",
+      false
+    );
+  }
 }
 
 function makeMap(mapDiv) {
@@ -128,7 +115,7 @@ function makeMap(mapDiv) {
   // make our map
   const map = new google.maps.Map(mapDiv, mapOptions);
   loadPlaces(map);
-  const input = $('[name="geolocate"]');
+  const input = document.querySelector('[name="geolocate"]');
   const autocomplete = new google.maps.places.Autocomplete(input);
   autocomplete.addListener('place_changed', () => {
     const place = autocomplete.getPlace();
@@ -140,10 +127,9 @@ function makeMap(mapDiv) {
     );
   });
   // to get current location
-  const infoWindow = new google.maps.InfoWindow();
   const locationButton = document.createElement('button');
   locationButton.textContent = 'Get my Location';
-  locationButton.classList.add('button', 'custom-map-control-button');
+  locationButton.classList.add('custom-map-control-button');
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
   locationButton.addEventListener('click', () => {
     // HTML5 geolocation
@@ -157,12 +143,12 @@ function makeMap(mapDiv) {
           loadPlaces(map, true, pos.lat, pos.lng);
         },
         () => {
-          handleLocationError(true, infoWindow, map.getCenter(), map);
+          handleLocationError(true);
         }
       );
     } else {
       // Browser does not support geolocation
-      handleLocationError(false, infoWindow, map.getCenter(), map);
+      handleLocationError(false);
     }
   });
 }

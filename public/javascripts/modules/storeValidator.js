@@ -29,7 +29,6 @@ function checkInputs(formStore, name, description, lng, lat) {
   if (lngValue === '') {
     setErrorFor(lng, 'Please add longitude.');
   } else if (lngValue < -180 || lngValue > 180) {
-    console.log(typeof lngValue);
     setErrorFor(lng, 'Invalid logitude');
   } else {
     setSuccessFor(lng);

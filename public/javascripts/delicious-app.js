@@ -15,6 +15,7 @@ import forgotValidator from './modules/forgotValidator';
 import resetValidator from './modules/resetValidator';
 import storeValidator from './modules/storeValidator';
 import reviewValidator from './modules/reviewValidator';
+import deleteFlash from './modules/deleteFlash';
 
 autocomplete($('#address'), $('#lat'), $('#lng'));
 
@@ -39,3 +40,5 @@ forgotValidator($('form.formForgot'));
 resetValidator($('form.formReset'));
 storeValidator($('form.formStore'));
 reviewValidator($('form.formReview'));
+
+deleteFlash($('.flash-messages'));

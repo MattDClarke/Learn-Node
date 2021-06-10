@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
@@ -23,6 +24,24 @@ const app = express();
 //   if (ip === '::1') return true; // trusted IPs
 //   return false;
 // });
+
+// Sets all of the defaults, but overrides `script-src` and disables the default `style-src`
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      'script-src': ["'self'", 'https://maps.googleapis.com/', "'unsafe-eval'"],
+      'img-src': [
+        "'self'",
+        'data:',
+        'https://gravatar.com/avatar/',
+        'https://maps.gstatic.com/',
+        'https://maps.googleapis.com',
+        'http://maps.google.com/mapfiles/kml/paddle/'
+      ]
+    }
+  })
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files

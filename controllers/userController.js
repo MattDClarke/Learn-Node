@@ -6,7 +6,6 @@ const Review = mongoose.model('Review');
 const { promisify } = require('util');
 
 exports.loginForm = (req, res) => {
-  console.log(req.ip);
   res.render('login', { title: 'Login' });
 };
 
