@@ -113,6 +113,7 @@ exports.loginRouteRateLimit = async (req, res, next) => {
           if (err) {
             return next(err);
           }
+          req.flash('info', 'You are now logged in!');
           return res.redirect('/');
         });
       }

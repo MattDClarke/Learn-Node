@@ -1,5 +1,6 @@
 // define all routes
 const express = require('express');
+// const { check } = require('express-validator');
 
 const router = express.Router();
 const storeController = require('../controllers/storeController');
@@ -10,6 +11,9 @@ const rateLimitController = require('../controllers/rateLimitController');
 const userValidator = require('../validators/userValidator');
 const storeValidator = require('../validators/storeValidator');
 const reviewValidator = require('../validators/reviewValidator');
+const forgotValidator = require('../validators/forgotValidator');
+const accountUpdateValidator = require('../validators/accountUpdateValidator');
+const loginValidator = require('../validators/loginValidator');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 // Add catch errors to async controllers
@@ -48,7 +52,12 @@ router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 
 router.get('/login', userController.loginForm);
 // router.post('/login', authController.login);
-router.post('/login', catchErrors(rateLimitController.loginRouteRateLimit));
+router.post(
+  '/login',
+  loginValidator.loginValidationRules(),
+  loginValidator.validate,
+  catchErrors(rateLimitController.loginRouteRateLimit)
+);
 router.get('/register', userController.registerForm);
 
 // 1. validate registration data
@@ -65,8 +74,19 @@ router.post(
 router.get('/logout', authController.logout);
 
 router.get('/account', authController.isLoggedIn, userController.account);
-router.post('/account', catchErrors(userController.updateAccount));
-router.post('/account/forgot', catchErrors(authController.forgot));
+router.post(
+  '/account',
+  authController.isLoggedIn,
+  accountUpdateValidator.accountUpdateValidationRules(),
+  accountUpdateValidator.validate,
+  catchErrors(userController.updateAccount)
+);
+router.post(
+  '/account/forgot',
+  forgotValidator.forgotValidationRules(),
+  forgotValidator.validate,
+  catchErrors(authController.forgot)
+);
 router.get('/account/reset/:token', catchErrors(authController.reset));
 router.post(
   '/account/reset/:token',
@@ -75,6 +95,7 @@ router.post(
 );
 router.post(
   '/account/delete',
+  authController.isLoggedIn,
   catchErrors(userController.deleteAccount),
   authController.logout
 );

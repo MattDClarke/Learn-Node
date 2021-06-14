@@ -20,7 +20,6 @@ exports.register = async (req, res, next) => {
   const register = promisify(User.register.bind(User));
   // stores hash of password and a salt
   await register(user, req.body.password);
-  // res.send('It works');
   next(); // pass to authController.login
 };
 
@@ -34,7 +33,8 @@ exports.updateAccount = async (req, res) => {
     email: req.body.email
   };
 
-  await User.findOneAndUpdate(
+  const user = await User.findOneAndUpdate(
+    // await User.updateOne(
     { _id: req.user._id },
     { $set: updates },
     // context option lets you set the value of 'this' in update validators to the underlying query ...?
@@ -45,9 +45,14 @@ exports.updateAccount = async (req, res) => {
       useFindAndModify: false
     }
   );
-  req.flash('success', 'Updated the profile');
-  // res.json(user);
-  res.redirect('back');
+  // TODO - updating email caused current session to be invalid, re-login solution is probably not best solution
+  req.logIn(user, function(err) {
+    if (err) {
+      return err;
+    }
+    req.flash('success', 'Updated the profile');
+    return res.redirect('back');
+  });
 };
 
 exports.deleteAccount = async (req, res, next) => {

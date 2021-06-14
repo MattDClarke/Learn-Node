@@ -1,21 +1,14 @@
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 const pug = require('pug');
 // inline css for older email services
 const juice = require('juice');
 // for people who view emails in a terminal for example...
 const { htmlToText } = require('html-to-text');
 // const promisify = require('es6-promisify');
-const { promisify } = require('util');
+// const { promisify } = require('util');
+const sgMail = require('@sendgrid/mail');
 
-// create a transport - SMTP most common transport = nodemailer sends email using the protocol
-const transport = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: process.env.MAIL_PORT,
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS
-  }
-});
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // pug -> html
 const generateHTML = (filename, options = {}) => {
@@ -25,7 +18,6 @@ const generateHTML = (filename, options = {}) => {
     `${__dirname}/../views/email/${filename}.pug`,
     options
   );
-  // console.log(html);
   // inline css for older email services
   const inlined = juice(html);
   return inlined;
@@ -36,14 +28,24 @@ exports.send = async options => {
   const text = htmlToText(html, {
     wordwrap: 130
   });
-  const mailOptions = {
-    from: `Matt <noreply@matt.com`,
-    to: options.user.email,
+
+  const msg = {
+    to: options.user.email, // TODO -> change to options.user.email
+    from: 'deliciouseatscontact@gmail.com', // Use the email address or domain you verified above
     subject: options.subject,
-    html,
-    text
+    text,
+    html
   };
-  // bind to transport
-  const sendMail = promisify(transport.sendMail.bind(transport));
-  return sendMail(mailOptions);
+
+  (async () => {
+    try {
+      await sgMail.send(msg);
+    } catch (error) {
+      console.error(error);
+
+      if (error.response) {
+        console.error(error.response.body);
+      }
+    }
+  })();
 };

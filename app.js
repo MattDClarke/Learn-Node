@@ -37,7 +37,10 @@ app.use(
         'https://gravatar.com/avatar/',
         'https://maps.gstatic.com/',
         'https://maps.googleapis.com',
-        'http://maps.google.com/mapfiles/kml/paddle/'
+        'http://maps.google.com/mapfiles/kml/paddle/',
+        'https://lh3.ggpht.com/',
+        'https://khms0.googleapis.com/',
+        'https://khms1.googleapis.com/'
       ]
     }
   })
@@ -75,6 +78,12 @@ app.use(
     key: process.env.KEY,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      path: '/',
+      httpOnly: true,
+      secure: false,
+      maxAge: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+    },
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );

@@ -3,18 +3,32 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 // const promisify = require('es6-promisify');
 const { promisify } = require('util');
+// const { body } = require('express-validator');
 
 const User = mongoose.model('User');
 const mail = require('../handlers/mail');
 
-// strategies in passport - for different types of login - fb, google, ...
-// we will use local strategy
-exports.login = passport.authenticate('local', {
-  failureRedirect: '/login',
-  failureFlash: 'Failed Login!',
-  successRedirect: '/',
-  successFlash: 'You are now logged in!'
-});
+exports.login = function(req, res, next) {
+  console.log('register login');
+  passport.authenticate('local', function(err, user) {
+    if (err) {
+      req.flash('error', 'Failed Login!');
+      return res.redirect('/login');
+    }
+    if (!user) {
+      req.flash('error', 'Failed Login!');
+      return res.redirect('/login');
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        req.flash('error', 'Failed Login!');
+        return res.redirect('/login');
+      }
+      req.flash('info', 'You are now logged in!');
+      return res.redirect(`/`);
+    });
+  })(req, res, next);
+};
 
 exports.logout = (req, res) => {
   req.logout();
@@ -37,11 +51,14 @@ exports.forgot = async (req, res) => {
   // 1. check if user exists
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
+    console.log('no user');
     // can choose to notify that email does not exist
     // I chose to not share that info, it could be abused, depending on the site
     req.flash('success', 'You have been emailed a password reset link.');
     return res.redirect('/login');
   }
+  console.log('user exists');
+
   // 2. if user exists: set reset tokens and expiry on their account
   // crypto module is built into Node
   user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
@@ -52,6 +69,7 @@ exports.forgot = async (req, res) => {
   const resetURL = `http://${req.headers.host}/account/reset/${
     user.resetPasswordToken
   }`;
+  console.log(user, resetURL);
   await mail.send({
     user,
     subject: 'Password Reset',

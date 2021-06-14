@@ -40,5 +40,5 @@ forgotValidator($('form.formForgot'));
 resetValidator($('form.formReset'));
 storeValidator($('form.formStore'));
 reviewValidator($('form.formReview'));
-
-deleteFlash($('.flash-messages'));
+// may be more than 1
+deleteFlash($$('.flash-messages'));

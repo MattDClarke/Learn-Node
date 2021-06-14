@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 50);
+/******/ 	return __webpack_require__(__webpack_require__.s = 51);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -498,7 +498,7 @@ exports.$$ = $$;
 "use strict";
 
 
-module.exports = __webpack_require__(28);
+module.exports = __webpack_require__(29);
 
 /***/ }),
 /* 4 */
@@ -508,12 +508,12 @@ module.exports = __webpack_require__(28);
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(35);
-var cookies = __webpack_require__(38);
+var settle = __webpack_require__(36);
+var cookies = __webpack_require__(39);
 var buildURL = __webpack_require__(11);
-var buildFullPath = __webpack_require__(32);
-var parseHeaders = __webpack_require__(43);
-var isURLSameOrigin = __webpack_require__(41);
+var buildFullPath = __webpack_require__(33);
+var parseHeaders = __webpack_require__(44);
+var isURLSameOrigin = __webpack_require__(42);
 var createError = __webpack_require__(7);
 
 module.exports = function xhrAdapter(config) {
@@ -726,7 +726,7 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(34);
+var enhanceError = __webpack_require__(35);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -832,7 +832,7 @@ module.exports = function mergeConfig(config1, config2) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(42);
+var normalizeHeaderName = __webpack_require__(43);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -921,7 +921,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = defaults;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
 
 /***/ }),
 /* 10 */
@@ -1749,7 +1749,7 @@ try {
   // problems, please detail your unique predicament in a GitHub issue.
   Function("r", "regeneratorRuntime = r")(runtime);
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)(module)))
 
 /***/ }),
 /* 14 */
@@ -1873,6 +1873,32 @@ exports.default = countChars;
 
 /***/ }),
 /* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function deleteFlash(flashDivs) {
+  // will only run on map page
+  if (flashDivs[0].innerText === '') return;
+  var closeBtns = document.querySelectorAll('.flash-messages button');
+  var numFlashes = closeBtns.length;
+
+  for (var i = 0; i < numFlashes; i += 1) {
+    closeBtns[i].removeAttribute('onclick');
+    closeBtns[i].addEventListener('click', function () {
+      this.parentElement.remove();
+    });
+  }
+}
+
+exports.default = deleteFlash;
+
+/***/ }),
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2005,7 +2031,7 @@ function deletePrompt(e) {
 exports.default = deletePrompt;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2051,7 +2077,7 @@ function forgotValidator(formForgot) {
 exports.default = forgotValidator;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2093,7 +2119,7 @@ function ajaxHeart(e) {
 exports.default = ajaxHeart;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2151,7 +2177,7 @@ function loginValidator(formLogin) {
 exports.default = loginValidator;
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2167,7 +2193,7 @@ var _axios = __webpack_require__(3);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _storePrompt = __webpack_require__(49);
+var _storePrompt = __webpack_require__(50);
 
 var _storePrompt2 = _interopRequireDefault(_storePrompt);
 
@@ -2316,7 +2342,7 @@ function makeMap(mapDiv) {
 exports.default = makeMap;
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2396,7 +2422,7 @@ function registerValidator(formRegister) {
 exports.default = registerValidator;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2452,7 +2478,7 @@ function resetValidator(formReset) {
 exports.default = resetValidator;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2498,7 +2524,7 @@ function reviewValidator(formReview) {
 exports.default = reviewValidator;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2576,7 +2602,7 @@ function storeValidator(formStore) {
 exports.default = storeValidator;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2590,11 +2616,11 @@ var _axios = __webpack_require__(3);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _dompurify = __webpack_require__(45);
+var _dompurify = __webpack_require__(46);
 
 var _dompurify2 = _interopRequireDefault(_dompurify);
 
-var _debounce = __webpack_require__(48);
+var _debounce = __webpack_require__(49);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -2668,13 +2694,13 @@ function typeAhead(search) {
 exports.default = typeAhead;
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2682,7 +2708,7 @@ exports.default = typeAhead;
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(10);
-var Axios = __webpack_require__(30);
+var Axios = __webpack_require__(31);
 var mergeConfig = __webpack_require__(8);
 var defaults = __webpack_require__(9);
 
@@ -2718,17 +2744,17 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(5);
-axios.CancelToken = __webpack_require__(29);
+axios.CancelToken = __webpack_require__(30);
 axios.isCancel = __webpack_require__(6);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(44);
+axios.spread = __webpack_require__(45);
 
 // Expose isAxiosError
-axios.isAxiosError = __webpack_require__(40);
+axios.isAxiosError = __webpack_require__(41);
 
 module.exports = axios;
 
@@ -2736,7 +2762,7 @@ module.exports = axios;
 module.exports.default = axios;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2799,7 +2825,7 @@ CancelToken.source = function source() {
 module.exports = CancelToken;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2807,8 +2833,8 @@ module.exports = CancelToken;
 
 var utils = __webpack_require__(0);
 var buildURL = __webpack_require__(11);
-var InterceptorManager = __webpack_require__(31);
-var dispatchRequest = __webpack_require__(33);
+var InterceptorManager = __webpack_require__(32);
+var dispatchRequest = __webpack_require__(34);
 var mergeConfig = __webpack_require__(8);
 
 /**
@@ -2900,7 +2926,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = Axios;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2958,14 +2984,14 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 module.exports = InterceptorManager;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isAbsoluteURL = __webpack_require__(39);
-var combineURLs = __webpack_require__(37);
+var isAbsoluteURL = __webpack_require__(40);
+var combineURLs = __webpack_require__(38);
 
 /**
  * Creates a new URL by combining the baseURL with the requestedURL,
@@ -2984,14 +3010,14 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
 };
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(36);
+var transformData = __webpack_require__(37);
 var isCancel = __webpack_require__(6);
 var defaults = __webpack_require__(9);
 
@@ -3050,7 +3076,7 @@ module.exports = function dispatchRequest(config) {
 };
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3099,7 +3125,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3124,7 +3150,7 @@ module.exports = function settle(resolve, reject, response) {
 };
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3150,7 +3176,7 @@ module.exports = function transformData(data, headers, fns) {
 };
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3169,7 +3195,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 };
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3228,7 +3254,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3250,7 +3276,7 @@ module.exports = function isAbsoluteURL(url) {
 };
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3270,7 +3296,7 @@ module.exports = function isAxiosError(payload) {
 };
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3339,7 +3365,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3357,7 +3383,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 };
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3413,7 +3439,7 @@ module.exports = function parseHeaders(headers) {
 };
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3447,7 +3473,7 @@ module.exports = function spread(callback) {
 };
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4828,7 +4854,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
 //# sourceMappingURL=purify.js.map
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5021,7 +5047,7 @@ process.umask = function () {
 };
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5051,7 +5077,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5091,7 +5117,7 @@ var debounce = function debounce(callback) {
 exports.default = debounce;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5206,7 +5232,7 @@ function storePrompt(data) {
 exports.default = storePrompt;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5214,7 +5240,7 @@ exports.default = storePrompt;
 
 __webpack_require__(13);
 
-__webpack_require__(27);
+__webpack_require__(28);
 
 var _bling = __webpack_require__(2);
 
@@ -5222,19 +5248,19 @@ var _autocomplete = __webpack_require__(15);
 
 var _autocomplete2 = _interopRequireDefault(_autocomplete);
 
-var _typeAhead = __webpack_require__(26);
+var _typeAhead = __webpack_require__(27);
 
 var _typeAhead2 = _interopRequireDefault(_typeAhead);
 
-var _map = __webpack_require__(21);
+var _map = __webpack_require__(22);
 
 var _map2 = _interopRequireDefault(_map);
 
-var _heart = __webpack_require__(19);
+var _heart = __webpack_require__(20);
 
 var _heart2 = _interopRequireDefault(_heart);
 
-var _deletePrompt = __webpack_require__(17);
+var _deletePrompt = __webpack_require__(18);
 
 var _deletePrompt2 = _interopRequireDefault(_deletePrompt);
 
@@ -5242,7 +5268,7 @@ var _countChars = __webpack_require__(16);
 
 var _countChars2 = _interopRequireDefault(_countChars);
 
-var _registerValidator = __webpack_require__(22);
+var _registerValidator = __webpack_require__(23);
 
 var _registerValidator2 = _interopRequireDefault(_registerValidator);
 
@@ -5250,27 +5276,27 @@ var _accountValidator = __webpack_require__(14);
 
 var _accountValidator2 = _interopRequireDefault(_accountValidator);
 
-var _loginValidator = __webpack_require__(20);
+var _loginValidator = __webpack_require__(21);
 
 var _loginValidator2 = _interopRequireDefault(_loginValidator);
 
-var _forgotValidator = __webpack_require__(18);
+var _forgotValidator = __webpack_require__(19);
 
 var _forgotValidator2 = _interopRequireDefault(_forgotValidator);
 
-var _resetValidator = __webpack_require__(23);
+var _resetValidator = __webpack_require__(24);
 
 var _resetValidator2 = _interopRequireDefault(_resetValidator);
 
-var _storeValidator = __webpack_require__(25);
+var _storeValidator = __webpack_require__(26);
 
 var _storeValidator2 = _interopRequireDefault(_storeValidator);
 
-var _reviewValidator = __webpack_require__(24);
+var _reviewValidator = __webpack_require__(25);
 
 var _reviewValidator2 = _interopRequireDefault(_reviewValidator);
 
-var _deleteFlash = __webpack_require__(52);
+var _deleteFlash = __webpack_require__(17);
 
 var _deleteFlash2 = _interopRequireDefault(_deleteFlash);
 
@@ -5296,36 +5322,13 @@ if (deleteBtn) {
 
 (0, _registerValidator2.default)((0, _bling.$)('form.formRegister'));
 (0, _accountValidator2.default)((0, _bling.$)('form.formAccount'));
-(0, _loginValidator2.default)((0, _bling.$)('form.formLogin'));
+// loginValidator($('form.formLogin'));
 (0, _forgotValidator2.default)((0, _bling.$)('form.formForgot'));
 (0, _resetValidator2.default)((0, _bling.$)('form.formReset'));
 (0, _storeValidator2.default)((0, _bling.$)('form.formStore'));
 (0, _reviewValidator2.default)((0, _bling.$)('form.formReview'));
-
-(0, _deleteFlash2.default)((0, _bling.$)('.flash-messages'));
-
-/***/ }),
-/* 51 */,
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-function deleteFlash(flashDiv) {
-  // will only run on map page
-  if (flashDiv.innerText === '') return;
-  var closeBtn = flashDiv.querySelector('button');
-  closeBtn.removeAttribute('onclick');
-  closeBtn.addEventListener('click', function (e) {
-    this.parentElement.remove();
-  });
-}
-
-exports.default = deleteFlash;
+// may be more than 1
+(0, _deleteFlash2.default)((0, _bling.$$)('.flash-messages'));
 
 /***/ })
 /******/ ]);
