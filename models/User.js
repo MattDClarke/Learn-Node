@@ -24,7 +24,14 @@ const userSchema = new Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   // an array of ids that are related to a store. Link each heart to a store
-  hearts: [{ type: mongoose.Schema.ObjectId, ref: 'Store' }]
+  hearts: [{ type: mongoose.Schema.ObjectId, ref: 'Store' }],
+  // check if email confirmed or not
+  confirmed: {
+    type: Boolean,
+    defaultValue: false
+  },
+  emailConfirmToken: String,
+  emailConfirmExpires: Date
 });
 
 // Globally Recognisable avatar

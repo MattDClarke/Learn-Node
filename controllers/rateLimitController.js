@@ -108,6 +108,12 @@ exports.loginRouteRateLimit = async (req, res, next) => {
           // Reset on successful authorisation
           await limiterConsecutiveFailsByEmailAndIP.delete(emailIPkey);
         }
+        // Check if user email confirmed
+        console.log('confirmed?: ', user.confirmed);
+        if (!user.confirmed) {
+          req.flash('error', 'You must confirm your email address!');
+          return res.redirect('/login');
+        }
         // login
         req.logIn(user, function(err) {
           if (err) {

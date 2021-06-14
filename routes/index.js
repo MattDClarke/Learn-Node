@@ -51,7 +51,6 @@ router.get('/tags', catchErrors(storeController.getStoresByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 
 router.get('/login', userController.loginForm);
-// router.post('/login', authController.login);
 router.post(
   '/login',
   loginValidator.loginValidationRules(),
@@ -67,8 +66,14 @@ router.post(
   '/register',
   userValidator.userValidationRules(),
   userValidator.validate,
-  userController.register,
-  authController.login
+  catchErrors(userController.register),
+  catchErrors(authController.sendEmailConfirm)
+);
+
+// email confirm
+router.get(
+  '/emailconfirm/:token',
+  catchErrors(authController.emailConfirmCheck)
 );
 
 router.get('/logout', authController.logout);
@@ -79,7 +84,7 @@ router.post(
   authController.isLoggedIn,
   accountUpdateValidator.accountUpdateValidationRules(),
   accountUpdateValidator.validate,
-  catchErrors(userController.updateAccount)
+  catchErrors(authController.updateAccount)
 );
 router.post(
   '/account/forgot',
@@ -93,6 +98,7 @@ router.post(
   authController.confirmedPasswords,
   catchErrors(authController.update)
 );
+
 router.post(
   '/account/delete',
   authController.isLoggedIn,

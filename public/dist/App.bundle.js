@@ -5322,7 +5322,7 @@ if (deleteBtn) {
 
 (0, _registerValidator2.default)((0, _bling.$)('form.formRegister'));
 (0, _accountValidator2.default)((0, _bling.$)('form.formAccount'));
-// loginValidator($('form.formLogin'));
+(0, _loginValidator2.default)((0, _bling.$)('form.formLogin'));
 (0, _forgotValidator2.default)((0, _bling.$)('form.formForgot'));
 (0, _resetValidator2.default)((0, _bling.$)('form.formReset'));
 (0, _storeValidator2.default)((0, _bling.$)('form.formStore'));

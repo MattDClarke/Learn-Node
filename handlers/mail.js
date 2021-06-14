@@ -30,7 +30,7 @@ exports.send = async options => {
   });
 
   const msg = {
-    to: options.user.email, // TODO -> change to options.user.email
+    to: options.user.email,
     from: 'deliciouseatscontact@gmail.com', // Use the email address or domain you verified above
     subject: options.subject,
     text,
