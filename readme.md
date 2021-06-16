@@ -13,3 +13,4 @@ This is a full stack restaurant application which users can search, geolocate, r
 - added rate limiter to login route - using [node-rate-limiter-flexible](https://www.npmjs.com/package/rate-limiter-flexible) and Redis
 - added review character counter - review limited to 1000 characters
 - added registration email confirm
+- added CSRF protection using csurf

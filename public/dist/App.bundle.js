@@ -1969,7 +1969,7 @@ function deletePrompt(e) {
               }
 
               popup.setAttribute('action', '/' + urlParam);
-              popup.insertAdjacentHTML('afterbegin', '\n        <fieldset class="popup--inner">\n          <p>\n            Are you sure that you want to delete ' + item + '?\n          </p>\n          <button type="submit" class="button">Yes</button>\n        </fieldset>\n        ');
+              popup.insertAdjacentHTML('afterbegin', '\n        <fieldset class="popup--inner">\n          <p>\n            Are you sure that you want to delete ' + item + '?\n          </p>\n          <button type="submit" class="button">Yes</button>\n        </fieldset>\n        <input type="hidden" name="_csrf" value="' + deleteButton.dataset.csrftoken + '">\n        ');
 
               cancelButton = document.createElement('button');
               // make sure it does not trigger submit

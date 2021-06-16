@@ -74,7 +74,9 @@ exports.reset = async (req, res) => {
     return res.redirect('/login');
   }
   // if there is a user, show the reset password form
-  res.render('reset', { title: 'Reset your password' });
+  res.render('reset', {
+    title: 'Reset your password'
+  });
 };
 
 exports.confirmedPasswords = (req, res, next) => {
@@ -145,7 +147,7 @@ exports.sendEmailConfirm = async (req, res) => {
     filename: 'email-confirm'
   });
 
-  req.flash('success', `You have been emailed a link to confirm your email.`);
+  req.flash('info', `You have been emailed a link to confirm your email.`);
   // 3. redirect to login page
   res.redirect('/login');
 };

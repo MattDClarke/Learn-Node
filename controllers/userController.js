@@ -6,6 +6,7 @@ const Review = mongoose.model('Review');
 const { promisify } = require('util');
 
 exports.loginForm = (req, res) => {
+  // res.render('login', { title: 'Login' });
   res.render('login', { title: 'Login' });
 };
 
@@ -19,12 +20,15 @@ exports.register = async (req, res, next) => {
   // pass in method and object to bind method to
   const register = promisify(User.register.bind(User));
   // stores hash of password and a salt
+  // passport-local-mongoose method. Also checks if username is unique
   await register(user, req.body.password);
   next(); // pass to authController.sendEmailConfirm
 };
 
 exports.account = (req, res) => {
-  res.render('account', { title: 'Edit Your Account' });
+  res.render('account', {
+    title: 'Edit Your Account'
+  });
 };
 
 // exports.updateAccount = async (req, res) => {

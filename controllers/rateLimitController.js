@@ -103,16 +103,15 @@ exports.loginRouteRateLimit = async (req, res, next) => {
       }
       // If passport authentication successful
       if (user) {
+        // Check if user email confirmed
+        if (!user.confirmed) {
+          req.flash('error', 'You must confirm your email address!');
+          return res.redirect('/login');
+        }
         console.log('successful login');
         if (resEmailAndIP !== null && resEmailAndIP.consumedPoints > 0) {
           // Reset on successful authorisation
           await limiterConsecutiveFailsByEmailAndIP.delete(emailIPkey);
-        }
-        // Check if user email confirmed
-        console.log('confirmed?: ', user.confirmed);
-        if (!user.confirmed) {
-          req.flash('error', 'You must confirm your email address!');
-          return res.redirect('/login');
         }
         // login
         req.logIn(user, function(err) {

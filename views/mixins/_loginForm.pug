@@ -9,4 +9,5 @@ mixin loginForm()
             label(for="password") Password
             input(type="password" name="password")
             small Error message
-        input.button(type="submit" value="Log In ➡")  
+        input(type="hidden" name="_csrf" value=(csrfToken))
+        input.button(type="submit" value="Log In ➡") 

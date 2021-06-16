@@ -1,6 +1,5 @@
 // define all routes
 const express = require('express');
-// const { check } = require('express-validator');
 
 const router = express.Router();
 const storeController = require('../controllers/storeController');
@@ -35,6 +34,8 @@ router.post(
   '/add/:id',
   storeController.upload,
   catchErrors(storeController.resize),
+  storeValidator.storeValidationRules(),
+  storeValidator.validate,
   catchErrors(storeController.updateStore)
 );
 

@@ -1,11 +1,8 @@
-// const nodemailer = require('nodemailer');
 const pug = require('pug');
 // inline css for older email services
 const juice = require('juice');
 // for people who view emails in a terminal for example...
 const { htmlToText } = require('html-to-text');
-// const promisify = require('es6-promisify');
-// const { promisify } = require('util');
 const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);

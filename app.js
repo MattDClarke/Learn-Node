@@ -1,17 +1,14 @@
 const express = require('express');
 const session = require('express-session');
 const helmet = require('helmet');
+const csrf = require('csurf');
+
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
-// const cookieParser = require('cookie-parser');
-// const bodyParser = require('body-parser');
 const passport = require('passport');
-// const promisify = require('es6-promisify');
 const { promisify } = require('util');
 const flash = require('connect-flash');
-// const expressValidator = require('express-validator');
-
 const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
@@ -59,16 +56,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // all data passed in is stored in the request variable
 // when a user submits data via form tag - you will get data submitted on request.body
 app.use(express.json());
-// app.use(bodyParser.json());
+
 // easily get access to nested data ... location.address ...
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
-// app.use(bodyCheck);
-// app.use(validationResult);
-
-// populates req.cookies with any cookies that came along with the request
-// app.use(cookieParser());
-
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
 // store data about users -> how long logged in...
@@ -95,16 +86,28 @@ app.use(passport.session());
 // // The flash middleware let's us use req.flash('error', 'Shit!'), which will then pass that message to the next page the user requests
 app.use(flash());
 
+app.use(csrf());
+
+// error handler for CSRF
+app.use(function(err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err);
+
+  // handle CSRF token errors
+  res.status(403);
+  res.send('Error: form tampered with');
+});
+
 // pass variables to our templates + all requests
 app.use((req, res, next) => {
   // put the information into locals (local variables)
   res.locals.h = helpers;
   // pulls out flashes from controllers and puts them in locals
   res.locals.flashes = req.flash();
+  res.locals.csrfToken = req.csrfToken();
+
   // req.user made available by passport.js -> pass to locals
   res.locals.user = req.user || null;
   res.locals.currentPath = req.path;
-
   next();
 });
 

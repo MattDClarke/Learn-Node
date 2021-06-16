@@ -1,7 +1,7 @@
 //- if add store route, there will be no store object passed in. Therefore set store = {} as a default
-mixin storeForm(store = {}, isEditing = false)
+mixin storeForm(store = {}, isEditing = false, csrfToken)
     //- if there is no store id (a new entry) then it will add a new entry, else it will edit existing store
-    form.formStore(action=`/add/${store._id || ''}` method="POST" class="card" enctype="multipart/form-data" novalidate)
+    form.formStore(action=(`/add/${store._id || ''}?_csrf=${csrfToken}`) method="POST" class="card" enctype="multipart/form-data" novalidate)
         //- pre= h.dump(store)
         div.form-group
             label(for="name") Name
@@ -46,8 +46,9 @@ mixin storeForm(store = {}, isEditing = false)
                 .tag.tag__choice
                     input(type="checkbox" id=choice value=choice name="tags" checked=(tags.includes(choice)))
                     label(for=choice) #{choice}
+        input(type="hidden" name="_csrf" value=(csrfToken))
         input(type="submit" value="Save ➡" class="button")
 
     //- if user editing a store that they created - add delete button
     if isEditing
-        button(class="delete-button" data-storeid=`${store._id}` data-storename=`${store.name}`) Delete Store
+        button(class="delete-button" data-storeid=`${store._id}` data-storename=`${store.name}`  data-csrftoken=(csrfToken)) Delete Store

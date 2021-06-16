@@ -38,6 +38,9 @@ function deletePrompt(e) {
           </p>
           <button type="submit" class="button">Yes</button>
         </fieldset>
+        <input type="hidden" name="_csrf" value="${
+          deleteButton.dataset.csrftoken
+        }">
         `
     );
 

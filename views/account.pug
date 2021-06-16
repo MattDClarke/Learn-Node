@@ -13,6 +13,7 @@ block content
                 label(for="email") Email Address
                 input(type="email" name="email" value=user.email)
                 small Error message
+            input(type="hidden" name="_csrf" value=(csrfToken))
             input.button(type="submit" value="Update My Account")
         
-        button(class="delete-button" data-userid="true") Delete Account
+        button(class="delete-button" data-userid="true" data-csrftoken=(csrfToken)) Delete Account

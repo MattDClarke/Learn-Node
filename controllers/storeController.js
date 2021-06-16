@@ -64,6 +64,7 @@ exports.resize = async (req, res, next) => {
 };
 
 exports.createStore = async (req, res) => {
+  // res.json(req.body);
   req.body.author = req.user._id;
   // create a new store (new db entry) using the schema defined in Store.js. Only data which fits the scheme will be added to db
   // need to wait for slug (url friendly) to be created from store name
