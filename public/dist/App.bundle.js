@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 52);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -498,7 +498,7 @@ exports.$$ = $$;
 "use strict";
 
 
-module.exports = __webpack_require__(29);
+module.exports = __webpack_require__(30);
 
 /***/ }),
 /* 4 */
@@ -508,12 +508,12 @@ module.exports = __webpack_require__(29);
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(36);
-var cookies = __webpack_require__(39);
+var settle = __webpack_require__(37);
+var cookies = __webpack_require__(40);
 var buildURL = __webpack_require__(11);
-var buildFullPath = __webpack_require__(33);
-var parseHeaders = __webpack_require__(44);
-var isURLSameOrigin = __webpack_require__(42);
+var buildFullPath = __webpack_require__(34);
+var parseHeaders = __webpack_require__(45);
+var isURLSameOrigin = __webpack_require__(43);
 var createError = __webpack_require__(7);
 
 module.exports = function xhrAdapter(config) {
@@ -726,7 +726,7 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(35);
+var enhanceError = __webpack_require__(36);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -832,7 +832,7 @@ module.exports = function mergeConfig(config1, config2) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(43);
+var normalizeHeaderName = __webpack_require__(44);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -921,7 +921,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = defaults;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)))
 
 /***/ }),
 /* 10 */
@@ -1749,7 +1749,7 @@ try {
   // problems, please detail your unique predicament in a GitHub issue.
   Function("r", "regeneratorRuntime = r")(runtime);
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(49)(module)))
 
 /***/ }),
 /* 14 */
@@ -2193,7 +2193,7 @@ var _axios = __webpack_require__(3);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _storePrompt = __webpack_require__(50);
+var _storePrompt = __webpack_require__(51);
 
 var _storePrompt2 = _interopRequireDefault(_storePrompt);
 
@@ -2487,6 +2487,33 @@ exports.default = resetValidator;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+function reviewStars(formReview) {
+  if (!formReview) return;
+
+  var starLabels = document.querySelectorAll('.reviewer__stars label');
+  var starInputs = document.querySelectorAll('.reviewer__stars input');
+
+  starLabels.forEach(function (starLabel, i) {
+    starLabel.addEventListener('keydown', function (e) {
+      if (e.code === 'Enter' || e.code === 'Space') {
+        starInputs[i].checked = true;
+      }
+    });
+  });
+}
+
+exports.default = reviewStars;
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _validatorUtil = __webpack_require__(1);
 
@@ -2524,7 +2551,7 @@ function reviewValidator(formReview) {
 exports.default = reviewValidator;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2602,7 +2629,7 @@ function storeValidator(formStore) {
 exports.default = storeValidator;
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2616,11 +2643,11 @@ var _axios = __webpack_require__(3);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _dompurify = __webpack_require__(46);
+var _dompurify = __webpack_require__(47);
 
 var _dompurify2 = _interopRequireDefault(_dompurify);
 
-var _debounce = __webpack_require__(49);
+var _debounce = __webpack_require__(50);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -2694,13 +2721,13 @@ function typeAhead(search) {
 exports.default = typeAhead;
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2708,7 +2735,7 @@ exports.default = typeAhead;
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(10);
-var Axios = __webpack_require__(31);
+var Axios = __webpack_require__(32);
 var mergeConfig = __webpack_require__(8);
 var defaults = __webpack_require__(9);
 
@@ -2744,17 +2771,17 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(5);
-axios.CancelToken = __webpack_require__(30);
+axios.CancelToken = __webpack_require__(31);
 axios.isCancel = __webpack_require__(6);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(45);
+axios.spread = __webpack_require__(46);
 
 // Expose isAxiosError
-axios.isAxiosError = __webpack_require__(41);
+axios.isAxiosError = __webpack_require__(42);
 
 module.exports = axios;
 
@@ -2762,7 +2789,7 @@ module.exports = axios;
 module.exports.default = axios;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2825,7 +2852,7 @@ CancelToken.source = function source() {
 module.exports = CancelToken;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2833,8 +2860,8 @@ module.exports = CancelToken;
 
 var utils = __webpack_require__(0);
 var buildURL = __webpack_require__(11);
-var InterceptorManager = __webpack_require__(32);
-var dispatchRequest = __webpack_require__(34);
+var InterceptorManager = __webpack_require__(33);
+var dispatchRequest = __webpack_require__(35);
 var mergeConfig = __webpack_require__(8);
 
 /**
@@ -2926,7 +2953,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = Axios;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2984,14 +3011,14 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 module.exports = InterceptorManager;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isAbsoluteURL = __webpack_require__(40);
-var combineURLs = __webpack_require__(38);
+var isAbsoluteURL = __webpack_require__(41);
+var combineURLs = __webpack_require__(39);
 
 /**
  * Creates a new URL by combining the baseURL with the requestedURL,
@@ -3010,14 +3037,14 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
 };
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(37);
+var transformData = __webpack_require__(38);
 var isCancel = __webpack_require__(6);
 var defaults = __webpack_require__(9);
 
@@ -3076,7 +3103,7 @@ module.exports = function dispatchRequest(config) {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3125,7 +3152,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 };
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3150,7 +3177,7 @@ module.exports = function settle(resolve, reject, response) {
 };
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3176,7 +3203,7 @@ module.exports = function transformData(data, headers, fns) {
 };
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3195,7 +3222,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 };
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3254,7 +3281,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3276,7 +3303,7 @@ module.exports = function isAbsoluteURL(url) {
 };
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3296,7 +3323,7 @@ module.exports = function isAxiosError(payload) {
 };
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3365,7 +3392,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3383,7 +3410,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 };
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3439,7 +3466,7 @@ module.exports = function parseHeaders(headers) {
 };
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3473,7 +3500,7 @@ module.exports = function spread(callback) {
 };
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4854,7 +4881,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
 //# sourceMappingURL=purify.js.map
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5047,7 +5074,7 @@ process.umask = function () {
 };
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5077,7 +5104,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5117,7 +5144,7 @@ var debounce = function debounce(callback) {
 exports.default = debounce;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5232,7 +5259,7 @@ function storePrompt(data) {
 exports.default = storePrompt;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5240,7 +5267,7 @@ exports.default = storePrompt;
 
 __webpack_require__(13);
 
-__webpack_require__(28);
+__webpack_require__(29);
 
 var _bling = __webpack_require__(2);
 
@@ -5248,7 +5275,7 @@ var _autocomplete = __webpack_require__(15);
 
 var _autocomplete2 = _interopRequireDefault(_autocomplete);
 
-var _typeAhead = __webpack_require__(27);
+var _typeAhead = __webpack_require__(28);
 
 var _typeAhead2 = _interopRequireDefault(_typeAhead);
 
@@ -5288,13 +5315,17 @@ var _resetValidator = __webpack_require__(24);
 
 var _resetValidator2 = _interopRequireDefault(_resetValidator);
 
-var _storeValidator = __webpack_require__(26);
+var _storeValidator = __webpack_require__(27);
 
 var _storeValidator2 = _interopRequireDefault(_storeValidator);
 
-var _reviewValidator = __webpack_require__(25);
+var _reviewValidator = __webpack_require__(26);
 
 var _reviewValidator2 = _interopRequireDefault(_reviewValidator);
+
+var _reviewStars = __webpack_require__(25);
+
+var _reviewStars2 = _interopRequireDefault(_reviewStars);
 
 var _deleteFlash = __webpack_require__(17);
 
@@ -5327,6 +5358,7 @@ if (deleteBtn) {
 (0, _resetValidator2.default)((0, _bling.$)('form.formReset'));
 (0, _storeValidator2.default)((0, _bling.$)('form.formStore'));
 (0, _reviewValidator2.default)((0, _bling.$)('form.formReview'));
+(0, _reviewStars2.default)((0, _bling.$)('form.formReview'));
 // may be more than 1
 (0, _deleteFlash2.default)((0, _bling.$$)('.flash-messages'));
 
