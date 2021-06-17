@@ -5,7 +5,7 @@ mixin storeForm(store = {}, isEditing = false, csrfToken)
         //- pre= h.dump(store)
         div.form-group
             label(for="name") Name
-            input(type="text" name="name" value=store.name)
+            input(type="text" name="name" value=store.name autofocus)
             small Error message
         div.form-group
             label(for="description")

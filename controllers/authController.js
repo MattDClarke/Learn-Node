@@ -21,21 +21,23 @@ exports.isLoggedIn = (req, res, next) => {
     return;
   }
   req.flash('error', 'Oops you must be logged in to do that!');
-  res.redirect('/login');
+  req.session.save(function() {
+    res.redirect('/login');
+  });
 };
 
 exports.forgot = async (req, res) => {
   // 1. check if user exists
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    console.log('no user');
     // can choose to notify that email does not exist
     // It could be abused, depending on the site
     // However, in this app - in register route - if email used, then they can't register so someone can figure out if email in use from there. It is easier to check if an email is in use from this middleware, if u show message in flash that states email is in use.
-    req.flash('success', 'You have been emailed a password reset link.');
+    req.session.save(function() {
+      req.flash('success', 'You have been emailed a password reset link.');
+    });
     return res.redirect('/login');
   }
-  console.log('user exists');
 
   // 2. if user exists: set reset tokens and expiry on their account
   // crypto module is built into Node
@@ -44,7 +46,7 @@ exports.forgot = async (req, res) => {
   // token and expire added to db
   await user.save();
   // 3. send them an email with the token
-  const resetURL = `http://${req.headers.host}/account/reset/${
+  const resetURL = `https://${req.headers.host}/account/reset/${
     user.resetPasswordToken
   }`;
   await mail.send({
@@ -136,7 +138,7 @@ exports.sendEmailConfirm = async (req, res) => {
   // token and expire added to db
   await user.save();
   // 2. send them an email with the token
-  const resetURL = `http://${req.headers.host}/emailconfirm/${
+  const resetURL = `https://${req.headers.host}/emailconfirm/${
     user.emailConfirmToken
   }`;
   await mail.send({
@@ -201,7 +203,7 @@ exports.updateAccount = async (req, res) => {
     );
 
     //  send them an email with the token
-    const resetURL = `http://${req.headers.host}/emailconfirm/${
+    const resetURL = `https://${req.headers.host}/emailconfirm/${
       user.emailConfirmToken
     }`;
     // logout current session

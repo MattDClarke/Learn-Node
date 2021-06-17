@@ -5,7 +5,7 @@ mixin storeCard(store = {})
       .store__actions
         if user
           .store__action.store__action--heart
-            form.heart(method="POST" action=`/api/stores/${store._id}/heart`)
+            form.heart(method="POST" action=`/api/stores/${store._id}/heart?_csrf=${csrfToken}`)
               - const heartStrings = user.hearts.map(obj => obj.toString())
               - const heartClass = heartStrings.includes(store._id.toString()) ? 'heart__button--hearted' : ''
               button.heart__button(type="submit" name="heart" class=heartClass)

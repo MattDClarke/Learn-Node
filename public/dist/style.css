@@ -28,12 +28,13 @@ body::-webkit-scrollbar-thumb {
   background-color: #FFC40E;
   border-radius: 6px; }
 
+.content {
+  margin-bottom: 50px; }
+
 .inner {
   max-width: 900px;
-  margin: 50px auto; }
-  @media all and (max-width: 900px) {
-    .inner {
-      padding: 2rem; } }
+  margin: 0 auto;
+  padding: 2rem; }
 
 button:hover {
   cursor: pointer; }
@@ -858,7 +859,8 @@ label {
 
 .tag {
   display: block;
-  margin-right: 1rem; }
+  margin-right: 1rem;
+  margin-bottom: 1rem; }
   .tag__choice {
     display: -ms-flexbox;
     display: flex;
@@ -1041,7 +1043,7 @@ label {
   .review__author {
     -ms-flex-pack: start;
         justify-content: flex-start;
-    padding-left: 2rem;
+    padding-left: 0.5rem;
     display: -ms-flexbox;
     display: flex; }
     .review__author .avatar {

@@ -17,11 +17,6 @@ require('./handlers/passport');
 // create our Express app
 const app = express();
 
-// app.set('trust proxy', function(ip) {
-//   if (ip === '::1') return true; // trusted IPs
-//   return false;
-// });
-
 // Sets all of the defaults, but overrides `script-src` and disables the default `style-src`
 app.use(
   helmet.contentSecurityPolicy({
@@ -33,11 +28,9 @@ app.use(
         'data:',
         'https://gravatar.com/avatar/',
         'https://maps.gstatic.com/',
-        'https://maps.googleapis.com',
         'http://maps.google.com/mapfiles/kml/paddle/',
-        'https://lh3.ggpht.com/',
-        'https://khms0.googleapis.com/',
-        'https://khms1.googleapis.com/'
+        'https://*.ggpht.com/',
+        'https://*.googleapis.com/'
       ]
     }
   })
@@ -63,6 +56,9 @@ app.use(express.urlencoded({ extended: true }));
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
 // store data about users -> how long logged in...
+
+app.set('trust proxy', 1); // trust first proxy
+
 app.use(
   session({
     secret: process.env.SECRET,
@@ -72,7 +68,8 @@ app.use(
     cookie: {
       path: '/',
       httpOnly: true,
-      secure: false,
+      secure: true,
+      sameSite: 'strict',
       maxAge: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
     },
     store: new MongoStore({ mongooseConnection: mongoose.connection })

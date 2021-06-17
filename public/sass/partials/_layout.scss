@@ -34,13 +34,14 @@ body::-webkit-scrollbar-thumb {
     border-radius: 6px;
 }
 
+.content {
+  margin-bottom: 50px;
+}
 
 .inner {
   max-width:900px;
-  margin: 50px auto;
-  @media all and (max-width: 900px) {
-    padding: 2rem;
-  }
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 button:hover {

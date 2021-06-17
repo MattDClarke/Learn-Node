@@ -60,12 +60,12 @@ exports.account = (req, res) => {
 // };
 
 exports.deleteAccount = async (req, res, next) => {
-  // delete user
-
   // delete stores created by user
   // delete comments by user
   // delete store - make sure user is the author
+  // for all other users - delete hearts for each deleted store
   // logout user
+
   const user = await User.findOneAndDelete(
     {
       _id: req.user._id
@@ -74,9 +74,19 @@ exports.deleteAccount = async (req, res, next) => {
   );
   // delete associated stores and reviews if user deleted
   if (user) {
+    const userStores = await Store.find({ author: req.user._id });
+    const userStoresIds = userStores.map(store => store.id);
     const storesDeletePromise = Store.deleteMany({ author: req.user._id });
     const reviewsDeletePromise = Review.deleteMany({ author: req.user._id });
-    await Promise.all([storesDeletePromise, reviewsDeletePromise]);
+    // for each store that the user added, delete the hearts for that store, for each user
+    const heartsDeletePromise = User.updateMany({
+      $pull: { hearts: { $in: userStoresIds } }
+    });
+    await Promise.all([
+      storesDeletePromise,
+      reviewsDeletePromise,
+      heartsDeletePromise
+    ]);
     req.flash('info', `Successfully deleted your account.`);
     next();
   }

@@ -63,18 +63,48 @@ exports.resize = async (req, res, next) => {
   next();
 };
 
+// resize images middleware incase too big
+exports.resizeEdit = async (req, res, next) => {
+  // check if there is no new file to resize
+  // user may choose not to upload an image.... a default image will be displayed in / and /stores if img not uploaded
+  if (!req.file) {
+    next();
+    return;
+  }
+  // see img in memory - buffer
+  // get file type from mimetype - dnt rely on extension... user can change it
+  const extension = req.file.mimetype.split('/')[1];
+  // req.body will be saved to database in next middleware
+  req.body.photo = `${uuid.v4()}.${extension}`;
+  // resize
+  // jimp uses promises so you can await the response. Read from memory in this case
+  const photo = await jimp.read(req.file.buffer);
+  await photo.resize(800, jimp.AUTO);
+  await photo.write(`./public/uploads/${req.body.photo}`);
+  // once we have written photo to file system then continue
+  next();
+};
+
 exports.createStore = async (req, res) => {
-  // res.json(req.body);
   req.body.author = req.user._id;
   // create a new store (new db entry) using the schema defined in Store.js. Only data which fits the scheme will be added to db
   // need to wait for slug (url friendly) to be created from store name
   const store = await new Store(req.body).save();
   // saves to database. save is a method from mongoose, makes it easy to interact with db
+
   req.flash(
     'success',
     `Successfully created ${store.name}. Care to leave a review?`
   );
-  res.redirect(`/store/${store.slug}`);
+  req.session.save(function() {
+    res.redirect(`/store/${store.slug}`);
+  });
+
+  // req.flash(
+  //   'success',
+  //   `Successfully created ${store.name}. Care to leave a review?`
+  // );
+  // res.redirect(`/store/${store.slug}`);
 };
 
 exports.deleteStore = async (req, res) => {

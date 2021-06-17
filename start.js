@@ -15,7 +15,8 @@ require('dotenv').config({ path: 'variables.env' });
 // Connect to our Database and handle any bad connections
 mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 });
 mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
 mongoose.connection.on('error', err => {
@@ -29,6 +30,10 @@ mongoose.connection.on('error', err => {
 require('./models/Store');
 require('./models/User');
 require('./models/Review');
+
+// console.log('sync indexes');
+// used to update indexes - added index for store name (case-insensitive search)
+// mongoose.model('Store').syncIndexes();
 
 // Start our app!
 const app = require('./app');

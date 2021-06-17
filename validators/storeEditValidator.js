@@ -3,16 +3,26 @@
 // const Store = mongoose.model('Store');
 const { body, validationResult } = require('express-validator');
 
-exports.storeValidationRules = () => [
+exports.storeEditValidationRules = () => [
   body(
     'name',
     'You must supply a name that is at least 3 characters long.'
   ).isLength({ min: 3 }),
   // body('name').custom(value =>
+  //   // prevent user from changing store to name that is in use (excl. current store name)
   //   Store.findOne({ name: value })
   //     .collation({ locale: 'en', strength: 2 })
   //     .then(store => {
+  //       console.log(
+  //         store,
+  //         store === true,
+  //         // store.name,
+  //         value
+  //         // store.name !== value
+  //       );
+  //       // if (store && store.name !== value) {
   //       if (store) {
+  //         console.log('.........................failed validation');
   //         return Promise.reject('Store name already in use');
   //       }
   //     })
@@ -52,7 +62,7 @@ exports.validate = (req, res, next) => {
   if (errors) {
     req.flash('error', errors.array().map(err => err.msg));
     res.render('editStore', {
-      title: 'Add Store',
+      title: 'Edit Store',
       // pre-populate the add store form with the data they put in, so that they dnt have to re-enter everything
       store: req.body,
       flashes: req.flash()

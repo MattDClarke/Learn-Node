@@ -2,7 +2,7 @@ mixin reviewForm(store)
 
     form.formReview(action=`/reviews/${store._id}` method="POST") 
         div.form-group
-            textarea(name="text" placeholder="Did you try this place? Have something to say? Leave a review...")
+            textarea(name="text" placeholder="Did you try this place? Have something to say? Leave a review..." autofocus)
             small Error message
 
             //- Character count

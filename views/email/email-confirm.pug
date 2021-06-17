@@ -2,7 +2,7 @@ extends email-layout
 
 block content
   h2 Email Confirm
-  p Hello. You have requested to register a Delicious Eats account. Please click the following button to continue on with confirming your email address. Please note this link is only valid for the next hour.
+  p Hello. You have requested to register (or change your email address for) a Delicious Eats account (https://delicious-eats.herokuapp.com/). Please click the following button to continue on with confirming your email address. Please note this link is only valid for the next hour.
   +button(resetURL, 'Confirm my Email →')
   p If you can't click the above button please visit #{resetURL}
   br

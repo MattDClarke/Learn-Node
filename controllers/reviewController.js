@@ -8,5 +8,7 @@ exports.addReview = async (req, res) => {
   const newReview = new Review(req.body);
   await newReview.save();
   req.flash('success', 'Review saved');
-  res.redirect('back');
+  req.session.save(function() {
+    return res.redirect('back');
+  });
 };

@@ -9,6 +9,7 @@ const authController = require('../controllers/authController');
 const rateLimitController = require('../controllers/rateLimitController');
 const userValidator = require('../validators/userValidator');
 const storeValidator = require('../validators/storeValidator');
+const storeEditValidator = require('../validators/storeEditValidator');
 const reviewValidator = require('../validators/reviewValidator');
 const forgotValidator = require('../validators/forgotValidator');
 const accountUpdateValidator = require('../validators/accountUpdateValidator');
@@ -33,9 +34,9 @@ router.post(
 router.post(
   '/add/:id',
   storeController.upload,
-  catchErrors(storeController.resize),
-  storeValidator.storeValidationRules(),
-  storeValidator.validate,
+  catchErrors(storeController.resizeEdit),
+  storeEditValidator.storeEditValidationRules(),
+  storeEditValidator.validate,
   catchErrors(storeController.updateStore)
 );
 

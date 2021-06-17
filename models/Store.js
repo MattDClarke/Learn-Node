@@ -93,7 +93,6 @@ storeSchema.pre('save', async function(next) {
     // if length = 0, then next called without changing slug (1st time name used)
     this.slug = `${this.slug}-${storesWithSlug.length + 1}`;
   }
-
   next();
 });
 

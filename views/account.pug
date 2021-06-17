@@ -7,7 +7,7 @@ block content
         form.form.formAccount(action="/account" method="POST" novalidate)
             div.form-group
                 label(for="name") Name
-                input(type="text" name="name" value=user.name)
+                input(type="text" name="name" value=user.name autofocus)
                 small Error message
             div.form-group
                 label(for="email") Email Address

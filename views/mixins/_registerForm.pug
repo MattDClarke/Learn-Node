@@ -4,7 +4,7 @@ mixin registerForm(body = {})
         h2 register
         div.form-group
             label(for="name") Name
-            input(type="text" name="name" autofocus value=body.name)
+            input(type="text" name="name" value=body.name autofocus)
             small Error message
         div.form-group
             label(for="email") Email

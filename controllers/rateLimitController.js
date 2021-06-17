@@ -6,10 +6,7 @@ const redisClient = redis.createClient(process.env.REDIS_URL, {
   enable_offline_queue: false
 });
 
-redisClient.on('error', err => {
-  console.log(err);
-  return new Error();
-});
+redisClient.on('error', err => new Error());
 
 const maxWrongAttemptsByIPperDay = 100;
 const maxConsecutiveFailsByEmailAndIP = 10;
@@ -35,7 +32,6 @@ const getEmailIPkey = (email, ip) => `${email}_${ip}`;
 exports.loginRouteRateLimit = async (req, res, next) => {
   const ipAddr = req.ip;
   const emailIPkey = getEmailIPkey(req.body.email, ipAddr);
-  console.log(emailIPkey);
 
   // get keys for attempted login
   const [resEmailAndIP, resSlowByIP] = await Promise.all([
@@ -108,7 +104,6 @@ exports.loginRouteRateLimit = async (req, res, next) => {
           req.flash('error', 'You must confirm your email address!');
           return res.redirect('/login');
         }
-        console.log('successful login');
         if (resEmailAndIP !== null && resEmailAndIP.consumedPoints > 0) {
           // Reset on successful authorisation
           await limiterConsecutiveFailsByEmailAndIP.delete(emailIPkey);
@@ -119,7 +114,9 @@ exports.loginRouteRateLimit = async (req, res, next) => {
             return next(err);
           }
           req.flash('info', 'You are now logged in!');
-          return res.redirect('/');
+          req.session.save(function() {
+            return res.redirect('/');
+          });
         });
       }
     })(req, res, next);
